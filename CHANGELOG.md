@@ -1,3 +1,15 @@
+# v0.1.7 (Sun May 31 2026)
+
+#### ⚠️ Pushed to `main`
+
+- chore: removed design prompt and updated og image implementation ([@stephansama](https://github.com/stephansama))
+
+#### Authors: 1
+
+- Stephan Randle ([@stephansama](https://github.com/stephansama))
+
+---
+
 # v0.1.6 (Sun May 31 2026)
 
 #### ⚠️ Pushed to `main`
