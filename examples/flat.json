@@ -1,0 +1,45 @@
+{
+  "$schema": "https://raw.githubusercontent.com/stephansama/jabol/main/schema/links.schema.json",
+  "title": "Bookmarks",
+  "theme": "latte",
+  "groupByTag": true,
+  "links": [
+    {
+      "name": "GitHub",
+      "url": "https://github.com",
+      "tags": ["dev"],
+      "icon": "mdi:github"
+    },
+    {
+      "name": "MDN",
+      "url": "https://developer.mozilla.org",
+      "tags": ["dev"]
+    },
+    {
+      "name": "Hacker News",
+      "url": "https://news.ycombinator.com",
+      "tags": ["news"]
+    },
+    {
+      "name": "The Verge",
+      "url": "https://theverge.com",
+      "tags": ["news"]
+    },
+    {
+      "name": "Notion",
+      "url": "https://notion.so",
+      "tags": ["productivity"]
+    },
+    {
+      "name": "Linear",
+      "url": "https://linear.app",
+      "tags": ["productivity"]
+    },
+    {
+      "name": "Private wiki",
+      "url": "https://wiki.internal",
+      "hidden": true,
+      "tags": ["work"]
+    }
+  ]
+}

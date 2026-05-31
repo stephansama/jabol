@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <title>jabol</title>
+    <script>
+      // No-flash theme boot: runs before first paint.
+      // Storage holds a *preference* (light|dark|mocha|latte|system|system-catppuccin);
+      // we resolve system modes against prefers-color-scheme so first paint is correct.
+      (function () {
+        try {
+          var pref = localStorage.getItem("jabol.theme") || "system-catppuccin";
+          var dark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+          var resolved =
+            pref === "system" ? (dark ? "dark" : "light") :
+            pref === "system-catppuccin" ? (dark ? "mocha" : "latte") :
+            pref;
+          document.documentElement.setAttribute("data-theme", resolved);
+        } catch (e) {
+          document.documentElement.setAttribute("data-theme", "mocha");
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

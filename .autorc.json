@@ -1,0 +1,8 @@
+{
+  "plugins": [
+    ["npm", { "publish": false, "setRcToken": false }],
+    "released",
+    "first-time-contributor"
+  ],
+  "onlyPublishWithReleaseLabel": false
+}

@@ -1,0 +1,235 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/stephansama/jabol/main/schema/links.schema.json",
+  "title": "Jabol links.json",
+  "description": "Configuration file consumed by jabol — Just A Bunch Of Links. Accepts either a categorized shape (with categories[]) or a flat shape (with links[]).",
+  "anyOf": [
+    {
+      "type": "object",
+      "properties": {
+        "$schema": {
+          "description": "Optional JSON Schema URL for editor autocomplete; ignored by the app.",
+          "type": "string",
+          "format": "uri"
+        },
+        "brand": {
+          "description": "Organization name / wordmark shown in the top bar and used as the browser tab title.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "title": {
+          "description": "Collection title shown as a sub-label beside the brand.",
+          "type": "string"
+        },
+        "description": {
+          "description": "Page description / meta.",
+          "type": "string"
+        },
+        "favicon": {
+          "description": "Favicon for the browser tab and top bar. Usually a /api/icons/... path produced by the favicon upload endpoint, but may also be an absolute URL.",
+          "type": "string",
+          "minLength": 1
+        },
+        "theme": {
+          "type": "string",
+          "enum": [
+            "light",
+            "dark",
+            "mocha",
+            "latte",
+            "system",
+            "system-catppuccin"
+          ],
+          "description": "Theme preference applied to every visitor. 'system' follows prefers-color-scheme as light/dark; 'system-catppuccin' follows it as latte/mocha."
+        },
+        "categories": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "description": "Stable UUID. Added automatically on first read if absent.",
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Category name shown as a section header."
+              },
+              "icon": {
+                "description": "Optional Iconify id or URL shown beside the category name.",
+                "type": "string"
+              },
+              "links": {
+                "default": [],
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "Stable UUID. Added automatically on first read if absent.",
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "name": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Display name."
+                    },
+                    "url": {
+                      "type": "string",
+                      "format": "uri",
+                      "description": "Target URL (http/https)."
+                    },
+                    "description": {
+                      "description": "Shown under the name.",
+                      "type": "string"
+                    },
+                    "icon": {
+                      "description": "Iconify id (e.g. \"mdi:github\") or absolute URL. If absent, jabol fetches the page favicon.",
+                      "type": "string"
+                    },
+                    "image": {
+                      "description": "OG image override. Accepts an absolute URL or a /api/icons/... path from the enrichment cache. If absent, jabol fetches og:image.",
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "tags": {
+                      "description": "Searched and shown as pills.",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "hidden": {
+                      "description": "If true, only authenticated admins see this link.",
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "url"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "name"
+            ]
+          },
+          "description": "Ordered list of categories."
+        }
+      },
+      "required": [
+        "categories"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "$schema": {
+          "description": "Optional JSON Schema URL for editor autocomplete; ignored by the app.",
+          "type": "string",
+          "format": "uri"
+        },
+        "brand": {
+          "description": "Organization name / wordmark shown in the top bar and used as the browser tab title.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "title": {
+          "description": "Collection title shown as a sub-label beside the brand.",
+          "type": "string"
+        },
+        "description": {
+          "description": "Page description / meta.",
+          "type": "string"
+        },
+        "favicon": {
+          "description": "Favicon for the browser tab and top bar. Usually a /api/icons/... path produced by the favicon upload endpoint, but may also be an absolute URL.",
+          "type": "string",
+          "minLength": 1
+        },
+        "theme": {
+          "type": "string",
+          "enum": [
+            "light",
+            "dark",
+            "mocha",
+            "latte",
+            "system",
+            "system-catppuccin"
+          ],
+          "description": "Theme preference applied to every visitor. 'system' follows prefers-color-scheme as light/dark; 'system-catppuccin' follows it as latte/mocha."
+        },
+        "groupByTag": {
+          "description": "If true, links are bucketed into synthetic categories by their first tag.",
+          "type": "boolean"
+        },
+        "links": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "description": "Stable UUID. Added automatically on first read if absent.",
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Display name."
+              },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "Target URL (http/https)."
+              },
+              "description": {
+                "description": "Shown under the name.",
+                "type": "string"
+              },
+              "icon": {
+                "description": "Iconify id (e.g. \"mdi:github\") or absolute URL. If absent, jabol fetches the page favicon.",
+                "type": "string"
+              },
+              "image": {
+                "description": "OG image override. Accepts an absolute URL or a /api/icons/... path from the enrichment cache. If absent, jabol fetches og:image.",
+                "type": "string",
+                "minLength": 1
+              },
+              "tags": {
+                "description": "Searched and shown as pills.",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "hidden": {
+                "description": "If true, only authenticated admins see this link.",
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "name",
+              "url"
+            ]
+          },
+          "description": "Flat list of links."
+        }
+      },
+      "required": [
+        "links"
+      ]
+    }
+  ]
+}

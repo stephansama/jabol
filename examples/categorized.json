@@ -1,0 +1,97 @@
+{
+  "title": "Bookmarks",
+  "categories": [
+    {
+      "id": "a8abb7ba-035c-4646-9653-58d99cfda499",
+      "name": "dev",
+      "links": [
+        {
+          "id": "4b99c986-be43-414c-b942-bce407144439",
+          "name": "GitHub",
+          "url": "https://github.com",
+          "icon": "mdi:github",
+          "image": "/api/icons/8403bb909360b1c7bd5463295fdd3072c26e58c8.png",
+          "tags": [
+            "dev"
+          ]
+        },
+        {
+          "id": "9241e14b-0dd7-4c5b-b8cc-082515e39998",
+          "name": "MDN",
+          "url": "https://developer.mozilla.org",
+          "icon": "/api/icons/f1c9f8ec0168c5a69d8d74106cf7a31104dd1958.png",
+          "tags": [
+            "dev"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c5747ecb-cc88-41e5-a533-855f52316e0d",
+      "name": "news",
+      "links": [
+        {
+          "id": "9d38579e-588d-4da7-a1aa-acfed78bbe46",
+          "name": "Hacker News",
+          "url": "https://news.ycombinator.com",
+          "icon": "/api/icons/1df306319edfa8895950268caf03d02e15196ba0.svg",
+          "tags": [
+            "news"
+          ]
+        },
+        {
+          "id": "d2f2b92a-18b9-40bb-bb29-0b13f29bbdb5",
+          "name": "The Verge",
+          "url": "https://theverge.com",
+          "icon": "/api/icons/b96d8a20fe4a080262ae0f4228030f56f274dcf9.png",
+          "image": "/api/icons/0ca54e601a4a041fedd5bec9bbc8db8003894221.png",
+          "tags": [
+            "news"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "7a7e6612-3bd5-42fb-a129-00fd797a5dc4",
+      "name": "productivity",
+      "links": [
+        {
+          "id": "7ac579e1-3d8c-4ca6-942c-3e4555cd065d",
+          "name": "Notion",
+          "url": "https://notion.so",
+          "icon": "/api/icons/cf329ae188dcb4766a1cf2a289da15442e987d7f.png",
+          "image": "/api/icons/8b6c9622749df28542a7a94324943d176b6fddf8.png",
+          "tags": [
+            "productivity"
+          ]
+        },
+        {
+          "id": "d0449bbb-7586-4ae7-9cbf-ef0596f03efa",
+          "name": "Linear",
+          "url": "https://linear.app",
+          "icon": "/api/icons/0ea752eee730e566a7452c18a6e6cb80cc0b9db9.png",
+          "image": "/api/icons/466752d96df9cfb2ed9cac89b5f3485e5aecb75b.jpg",
+          "tags": [
+            "productivity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "05b7001f-4d91-46d2-8802-74da7cf3ed28",
+      "name": "work",
+      "links": [
+        {
+          "id": "a520ae68-49b6-453d-b1fd-6a7afdee08d5",
+          "name": "Private wiki",
+          "url": "https://wiki.internal",
+          "tags": [
+            "work"
+          ],
+          "hidden": true
+        }
+      ]
+    }
+  ],
+  "theme": "system-catppuccin"
+}
