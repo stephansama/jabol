@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { Settings } from "lucide-react";
+import { Shield } from "lucide-react";
 import { useSession } from "@/hooks/useSession";
 import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
@@ -25,9 +25,15 @@ export function AdminChip() {
   return (
     <div className="flex items-center gap-2">
       {!onAdminPage && (
-        <Button variant="outline" size="sm" onClick={() => navigate("/admin")}>
-          <Settings className="h-3.5 w-3.5 text-accent" />
-          admin
+        <Button
+          variant="outline"
+          size="sm"
+          className="px-2"
+          aria-label="admin"
+          title="admin"
+          onClick={() => navigate("/admin")}
+        >
+          <Shield className="h-4 w-4 text-accent" />
         </Button>
       )}
       <DropdownMenu>

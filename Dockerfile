@@ -9,9 +9,10 @@ RUN apk add --no-cache python3 make g++ libc6-compat
 COPY package.json pnpm-lock.yaml ./
 RUN corepack enable && pnpm install --frozen-lockfile
 
-COPY tsconfig.json tsconfig.server.json vite.config.ts tailwind.config.ts postcss.config.js index.html ./
+COPY tsconfig.json tsconfig.server.json vite.config.ts index.html ./
 COPY src ./src
 COPY server ./server
+COPY public ./public
 
 RUN pnpm build
 
