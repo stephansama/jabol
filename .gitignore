@@ -36,6 +36,9 @@ lerna-debug.log*
 # Vite
 *.local
 
+# Ralph Loop state (per-session progress + loop state)
+.claude/.ralph-*.local.md
+
 # Editors / IDEs
 .vscode
 .idea
