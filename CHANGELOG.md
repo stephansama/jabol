@@ -1,3 +1,15 @@
+# v0.1.10 (Sun May 31 2026)
+
+#### ⚠️ Pushed to `main`
+
+- chore: updated category implementation and updated seo optimization ([@stephansama](https://github.com/stephansama))
+
+#### Authors: 1
+
+- Stephan Randle ([@stephansama](https://github.com/stephansama))
+
+---
+
 # v0.1.9 (Sun May 31 2026)
 
 #### ⚠️ Pushed to `main`
