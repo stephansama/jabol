@@ -17,6 +17,7 @@ import { signupRoutes } from "./routes/signup.js";
 import { iconRoutes } from "./routes/icons.js";
 import { settingsRoutes } from "./routes/settings.js";
 import { getSession } from "./middleware/requireAdmin.js";
+import { renderIndexHtml } from "./spa/renderHead.js";
 
 mkdirSync(env.iconsDir, { recursive: true });
 mkdirSync(env.dataDir, { recursive: true });
@@ -56,16 +57,34 @@ app.route("/api/settings", settingsRoutes);
 
 // SPA fallback — only mounted when dist exists (production builds).
 if (existsSync(env.spaDist)) {
+  const indexPath = join(env.spaDist, "index.html");
+  let indexTemplate: string | null = null;
+  try {
+    indexTemplate = readFileSync(indexPath, "utf8");
+  } catch {
+    indexTemplate = null;
+  }
+
+  const spaHandler = (c: import("hono").Context) => {
+    if (!indexTemplate) return c.text("SPA dist missing", 500);
+    const canonical = store.getPublicCanonical();
+    const reqUrl = new URL(c.req.url);
+    const html = renderIndexHtml(indexTemplate, {
+      brand: canonical.brand,
+      title: canonical.title,
+      description: canonical.description,
+      favicon: canonical.favicon,
+      image: canonical.image,
+      siteUrl: `${reqUrl.origin}${reqUrl.pathname}`,
+    });
+    return c.html(html);
+  };
+
+  // Intercept the document routes BEFORE static so we render head tags.
+  app.get("/", spaHandler);
+  app.get("/index.html", spaHandler);
   app.use("/*", serveStatic({ root: env.spaDist }));
-  app.get("*", (c) => {
-    const indexPath = join(env.spaDist, "index.html");
-    try {
-      const html = readFileSync(indexPath, "utf8");
-      return c.html(html);
-    } catch {
-      return c.text("SPA dist missing", 500);
-    }
-  });
+  app.get("*", spaHandler);
 } else {
   console.warn(`[server] SPA dist not found at ${env.spaDist} — API-only mode (use 'vite' dev server for UI)`);
 }

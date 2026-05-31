@@ -6,6 +6,7 @@ import { requireAdmin } from "../middleware/requireAdmin.js";
 const categoryPayloadSchema = z.object({
   name: z.string().min(1),
   icon: z.string().optional(),
+  hidden: z.boolean().optional(),
 });
 
 export const categoryRoutes = new Hono()

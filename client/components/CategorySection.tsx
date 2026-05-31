@@ -67,6 +67,11 @@ export function CategorySection({
         <h2 className="m-0 text-base font-semibold tracking-tight text-fg">
           {category.name}
         </h2>
+        {admin && category.hidden && (
+          <span className="label-upper inline-flex items-center gap-1 rounded-sm bg-surface-raised px-1.5 py-0.5 text-[10px] text-warning">
+            <span aria-hidden>🔒</span> hidden
+          </span>
+        )}
         <span
           className="label-upper tabular rounded-full px-2 py-px"
           style={{

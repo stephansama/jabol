@@ -6,198 +6,361 @@
   "theme": "system-catppuccin",
   "categories": [
     {
-      "id": "3b2ceeb1-3161-4b51-8f18-28ead7e1076e",
-      "name": "project",
+      "id": "10ac1b6d-1064-4d9d-97ad-d6bba6e08e2b",
+      "name": "directory",
       "links": [
         {
-          "id": "b78654c4-b34b-4569-9e19-6f421df5bb3b",
+          "id": "1ccc5aae-5908-4c09-b80f-f6c64238cc28",
           "name": "actions",
           "url": "https://actions.stephansama.info/",
           "description": "@stephansama GitHub Actions",
-          "icon": "/api/icons/2426ab833f6b4b50b6e5745e448f3a1bde2e62a2.svg",
           "image": "https://og.stephansama.info/api/actions/og.png",
           "tags": [
-            "project"
+            "tool",
+            "github-action"
           ],
           "openInSameTab": true
         },
         {
-          "id": "fbdcc2c3-b016-4612-a967-6ca28f343dfb",
+          "id": "5da78a65-618d-427c-a25a-639ec918f81b",
           "name": "dotfiles",
           "url": "https://files.stephansama.info/",
           "description": "@stephansama dotfiles",
-          "icon": "/api/icons/e4d8831d6e075b085bc252c360d9fa1d2ad0892a.svg",
           "image": "https://og.stephansama.info/api/files/og.png",
           "tags": [
-            "project"
+            "library",
+            "config"
           ],
           "openInSameTab": true
         },
         {
-          "id": "c9d2c1c3-6d04-4748-83f0-55ce8c467501",
+          "id": "2a4a1d17-c755-41ec-84ef-c56c36750fda",
           "name": "packages",
           "url": "https://packages.stephansama.info/",
           "description": "@stephansama packages",
-          "icon": "/api/icons/88d9e90534c8b0275922cf83a6df1e00ccbc4256.svg",
           "image": "https://og.stephansama.info/api/packages/og.png",
           "tags": [
-            "project"
+            "library",
+            "npm"
           ],
           "openInSameTab": true
         },
         {
-          "id": "f374984a-7e63-4946-9b6e-900d2bd89d8b",
+          "id": "c96a3599-45bd-41b4-8392-b6943c1a98b7",
           "name": "blog",
           "url": "https://blog.stephansama.info/",
           "description": "stephansama blog",
-          "icon": "/api/icons/fcb240801563cf1606ed1a2085e534f7f92a3639.png",
           "image": "https://og.stephansama.info/api/blog/page/home-blog.png",
           "tags": [
-            "project"
+            "content",
+            "writing"
           ],
           "openInSameTab": true
         },
         {
-          "id": "820d4033-ca94-46a3-84b0-851ee6650b1b",
+          "id": "8b756340-2185-48e6-91f8-ee5780041485",
           "name": "cv",
           "url": "https://cv.stephansama.info/",
           "description": "Stephan Randle — Full-Stack Engineer CV",
-          "icon": "/api/icons/8c1c3cdc4b97c1afbf90d19dd23749354cdec6ca.jpg",
           "image": "https://og.stephansama.info/api/cv/og.png",
           "tags": [
-            "project"
+            "showcase"
           ],
           "openInSameTab": true
         },
         {
-          "id": "0e255790-6966-4bdc-bfbc-ae03505afe69",
+          "id": "d0ad2305-99e7-4161-a254-27c3aa86ef7f",
           "name": "portfolio",
           "url": "https://stephansama.info/",
           "description": "SR Portfolio",
-          "icon": "/api/icons/6f5122d17d6304eebea878d99e450e9be7290b18.svg",
           "image": "https://og.stephansama.info/api/portfolio/page/home-portfolio.png",
           "tags": [
-            "project"
+            "showcase"
           ],
           "openInSameTab": true
         },
         {
-          "id": "20ffa325-bdc3-4898-ab0d-b3cff1edbde5",
+          "id": "85363984-7801-4682-8e5d-d1414bbbf8aa",
           "name": "memes",
           "url": "https://memes.stephansama.info/",
           "description": "@stephansama memes",
-          "icon": "/api/icons/1b5b417dbc600b28b0f6d3a373d184725d59420c.svg",
           "image": "https://og.stephansama.info/api/memes/og.png",
           "tags": [
-            "project"
+            "content",
+            "fun"
           ],
           "openInSameTab": true
         },
         {
-          "id": "184ae5f9-5307-4d3f-bcc3-a79f6ccc3902",
+          "id": "1f04b332-94da-4a9f-95ce-a96e3e16d555",
           "name": "snippets",
           "url": "https://snippets.stephansama.info/",
           "description": "VSC Snippets Generator",
-          "icon": "/api/icons/8a026e7c3b44fbc36b05535bcfa1399f5cae85f2.svg",
           "image": "https://og.stephansama.info/api/snippets/og.png",
           "tags": [
-            "project"
+            "tool",
+            "vscode"
           ],
           "openInSameTab": true
         },
         {
-          "id": "4f3ee3ac-c586-42e3-aa97-3f9b3f917332",
+          "id": "a8dedb31-de55-4a9c-880d-5638a0e2a25f",
           "name": "og",
           "url": "https://og.stephansama.info/",
           "description": "OpenGraph image generator",
-          "icon": "/api/icons/2dce8e83e999e247aa50951da8c90a16a117b3bd.svg",
           "image": "https://og.stephansama.info/api/image/og.png",
           "tags": [
-            "project"
+            "tool",
+            "service"
+          ],
+          "openInSameTab": true
+        },
+        {
+          "id": "e8ba8a7f-8535-47e4-90c9-50c074ea9121",
+          "name": "buymeacoffee",
+          "url": "https://www.buymeacoffee.com/stephanrandle",
+          "description": "Buy Me a Coffee",
+          "image": "https://og.stephansama.info/api/socials/buymeacoffee.png",
+          "tags": [
+            "social"
+          ]
+        },
+        {
+          "id": "8607860b-f34d-4c8a-a203-795b96b610bf",
+          "name": "bluesky",
+          "url": "https://bsky.app/profile/stephansama.info",
+          "description": "Bluesky profile",
+          "image": "https://og.stephansama.info/api/socials/bluesky.png",
+          "tags": [
+            "social"
+          ]
+        },
+        {
+          "id": "80542e5a-8ac2-4acc-8d17-9f004cbfd305",
+          "name": "discord",
+          "url": "https://discordapp.com/users/454746209391738880",
+          "description": "Discord profile",
+          "image": "https://og.stephansama.info/api/socials/discord.png",
+          "tags": [
+            "social"
+          ]
+        },
+        {
+          "id": "d71bc269-eb65-4dc8-8263-20679df48006",
+          "name": "github",
+          "url": "https://github.com/stephansama",
+          "description": "GitHub profile",
+          "image": "https://og.stephansama.info/api/socials/github.png",
+          "tags": [
+            "social"
+          ]
+        },
+        {
+          "id": "4c47196b-e146-4cb8-af78-317cab34c3c3",
+          "name": "linkedin",
+          "url": "https://www.linkedin.com/in/stephan-randle-38a30319a/",
+          "description": "LinkedIn profile",
+          "image": "https://og.stephansama.info/api/socials/linkedin.png",
+          "tags": [
+            "social"
+          ]
+        },
+        {
+          "id": "f56cf8e1-0995-432c-b25c-3360966b83a1",
+          "name": "npm",
+          "url": "https://npmx.dev/~stephansama",
+          "description": "npm profile",
+          "image": "https://og.stephansama.info/api/socials/npm.png",
+          "tags": [
+            "social"
+          ]
+        },
+        {
+          "id": "7d922c9a-21a6-4271-8eaf-cdfb1b206d01",
+          "name": "youtube",
+          "url": "https://www.youtube.com/@stephansama",
+          "description": "YouTube channel",
+          "image": "https://og.stephansama.info/api/socials/youtube.png",
+          "tags": [
+            "social"
+          ]
+        },
+        {
+          "id": "9e6f8077-f22e-400b-8465-fb658dc14bf8",
+          "name": "hetzner",
+          "url": "https://console.hetzner.com/projects/11156025/dashboard",
+          "description": "Hetzner Cloud project console",
+          "tags": [
+            "admin",
+            "hosting"
+          ]
+        },
+        {
+          "id": "d5e9c975-e102-4178-b289-5ab95f3e5676",
+          "name": "coolify",
+          "url": "https://coolify.stephansama.info/",
+          "description": "Coolify PaaS dashboard",
+          "tags": [
+            "admin",
+            "deployment"
+          ],
+          "openInSameTab": true
+        },
+        {
+          "id": "12e52bf5-a054-4174-aab4-090e5ec99dc8",
+          "name": "karakeep",
+          "url": "https://karakeep.stephansama.info/",
+          "description": "Karakeep bookmark manager",
+          "tags": [
+            "admin",
+            "bookmarks"
+          ],
+          "openInSameTab": true
+        },
+        {
+          "id": "b13bfad4-ca34-486b-8f1b-cddce6546830",
+          "name": "n8n",
+          "url": "https://n8n.stephansama.info/",
+          "description": "n8n workflow automation",
+          "tags": [
+            "admin",
+            "automation"
+          ],
+          "openInSameTab": true
+        },
+        {
+          "id": "5e74a68f-4d96-49c6-b739-2fb7df46cf25",
+          "name": "nocodb",
+          "url": "https://nocodb.stephansama.info/",
+          "description": "NocoDB low-code database",
+          "tags": [
+            "admin",
+            "database"
+          ],
+          "openInSameTab": true
+        },
+        {
+          "id": "af05bd7d-39aa-4285-afa5-2050b7103838",
+          "name": "postiz",
+          "url": "https://postiz.stephansama.info/",
+          "description": "Postiz social scheduler",
+          "tags": [
+            "admin",
+            "social-scheduler"
+          ],
+          "openInSameTab": true
+        },
+        {
+          "id": "718e9693-56bd-430a-b27f-2247c1800e60",
+          "name": "secrets",
+          "url": "https://secrets.stephansama.info/",
+          "description": "Secrets manager",
+          "tags": [
+            "admin",
+            "secrets-manager"
+          ],
+          "openInSameTab": true
+        },
+        {
+          "id": "3906b80c-d189-43ac-9ac8-e71d369e4604",
+          "name": "uptime",
+          "url": "https://uptime.stephansama.info/",
+          "description": "Uptime Kuma monitoring",
+          "tags": [
+            "admin",
+            "monitoring"
+          ],
+          "openInSameTab": true
+        },
+        {
+          "id": "1e4d01db-f27a-4fe9-9c78-be0c71c64ea3",
+          "name": "vault",
+          "url": "https://vault.stephansama.info/",
+          "description": "Vaultwarden password manager",
+          "tags": [
+            "admin",
+            "password-manager"
+          ],
+          "openInSameTab": true
+        },
+        {
+          "id": "c6a78db3-7b8c-4a03-bf3b-5f7600f9af74",
+          "name": "books",
+          "url": "https://books.stephansama.info/",
+          "description": "Audiobookshelf library",
+          "tags": [
+            "homelab",
+            "media"
+          ],
+          "openInSameTab": true
+        },
+        {
+          "id": "763f1104-c573-4e84-8a80-36afcf947564",
+          "name": "code",
+          "url": "https://code.stephansama.info/",
+          "description": "Self-hosted Git",
+          "tags": [
+            "homelab",
+            "git"
+          ],
+          "openInSameTab": true
+        },
+        {
+          "id": "6e72cc02-7e6a-42f9-b20b-1066896b0eea",
+          "name": "metube",
+          "url": "https://metube.stephansama.info/",
+          "description": "MeTube video downloader",
+          "tags": [
+            "homelab",
+            "media"
+          ],
+          "openInSameTab": true
+        },
+        {
+          "id": "db5d5927-603b-481d-8462-514936cff79e",
+          "name": "roms",
+          "url": "https://roms.stephansama.info/",
+          "description": "ROM library",
+          "tags": [
+            "homelab",
+            "media"
+          ],
+          "openInSameTab": true
+        },
+        {
+          "id": "983ca9ef-07da-4b27-9f13-1b8999158578",
+          "name": "seerr",
+          "url": "https://seerr.stephansama.info/",
+          "description": "Jellyseerr request UI",
+          "tags": [
+            "homelab",
+            "media"
+          ],
+          "openInSameTab": true
+        },
+        {
+          "id": "86d12a64-058a-4863-a0a1-0268f4918a62",
+          "name": "truenas",
+          "url": "https://truenas.stephansama.info/",
+          "description": "TrueNAS storage admin",
+          "tags": [
+            "homelab",
+            "storage"
           ],
           "openInSameTab": true
         }
       ]
     },
     {
-      "id": "b8e262cb-a4c6-43ff-8677-f3885abe6ad7",
-      "name": "social",
+      "id": "9d4f1c6b-7e2a-4c3d-bf01-1a2b3c4d5e6f",
+      "name": "private",
+      "hidden": true,
       "links": [
         {
-          "id": "87859506-79f1-41df-8efe-52680f989dd7",
-          "name": "buymeacoffee",
-          "url": "https://www.buymeacoffee.com/stephanrandle",
-          "description": "Buy Me a Coffee",
-          "icon": "/api/icons/ad9d35f3a38ae4a2a98a678826b53fb1946877d3.png",
-          "image": "/api/icons/70ce5b931b19acb9abebf332eeac5732f8acc5d8.png",
-          "tags": [
-            "social"
-          ]
-        },
-        {
-          "id": "987cb0da-42ed-4b6a-84e7-0f3d68dfb4ea",
-          "name": "bluesky",
-          "url": "https://bsky.app/profile/stephansama.info",
-          "description": "Bluesky profile",
-          "icon": "/api/icons/8bbf766a990c1f1235d76b21a6bfca722cbd2752.png",
-          "image": "/api/icons/bfa2cda201dd008fda80fc3b0c024ae4e8bb4512.webp",
-          "tags": [
-            "social"
-          ]
-        },
-        {
-          "id": "3d45a4f4-f6d4-42d1-922b-5c96ed0b9126",
-          "name": "discord",
-          "url": "https://discordapp.com/users/454746209391738880",
-          "description": "Discord profile",
-          "icon": "/api/icons/b27389ab562773c75f46bb05916c44cc41e52329.ico",
-          "image": "/api/icons/47fedab4720b349aac9c7ed95ac00a95de047cc1.png",
-          "tags": [
-            "social"
-          ]
-        },
-        {
-          "id": "84102729-a897-4ec3-94ff-7f75f0dcffcd",
-          "name": "github",
-          "url": "https://github.com/stephansama",
-          "description": "GitHub profile",
-          "icon": "/api/icons/b5e52454b813a83da6bd12710731b62f2cf0aac6.png",
-          "image": "/api/icons/30daf094bd8ef1812100675f50464133ca90e0fb.jpg",
-          "tags": [
-            "social"
-          ]
-        },
-        {
-          "id": "610c5010-a0af-4206-9b9a-a18f4afcb056",
-          "name": "linkedin",
-          "url": "https://www.linkedin.com/in/stephan-randle-38a30319a/",
-          "description": "LinkedIn profile",
-          "icon": "/api/icons/88126eab6cf99150fdffb0343c547baae1aa5997.ico",
-          "tags": [
-            "social"
-          ]
-        },
-        {
-          "id": "f9b41506-531e-47be-a78f-7957b7600248",
-          "name": "npm",
-          "url": "https://npmx.dev/~stephansama",
-          "description": "npm profile",
-          "icon": "/api/icons/610432b9deea93f6c52fefe02c803cc7a5e05bea.png",
-          "image": "/api/icons/47d83f909852aaf50a838db8d381fdf37556d5d0.png",
-          "tags": [
-            "social"
-          ]
-        },
-        {
-          "id": "4a9470a9-506e-4a26-b436-691eacf06fc0",
-          "name": "youtube",
-          "url": "https://www.youtube.com/@stephansama",
-          "description": "YouTube channel",
-          "icon": "/api/icons/0b07f266565e5a01187bc48a863a7abe5e419f3d.ico",
-          "image": "/api/icons/a8e30f24015dd3ef6151b2a9f5af842ababe3afa.jpg",
-          "tags": [
-            "social"
-          ]
+          "id": "fe1e2c3d-4a5b-6c7d-8e9f-0a1b2c3d4e5f",
+          "name": "internal wiki",
+          "url": "https://wiki.internal.example",
+          "description": "Whole category hidden — only visible when signed in as an admin."
         }
       ]
     }

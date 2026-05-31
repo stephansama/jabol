@@ -17,6 +17,7 @@ export type Category = {
   id: string;
   name: string;
   icon?: string;
+  hidden?: boolean;
   links: Link[];
 };
 
@@ -25,6 +26,7 @@ export type Canonical = {
   title?: string;
   description?: string;
   favicon?: string;
+  image?: string;
   theme?: ThemePreference;
   categories: Category[];
 };

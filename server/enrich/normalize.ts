@@ -17,6 +17,7 @@ export type CanonicalCategory = {
   id: string;
   name: string;
   icon?: string;
+  hidden?: boolean;
   links: CanonicalLink[];
 };
 
@@ -25,6 +26,7 @@ export type Canonical = {
   title?: string;
   description?: string;
   favicon?: string;
+  image?: string;
   theme?: "light" | "dark" | "mocha" | "latte" | "system" | "system-catppuccin";
   categories: CanonicalCategory[];
 };
@@ -49,11 +51,13 @@ function fromCategorized(input: CategorizedInput): Canonical {
     title: input.title,
     description: input.description,
     favicon: input.favicon,
+    image: input.image,
     theme: input.theme,
     categories: input.categories.map((c) => ({
       id: c.id ?? randomUUID(),
       name: c.name,
       icon: c.icon,
+      hidden: c.hidden,
       links: c.links.map(ensureLinkId),
     })),
   };
@@ -89,6 +93,7 @@ function fromFlat(input: FlatInput): Canonical {
       title: input.title,
       description: input.description,
       favicon: input.favicon,
+      image: input.image,
       theme: input.theme,
       categories,
     };
@@ -99,6 +104,7 @@ function fromFlat(input: FlatInput): Canonical {
     title: input.title,
     description: input.description,
     favicon: input.favicon,
+    image: input.image,
     theme: input.theme,
     categories: [
       {

@@ -31,6 +31,11 @@
           "type": "string",
           "minLength": 1
         },
+        "image": {
+          "description": "Open Graph / Twitter card image used when the site is shared on social platforms. Absolute URL or /api/icons/... path. Recommended size: 1200×630.",
+          "type": "string",
+          "minLength": 1
+        },
         "theme": {
           "type": "string",
           "enum": [
@@ -63,6 +68,10 @@
               "icon": {
                 "description": "Optional Iconify id or URL shown beside the category name.",
                 "type": "string"
+              },
+              "hidden": {
+                "description": "If true, only authenticated admins see this category and every link inside it.",
+                "type": "boolean"
               },
               "links": {
                 "default": [],
@@ -157,6 +166,11 @@
         },
         "favicon": {
           "description": "Favicon for the browser tab and top bar. Usually a /api/icons/... path produced by the favicon upload endpoint, but may also be an absolute URL.",
+          "type": "string",
+          "minLength": 1
+        },
+        "image": {
+          "description": "Open Graph / Twitter card image used when the site is shared on social platforms. Absolute URL or /api/icons/... path. Recommended size: 1200×630.",
           "type": "string",
           "minLength": 1
         },

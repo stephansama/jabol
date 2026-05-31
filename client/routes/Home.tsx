@@ -37,7 +37,7 @@ export function Home() {
 
   useLinksSSE(reload);
 
-  const allCategories = data?.categories ?? [];
+  const allCategories = (data?.categories ?? []).filter((c) => !c.hidden || admin);
 
   const filteredCategories = useMemo(() => {
     if (!activeTag) return allCategories;
@@ -111,11 +111,13 @@ export function Home() {
     filteredCategories.every((c) => c.links.filter((l) => !l.hidden || admin).length === 0);
   const brand = data?.brand;
   const title = data?.title;
+  const description = data?.description;
   const favicon = data?.favicon;
+  const image = data?.image;
   const minCol = density === "compact" ? 216 : 260;
   const readOnly = data?.readOnly;
 
-  useDocumentBranding({ brand, title, favicon });
+  useDocumentBranding({ brand, title, description, favicon, image, loaded: !!data });
 
   return (
     <div>

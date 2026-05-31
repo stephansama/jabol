@@ -116,13 +116,26 @@ export const api = {
     });
     if (!res.ok && res.status !== 204) throw new Error(`HTTP ${res.status}`);
   },
-  async addCategory(name: string, icon?: string): Promise<void> {
+  async addCategory(name: string, icon?: string, hidden?: boolean): Promise<void> {
     await json(
       await fetch("/api/categories", {
         method: "POST",
         credentials: "include",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ name, icon }),
+        body: JSON.stringify({ name, icon, hidden }),
+      }),
+    );
+  },
+  async updateCategory(
+    id: string,
+    patch: { name?: string; icon?: string; hidden?: boolean },
+  ): Promise<void> {
+    await json(
+      await fetch(`/api/categories/${id}`, {
+        method: "PATCH",
+        credentials: "include",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(patch),
       }),
     );
   },

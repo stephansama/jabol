@@ -34,6 +34,10 @@ const categorySchema = z.object({
   id: z.uuid().optional().describe("Stable UUID. Added automatically on first read if absent."),
   name: z.string().min(1).describe("Category name shown as a section header."),
   icon: z.string().optional().describe("Optional Iconify id or URL shown beside the category name."),
+  hidden: z
+    .boolean()
+    .optional()
+    .describe("If true, only authenticated admins see this category and every link inside it."),
   links: z.array(linkBaseSchema).default([]),
 });
 
@@ -57,12 +61,21 @@ const faviconField = z
     "Favicon for the browser tab and top bar. Usually a /api/icons/... path produced by the favicon upload endpoint, but may also be an absolute URL.",
   );
 
+const imageField = z
+  .string()
+  .min(1)
+  .optional()
+  .describe(
+    "Open Graph / Twitter card image used when the site is shared on social platforms. Absolute URL or /api/icons/... path. Recommended size: 1200×630.",
+  );
+
 export const categorizedInputSchema = z.object({
   $schema: schemaRefField,
   brand: brandField,
   title: z.string().optional().describe("Collection title shown as a sub-label beside the brand."),
   description: z.string().optional().describe("Page description / meta."),
   favicon: faviconField,
+  image: imageField,
   theme: themeSchema.optional(),
   categories: z.array(categorySchema).min(1).describe("Ordered list of categories."),
 });
@@ -73,6 +86,7 @@ export const flatInputSchema = z.object({
   title: z.string().optional().describe("Collection title shown as a sub-label beside the brand."),
   description: z.string().optional().describe("Page description / meta."),
   favicon: faviconField,
+  image: imageField,
   theme: themeSchema.optional(),
   groupByTag: z
     .boolean()

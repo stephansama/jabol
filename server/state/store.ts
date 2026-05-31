@@ -29,10 +29,12 @@ class Store {
   getPublicCanonical(): Canonical {
     return {
       ...this.canonical,
-      categories: this.canonical.categories.map((c) => ({
-        ...c,
-        links: c.links.filter((l) => !l.hidden),
-      })),
+      categories: this.canonical.categories
+        .filter((c) => !c.hidden)
+        .map((c) => ({
+          ...c,
+          links: c.links.filter((l) => !l.hidden),
+        })),
     };
   }
 
@@ -252,9 +254,15 @@ class Store {
     this.emit();
   }
 
-  async addCategory(input: { name: string; icon?: string }): Promise<CanonicalCategory> {
+  async addCategory(input: { name: string; icon?: string; hidden?: boolean }): Promise<CanonicalCategory> {
     this.assertWritable();
-    const cat: CanonicalCategory = { id: randomUUID(), name: input.name, icon: input.icon, links: [] };
+    const cat: CanonicalCategory = {
+      id: randomUUID(),
+      name: input.name,
+      icon: input.icon,
+      hidden: input.hidden,
+      links: [],
+    };
     this.canonical = { ...this.canonical, categories: [...this.canonical.categories, cat] };
     await this.persist();
     this.emit();

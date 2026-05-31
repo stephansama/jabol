@@ -8,6 +8,7 @@ type Props = {
 
 export function CategoryJump({ categories, admin }: Props) {
   const items = categories
+    .filter((c) => !c.hidden || admin)
     .map((c, i) => ({
       cat: c,
       hue: hueForIndex(i),

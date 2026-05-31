@@ -41,7 +41,10 @@ export function Admin() {
   useDocumentBranding({
     brand: data?.brand,
     title: data?.title,
+    description: data?.description,
     favicon: data?.favicon,
+    image: data?.image,
+    loaded: !!data,
   });
   useResolvedTheme(data?.theme);
 
@@ -106,6 +109,7 @@ function CategoryManager({
 }) {
   const [newCatName, setNewCatName] = useState("");
   const [newCatIcon, setNewCatIcon] = useState("");
+  const [newCatHidden, setNewCatHidden] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [refreshNotice, setRefreshNotice] = useState<string | null>(null);
 
@@ -126,9 +130,10 @@ function CategoryManager({
   async function addCategory(e: React.FormEvent) {
     e.preventDefault();
     if (!newCatName.trim()) return;
-    await api.addCategory(newCatName.trim(), newCatIcon || undefined);
+    await api.addCategory(newCatName.trim(), newCatIcon || undefined, newCatHidden || undefined);
     setNewCatName("");
     setNewCatIcon("");
+    setNewCatHidden(false);
     onChange();
   }
 
@@ -201,6 +206,15 @@ function CategoryManager({
               placeholder="e.g. mdi:briefcase"
             />
           </label>
+          <label className="flex h-[42px] items-center gap-2 text-xs text-fg-subtle">
+            <input
+              type="checkbox"
+              checked={newCatHidden}
+              onChange={(e) => setNewCatHidden(e.target.checked)}
+              className="h-4 w-4"
+            />
+            Hidden (admin-only)
+          </label>
           <button
             type="submit"
             className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-sm bg-accent px-4 py-2 text-sm font-medium text-accent-fg transition-colors hover:bg-accent/85"
@@ -235,23 +249,44 @@ function CategoryBlock({
           {category.icon ? <Icon icon={category.icon} name={category.name} size={20} /> : null}
           <h3 className="font-semibold text-fg">{category.name}</h3>
           <span className="text-xs text-fg-subtle">({category.links.length})</span>
+          {category.hidden ? (
+            <span className="rounded-full bg-accent/15 px-1.5 py-0.5 text-[10px] font-medium text-accent">
+              🔒 hidden
+            </span>
+          ) : null}
         </div>
         {!readOnly ? (
-          <button
-            type="button"
-            onClick={async () => {
-              if (!confirm(`Delete category "${category.name}"? It must be empty.`)) return;
-              try {
-                await api.deleteCategory(category.id);
-                onChange();
-              } catch (err: any) {
-                alert(err?.message ?? "delete failed");
-              }
-            }}
-            className="text-xs text-fg-subtle hover:text-danger"
-          >
-            Delete category
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={async () => {
+                try {
+                  await api.updateCategory(category.id, { hidden: !category.hidden });
+                  onChange();
+                } catch (err: any) {
+                  alert(err?.message ?? "update failed");
+                }
+              }}
+              className="text-xs text-fg-subtle hover:text-fg"
+            >
+              {category.hidden ? "Show category" : "Hide category"}
+            </button>
+            <button
+              type="button"
+              onClick={async () => {
+                if (!confirm(`Delete category "${category.name}"? It must be empty.`)) return;
+                try {
+                  await api.deleteCategory(category.id);
+                  onChange();
+                } catch (err: any) {
+                  alert(err?.message ?? "delete failed");
+                }
+              }}
+              className="text-xs text-fg-subtle hover:text-danger"
+            >
+              Delete category
+            </button>
+          </div>
         ) : null}
       </header>
 
