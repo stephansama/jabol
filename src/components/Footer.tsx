@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+import { useSession } from "@/hooks/useSession";
 import { SignInPanel } from "./AdminMenu";
 
 const KEYS: Array<[string, string]> = [
@@ -8,6 +10,7 @@ const KEYS: Array<[string, string]> = [
 ];
 
 export function Footer() {
+  const { user } = useSession();
   return (
     <footer className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-border px-0 pb-10 pt-5">
       <div className="flex flex-wrap items-center gap-4">
@@ -20,6 +23,11 @@ export function Footer() {
       </div>
       <div className="flex flex-wrap items-center gap-3">
         <SignInPanel />
+        {user ? (
+          <Link to="/admin" className="mono-dim text-xs hover:text-fg">
+            admin
+          </Link>
+        ) : null}
         <span className="mono-dim text-xs">jabol · just a bunch of links</span>
       </div>
     </footer>
