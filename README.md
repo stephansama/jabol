@@ -114,6 +114,7 @@ When a new version is published to `stephanrandle/jabol:latest`, click **Redeplo
 | `image`       | `string`   | Optional OG image override. If absent, jabol fetches `og:image`.                                                    |
 | `tags`        | `string[]` | Optional, searched and shown as pills.                                                                              |
 | `hidden`      | `boolean`  | If `true`, only authenticated admins see the link.                                                                  |
+| `openInSameTab` | `boolean` | If `true`, the link opens in the current tab. Default opens in a new tab.                                         |
 
 UUIDs are added automatically the first time the file is read so admin edits are addressable.
 

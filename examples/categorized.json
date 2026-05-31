@@ -1,97 +1,202 @@
 {
-  "title": "Bookmarks",
+  "brand": "@stephansama",
+  "title": "directory",
+  "description": "collection of @stephansama products",
+  "favicon": "https://stephansama.info/favicon.svg",
+  "theme": "system-catppuccin",
   "categories": [
     {
-      "id": "a8abb7ba-035c-4646-9653-58d99cfda499",
-      "name": "dev",
+      "id": "996ece89-df9d-4e27-8cea-57c0d3521b81",
+      "name": "project",
       "links": [
         {
-          "id": "4b99c986-be43-414c-b942-bce407144439",
-          "name": "GitHub",
-          "url": "https://github.com",
-          "icon": "mdi:github",
-          "image": "/api/icons/8403bb909360b1c7bd5463295fdd3072c26e58c8.png",
+          "id": "f2893273-9042-42e8-b9f6-892a1f7ef713",
+          "name": "actions",
+          "url": "https://actions.stephansama.info/",
+          "description": "@stephansama GitHub Actions",
+          "icon": "/api/icons/2426ab833f6b4b50b6e5745e448f3a1bde2e62a2.svg",
+          "image": "https://og.stephansama.info/api/actions/og.png",
           "tags": [
-            "dev"
-          ]
-        },
-        {
-          "id": "9241e14b-0dd7-4c5b-b8cc-082515e39998",
-          "name": "MDN",
-          "url": "https://developer.mozilla.org",
-          "icon": "/api/icons/f1c9f8ec0168c5a69d8d74106cf7a31104dd1958.png",
-          "tags": [
-            "dev"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "c5747ecb-cc88-41e5-a533-855f52316e0d",
-      "name": "news",
-      "links": [
-        {
-          "id": "9d38579e-588d-4da7-a1aa-acfed78bbe46",
-          "name": "Hacker News",
-          "url": "https://news.ycombinator.com",
-          "icon": "/api/icons/1df306319edfa8895950268caf03d02e15196ba0.svg",
-          "tags": [
-            "news"
-          ]
-        },
-        {
-          "id": "d2f2b92a-18b9-40bb-bb29-0b13f29bbdb5",
-          "name": "The Verge",
-          "url": "https://theverge.com",
-          "icon": "/api/icons/b96d8a20fe4a080262ae0f4228030f56f274dcf9.png",
-          "image": "/api/icons/0ca54e601a4a041fedd5bec9bbc8db8003894221.png",
-          "tags": [
-            "news"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "7a7e6612-3bd5-42fb-a129-00fd797a5dc4",
-      "name": "productivity",
-      "links": [
-        {
-          "id": "7ac579e1-3d8c-4ca6-942c-3e4555cd065d",
-          "name": "Notion",
-          "url": "https://notion.so",
-          "icon": "/api/icons/cf329ae188dcb4766a1cf2a289da15442e987d7f.png",
-          "image": "/api/icons/8b6c9622749df28542a7a94324943d176b6fddf8.png",
-          "tags": [
-            "productivity"
-          ]
-        },
-        {
-          "id": "d0449bbb-7586-4ae7-9cbf-ef0596f03efa",
-          "name": "Linear",
-          "url": "https://linear.app",
-          "icon": "/api/icons/0ea752eee730e566a7452c18a6e6cb80cc0b9db9.png",
-          "image": "/api/icons/466752d96df9cfb2ed9cac89b5f3485e5aecb75b.jpg",
-          "tags": [
-            "productivity"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "05b7001f-4d91-46d2-8802-74da7cf3ed28",
-      "name": "work",
-      "links": [
-        {
-          "id": "a520ae68-49b6-453d-b1fd-6a7afdee08d5",
-          "name": "Private wiki",
-          "url": "https://wiki.internal",
-          "tags": [
-            "work"
+            "project"
           ],
-          "hidden": true
+          "hidden": false,
+          "openInSameTab": true
+        },
+        {
+          "id": "c85f75b5-0be9-4618-ac1d-b02ed9469972",
+          "name": "dotfiles",
+          "url": "https://files.stephansama.info/",
+          "description": "@stephansama dotfiles",
+          "icon": "/api/icons/e4d8831d6e075b085bc252c360d9fa1d2ad0892a.svg",
+          "image": "https://og.stephansama.info/api/files/og.png",
+          "tags": [
+            "project"
+          ],
+          "hidden": false,
+          "openInSameTab": true
+        },
+        {
+          "id": "a168199c-3ffa-4503-b391-f39ae0823add",
+          "name": "packages",
+          "url": "https://packages.stephansama.info/",
+          "description": "@stephansama packages",
+          "icon": "/api/icons/88d9e90534c8b0275922cf83a6df1e00ccbc4256.svg",
+          "image": "https://og.stephansama.info/api/packages/og.png",
+          "tags": [
+            "project"
+          ]
+        },
+        {
+          "id": "6283835c-9785-4e78-a9b2-4602a6c21bef",
+          "name": "blog",
+          "url": "https://blog.stephansama.info/",
+          "description": "stephansama blog",
+          "icon": "/api/icons/fcb240801563cf1606ed1a2085e534f7f92a3639.png",
+          "image": "https://og.stephansama.info/api/blog/page/home-blog.png",
+          "tags": [
+            "project"
+          ],
+          "hidden": false,
+          "openInSameTab": true
+        },
+        {
+          "id": "3a7cfdd9-6dbe-4297-a9ac-823c50b66215",
+          "name": "cv",
+          "url": "https://cv.stephansama.info/",
+          "description": "Stephan Randle — Full-Stack Engineer CV",
+          "icon": "/api/icons/8c1c3cdc4b97c1afbf90d19dd23749354cdec6ca.jpg",
+          "image": "https://og.stephansama.info/api/cv/og.png",
+          "tags": [
+            "project"
+          ]
+        },
+        {
+          "id": "eb0d6f78-78eb-4efd-9b66-f2e952e59df7",
+          "name": "portfolio",
+          "url": "https://stephansama.info/",
+          "description": "SR Portfolio",
+          "icon": "/api/icons/6f5122d17d6304eebea878d99e450e9be7290b18.svg",
+          "image": "https://og.stephansama.info/api/portfolio/page/home-portfolio.png",
+          "tags": [
+            "project"
+          ]
+        },
+        {
+          "id": "850ba67a-390e-4258-ad93-6c31e8cccbdb",
+          "name": "memes",
+          "url": "https://memes.stephansama.info/",
+          "description": "@stephansama memes",
+          "icon": "/api/icons/1b5b417dbc600b28b0f6d3a373d184725d59420c.svg",
+          "image": "https://og.stephansama.info/api/memes/og.png",
+          "tags": [
+            "project"
+          ]
+        },
+        {
+          "id": "889775e4-8b2d-40c2-b47a-afe96ee1c041",
+          "name": "snippets",
+          "url": "https://snippets.stephansama.info/",
+          "description": "VSC Snippets Generator",
+          "icon": "/api/icons/8a026e7c3b44fbc36b05535bcfa1399f5cae85f2.svg",
+          "image": "https://og.stephansama.info/api/snippets/og.png",
+          "tags": [
+            "project"
+          ]
+        },
+        {
+          "id": "8304a340-71e1-4caa-9297-157375defe6f",
+          "name": "og",
+          "url": "https://og.stephansama.info/",
+          "description": "OpenGraph image generator",
+          "icon": "/api/icons/2dce8e83e999e247aa50951da8c90a16a117b3bd.svg",
+          "image": "https://og.stephansama.info/api/image/og.png",
+          "tags": [
+            "project"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "45b94e7a-272a-413f-aee6-df495a596edb",
+      "name": "social",
+      "links": [
+        {
+          "id": "0475d2fa-dc44-48e3-9df6-ebbea3153f7e",
+          "name": "buymeacoffee",
+          "url": "https://www.buymeacoffee.com/stephanrandle",
+          "description": "Buy Me a Coffee",
+          "icon": "/api/icons/ad9d35f3a38ae4a2a98a678826b53fb1946877d3.png",
+          "image": "/api/icons/70ce5b931b19acb9abebf332eeac5732f8acc5d8.png",
+          "tags": [
+            "social"
+          ]
+        },
+        {
+          "id": "0c8e5cca-d052-4f1d-b9d8-031e52d968ea",
+          "name": "bluesky",
+          "url": "https://bsky.app/profile/stephansama.info",
+          "description": "Bluesky profile",
+          "icon": "/api/icons/8bbf766a990c1f1235d76b21a6bfca722cbd2752.png",
+          "image": "/api/icons/bfa2cda201dd008fda80fc3b0c024ae4e8bb4512.webp",
+          "tags": [
+            "social"
+          ]
+        },
+        {
+          "id": "0e52c617-25e8-415a-a1d2-ee0ff3379643",
+          "name": "discord",
+          "url": "https://discordapp.com/users/454746209391738880",
+          "description": "Discord profile",
+          "icon": "/api/icons/b27389ab562773c75f46bb05916c44cc41e52329.ico",
+          "image": "/api/icons/47fedab4720b349aac9c7ed95ac00a95de047cc1.png",
+          "tags": [
+            "social"
+          ]
+        },
+        {
+          "id": "f37e0f7b-9695-4bfd-b4ab-9390e92b85c4",
+          "name": "github",
+          "url": "https://github.com/stephansama",
+          "description": "GitHub profile",
+          "icon": "/api/icons/b5e52454b813a83da6bd12710731b62f2cf0aac6.png",
+          "image": "/api/icons/30daf094bd8ef1812100675f50464133ca90e0fb.jpg",
+          "tags": [
+            "social"
+          ]
+        },
+        {
+          "id": "b009ac37-b3d7-4f63-9436-31b22466474b",
+          "name": "linkedin",
+          "url": "https://www.linkedin.com/in/stephan-randle-38a30319a/",
+          "description": "LinkedIn profile",
+          "icon": "/api/icons/88126eab6cf99150fdffb0343c547baae1aa5997.ico",
+          "tags": [
+            "social"
+          ]
+        },
+        {
+          "id": "ee10785a-9234-4a99-80b0-c1b7d60d173c",
+          "name": "npm",
+          "url": "https://npmx.dev/~stephansama",
+          "description": "npm profile",
+          "icon": "/api/icons/610432b9deea93f6c52fefe02c803cc7a5e05bea.png",
+          "image": "/api/icons/47d83f909852aaf50a838db8d381fdf37556d5d0.png",
+          "tags": [
+            "social"
+          ]
+        },
+        {
+          "id": "07b71a4e-6327-43b4-8d76-01403f985b40",
+          "name": "youtube",
+          "url": "https://www.youtube.com/@stephansama",
+          "description": "YouTube channel",
+          "icon": "/api/icons/0b07f266565e5a01187bc48a863a7abe5e419f3d.ico",
+          "image": "/api/icons/a8e30f24015dd3ef6151b2a9f5af842ababe3afa.jpg",
+          "tags": [
+            "social"
+          ]
         }
       ]
     }
-  ],
-  "theme": "system-catppuccin"
+  ]
 }

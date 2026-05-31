@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Download } from "lucide-react";
+import { Download, RefreshCw } from "lucide-react";
 import { api, type LinksResponse } from "@/lib/api";
 import { useSession } from "@/hooks/useSession";
 import { useDocumentBranding } from "@/hooks/useDocumentBranding";
@@ -106,6 +106,22 @@ function CategoryManager({
 }) {
   const [newCatName, setNewCatName] = useState("");
   const [newCatIcon, setNewCatIcon] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
+  const [refreshNotice, setRefreshNotice] = useState<string | null>(null);
+
+  async function refreshAssets() {
+    setRefreshing(true);
+    setRefreshNotice(null);
+    try {
+      const { count } = await api.refreshAssets();
+      setRefreshNotice(`Refreshed ${count} link${count === 1 ? "" : "s"}.`);
+      onChange();
+    } catch (err: any) {
+      setRefreshNotice(err?.message ?? "Refresh failed");
+    } finally {
+      setRefreshing(false);
+    }
+  }
 
   async function addCategory(e: React.FormEvent) {
     e.preventDefault();
@@ -132,19 +148,35 @@ function CategoryManager({
 
   return (
     <section className="mb-10">
-      <div className="mb-3 flex items-center justify-between gap-3">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-lg font-semibold text-fg">Links</h2>
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={exportLinks}
-          disabled={!data}
-          title="Download a links.json snapshot of the current configuration"
-        >
-          <Download className="h-3.5 w-3.5" /> Export links.json
-        </Button>
+        <div className="flex flex-wrap items-center gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={refreshAssets}
+            disabled={readOnly || refreshing}
+            title="Re-scrape favicons and OG images for every link"
+          >
+            <RefreshCw className={`h-3.5 w-3.5 ${refreshing ? "animate-spin" : ""}`} />
+            {refreshing ? "Refreshing…" : "Refresh assets"}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={exportLinks}
+            disabled={!data}
+            title="Download a links.json snapshot of the current configuration"
+          >
+            <Download className="h-3.5 w-3.5" /> Export links.json
+          </Button>
+        </div>
       </div>
+      {refreshNotice ? (
+        <p className="-mt-1 mb-3 text-xs text-fg-subtle">{refreshNotice}</p>
+      ) : null}
       <DropZone readOnly={readOnly} onReplaced={onChange} />
       {!readOnly ? (
         <form
@@ -319,6 +351,7 @@ function NewLinkRow({ categoryId, onAdded }: { categoryId: string; onAdded: () =
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState("");
   const [hidden, setHidden] = useState(false);
+  const [openInSameTab, setOpenInSameTab] = useState(false);
   const [busy, setBusy] = useState(false);
 
   async function submit(e: React.FormEvent) {
@@ -332,6 +365,7 @@ function NewLinkRow({ categoryId, onAdded }: { categoryId: string; onAdded: () =
         description: description || undefined,
         tags: tags ? tags.split(",").map((t) => t.trim()).filter(Boolean) : undefined,
         hidden: hidden || undefined,
+        openInSameTab: openInSameTab || undefined,
       });
       setName("");
       setUrl("");
@@ -339,6 +373,7 @@ function NewLinkRow({ categoryId, onAdded }: { categoryId: string; onAdded: () =
       setDescription("");
       setTags("");
       setHidden(false);
+      setOpenInSameTab(false);
       setOpen(false);
       onAdded();
     } catch (err: any) {
@@ -372,6 +407,14 @@ function NewLinkRow({ categoryId, onAdded }: { categoryId: string; onAdded: () =
         <input type="checkbox" checked={hidden} onChange={(e) => setHidden(e.target.checked)} />
         Hidden (admin-only)
       </label>
+      <label className="flex items-center gap-2 text-sm text-fg-subtle">
+        <input
+          type="checkbox"
+          checked={openInSameTab}
+          onChange={(e) => setOpenInSameTab(e.target.checked)}
+        />
+        Open in same tab
+      </label>
       <div className="flex justify-end gap-2 md:col-span-2">
         <button type="button" onClick={() => setOpen(false)} className="rounded-md border border-border px-3 py-1.5 text-sm text-fg-subtle hover:text-fg">
           Cancel
@@ -399,6 +442,7 @@ function LinkEditor({
   const [description, setDescription] = useState(link.description ?? "");
   const [tags, setTags] = useState((link.tags ?? []).join(", "));
   const [hidden, setHidden] = useState(!!link.hidden);
+  const [openInSameTab, setOpenInSameTab] = useState(!!link.openInSameTab);
   const [busy, setBusy] = useState(false);
 
   async function submit(e: React.FormEvent) {
@@ -412,6 +456,7 @@ function LinkEditor({
         description: description || undefined,
         tags: tags ? tags.split(",").map((t) => t.trim()).filter(Boolean) : undefined,
         hidden,
+        openInSameTab,
       });
       onSaved();
     } catch (err: any) {
@@ -432,6 +477,14 @@ function LinkEditor({
         <label className="flex items-center gap-2 text-sm text-fg-subtle">
           <input type="checkbox" checked={hidden} onChange={(e) => setHidden(e.target.checked)} />
           Hidden (admin-only)
+        </label>
+        <label className="flex items-center gap-2 text-sm text-fg-subtle">
+          <input
+            type="checkbox"
+            checked={openInSameTab}
+            onChange={(e) => setOpenInSameTab(e.target.checked)}
+          />
+          Open in same tab
         </label>
         <div className="flex justify-end gap-2 md:col-span-2">
           <button type="button" onClick={onCancel} className="rounded-md border border-border px-3 py-1.5 text-sm text-fg-subtle hover:text-fg">

@@ -318,6 +318,15 @@ class Store {
     return { brand: next.brand, title: next.title, favicon: next.favicon, theme: next.theme };
   }
 
+  async refreshAssets(): Promise<{ count: number }> {
+    this.assertWritable();
+    this.canonical = await enrichCanonical(this.canonical, env.iconsDir, { force: true });
+    await this.persist();
+    this.emit();
+    const count = this.canonical.categories.reduce((n, c) => n + c.links.length, 0);
+    return { count };
+  }
+
   findLink(id: string): CanonicalLink | undefined {
     for (const cat of this.canonical.categories) {
       for (const link of cat.links) if (link.id === id) return link;

@@ -10,6 +10,7 @@ export type CanonicalLink = {
   image?: string;
   tags?: string[];
   hidden?: boolean;
+  openInSameTab?: boolean;
 };
 
 export type CanonicalCategory = {
@@ -38,6 +39,7 @@ function ensureLinkId(link: LinkInput): CanonicalLink {
     image: link.image,
     tags: link.tags,
     hidden: link.hidden,
+    openInSameTab: link.openInSameTab,
   };
 }
 

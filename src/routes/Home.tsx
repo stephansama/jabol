@@ -71,7 +71,11 @@ export function Home() {
   }, [filteredCategories, admin]);
 
   const onActivate = useCallback((item: FlatLink) => {
-    window.open(item.url, "_blank", "noopener,noreferrer");
+    if (item.openInSameTab) {
+      window.location.assign(item.url);
+    } else {
+      window.open(item.url, "_blank", "noopener,noreferrer");
+    }
   }, []);
 
   const { index, setIndex } = useKeyboardNav<FlatLink>({

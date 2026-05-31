@@ -109,6 +109,10 @@
                     "hidden": {
                       "description": "If true, only authenticated admins see this link.",
                       "type": "boolean"
+                    },
+                    "openInSameTab": {
+                      "description": "If true, open the link in the current tab. Default opens in a new tab.",
+                      "type": "boolean"
                     }
                   },
                   "required": [
@@ -216,6 +220,10 @@
               },
               "hidden": {
                 "description": "If true, only authenticated admins see this link.",
+                "type": "boolean"
+              },
+              "openInSameTab": {
+                "description": "If true, open the link in the current tab. Default opens in a new tab.",
                 "type": "boolean"
               }
             },

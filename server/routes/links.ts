@@ -13,6 +13,7 @@ const linkPayloadSchema = z.object({
   image: z.string().min(1).optional(),
   tags: z.array(z.string()).optional(),
   hidden: z.boolean().optional(),
+  openInSameTab: z.boolean().optional(),
 });
 
 const linkPatchSchema = linkPayloadSchema.partial();
@@ -41,6 +42,14 @@ const adminLinks = new Hono()
     try {
       const link = await store.addLink(parsed.data.categoryId, parsed.data.link);
       return c.json({ link }, 201);
+    } catch (err) {
+      return errorResponse(c, err);
+    }
+  })
+  .post("/refresh-assets", async (c) => {
+    try {
+      const result = await store.refreshAssets();
+      return c.json(result);
     } catch (err) {
       return errorResponse(c, err);
     }

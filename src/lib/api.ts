@@ -101,6 +101,14 @@ export const api = {
       }),
     );
   },
+  async refreshAssets(): Promise<{ count: number }> {
+    return json(
+      await fetch("/api/links/admin/refresh-assets", {
+        method: "POST",
+        credentials: "include",
+      }),
+    );
+  },
   async deleteLink(id: string): Promise<void> {
     const res = await fetch(`/api/links/admin/${id}`, {
       method: "DELETE",

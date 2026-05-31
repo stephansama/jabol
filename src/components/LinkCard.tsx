@@ -57,12 +57,14 @@ export const LinkCard = forwardRef<HTMLAnchorElement, Props>(function LinkCard(
   const showCritical = !compact && (link.tags ?? []).includes("critical");
   const initial = link.name.trim().charAt(0).toUpperCase() || "•";
 
+  const sameTab = !!link.openInSameTab;
+
   return (
     <a
       ref={ref}
       href={link.url}
-      target="_blank"
-      rel="noopener noreferrer"
+      target={sameTab ? "_self" : "_blank"}
+      rel={sameTab ? undefined : "noopener noreferrer"}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       data-active={active || undefined}

@@ -10,6 +10,7 @@ export type Link = {
   image?: string;
   tags?: string[];
   hidden?: boolean;
+  openInSameTab?: boolean;
 };
 
 export type Category = {

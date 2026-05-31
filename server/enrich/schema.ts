@@ -24,6 +24,10 @@ const linkBaseSchema = z.object({
     ),
   tags: z.array(z.string()).optional().describe("Searched and shown as pills."),
   hidden: z.boolean().optional().describe("If true, only authenticated admins see this link."),
+  openInSameTab: z
+    .boolean()
+    .optional()
+    .describe("If true, open the link in the current tab. Default opens in a new tab."),
 });
 
 const categorySchema = z.object({

@@ -14,8 +14,13 @@ type Props = {
 type Stage = "iconify" | "img" | "favicon" | "monogram";
 
 function pickInitialStage(icon: string | undefined): Stage {
-  if (icon && icon.includes(":")) return "iconify";
-  if (icon && /^https?:\/\//.test(icon)) return "img";
+  if (!icon) return "favicon";
+  // Absolute paths (e.g. /api/icons/<hash>.svg from the server's enrichment cache)
+  // and full http(s) URLs both render as <img>.
+  if (icon.startsWith("/") || /^https?:\/\//.test(icon)) return "img";
+  // Iconify ids look like "mdi:github". Check after the path check so
+  // path-style values don't get misclassified by the ':' in "https:".
+  if (icon.includes(":")) return "iconify";
   return "favicon";
 }
 
