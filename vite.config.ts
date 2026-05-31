@@ -40,6 +40,7 @@ function jabolHeadInject(): Plugin {
             favicon: canonical.favicon,
             image: canonical.image,
             siteUrl: origin + (ctx.originalUrl ?? "/"),
+            bootstrap: { ...canonical, readOnly: false },
           });
         } catch (err) {
           console.warn(

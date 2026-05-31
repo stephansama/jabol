@@ -41,3 +41,24 @@ export function useResolvedTheme(preference: ThemePreference | undefined): Theme
 
   return resolved;
 }
+
+export function useSystemThemeSync(): void {
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mql = window.matchMedia("(prefers-color-scheme: dark)");
+
+    const apply = () => {
+      let pref: ThemePreference = DEFAULT_PREFERENCE;
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY) as ThemePreference | null;
+        if (stored) pref = stored;
+      } catch {}
+      const resolved = resolve(pref, mql.matches);
+      document.documentElement.setAttribute("data-theme", resolved);
+    };
+
+    apply();
+    mql.addEventListener("change", apply);
+    return () => mql.removeEventListener("change", apply);
+  }, []);
+}

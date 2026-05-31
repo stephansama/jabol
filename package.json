@@ -4,6 +4,7 @@
   "description": "Just A Bunch Of Links — self-hostable JSON-driven link directory",
   "private": true,
   "type": "module",
+  "license": "MIT",
   "packageManager": "pnpm@9.15.0",
   "scripts": {
     "dev": "concurrently -k -n server,spa -c blue,magenta \"pnpm:dev:server\" \"pnpm:dev:spa\"",

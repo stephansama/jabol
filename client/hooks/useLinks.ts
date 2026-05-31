@@ -1,10 +1,24 @@
 import { useCallback, useEffect, useState } from "react";
 import { api, type LinksResponse } from "@/lib/api";
 
+const BOOTSTRAP_ID = "jabol-initial";
+
+function readBootstrap(): LinksResponse | null {
+  if (typeof document === "undefined") return null;
+  const el = document.getElementById(BOOTSTRAP_ID);
+  if (!el?.textContent) return null;
+  try {
+    return JSON.parse(el.textContent) as LinksResponse;
+  } catch {
+    return null;
+  }
+}
+
 export function useLinks(authed: boolean) {
-  const [data, setData] = useState<LinksResponse | null>(null);
+  const initial = readBootstrap();
+  const [data, setData] = useState<LinksResponse | null>(initial);
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(initial === null);
 
   const reload = useCallback(async () => {
     try {
@@ -19,7 +33,6 @@ export function useLinks(authed: boolean) {
   }, [authed]);
 
   useEffect(() => {
-    setLoading(true);
     reload();
   }, [reload]);
 

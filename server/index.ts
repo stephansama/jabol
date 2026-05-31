@@ -76,6 +76,7 @@ if (existsSync(env.spaDist)) {
       favicon: canonical.favicon,
       image: canonical.image,
       siteUrl: `${reqUrl.origin}${reqUrl.pathname}`,
+      bootstrap: { ...canonical, readOnly: store.isReadOnly() },
     });
     return c.html(html);
   };

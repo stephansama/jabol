@@ -3,8 +3,10 @@ import { Home } from "./routes/Home";
 import { Login } from "./routes/Login";
 import { Signup } from "./routes/Signup";
 import { Admin } from "./routes/Admin";
+import { useSystemThemeSync } from "@/hooks/useTheme";
 
 export function App() {
+  useSystemThemeSync();
   return (
     <Routes>
       <Route path="/" element={<Home />} />

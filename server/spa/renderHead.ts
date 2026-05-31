@@ -13,7 +13,10 @@ export type HeadInput = {
   favicon?: string;
   image?: string;
   siteUrl?: string;
+  bootstrap?: unknown;
 };
+
+export const BOOTSTRAP_SCRIPT_ID = "jabol-initial";
 
 export function computeDocumentTitle(input: Pick<HeadInput, "brand" | "title">): string {
   return input.brand ?? input.title ?? DEFAULT_TITLE;
@@ -29,6 +32,11 @@ function esc(s: string): string {
 
 function isSvg(href: string): boolean {
   return /\.svg(\?|$)/i.test(href);
+}
+
+export function renderBootstrapScript(bootstrap: unknown): string {
+  const json = JSON.stringify(bootstrap).replace(/</g, "\\u003c");
+  return `<script id="${BOOTSTRAP_SCRIPT_ID}" type="application/json">${json}</script>`;
 }
 
 export function renderHeadBlock(input: HeadInput): string {
@@ -61,6 +69,10 @@ export function renderHeadBlock(input: HeadInput): string {
   );
 
   if (image) lines.push(`<meta name="twitter:image" content="${esc(image)}" />`);
+
+  if (input.bootstrap !== undefined) {
+    lines.push(renderBootstrapScript(input.bootstrap));
+  }
 
   return `${SENTINEL_START}\n    ${lines.join("\n    ")}\n    ${SENTINEL_END}`;
 }
