@@ -1,7 +1,7 @@
 {
-  "plugins": [
-    "npm",
-    "released"
-  ],
+  "plugins": ["npm", "released"],
+  "repo": "jabol",
+  "name": "stephansama",
+  "email": "stephanrandle.dev@gmail.com",
   "onlyPublishWithReleaseLabel": false
 }
