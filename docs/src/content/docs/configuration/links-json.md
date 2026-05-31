@@ -62,7 +62,9 @@ See [`examples/flat.json`](https://github.com/stephansama/jabol/blob/main/exampl
 ## Field reference
 
 - [Top-level fields](/jabol/configuration/top-level-fields/) — `brand`, `title`,
-  `description`, `favicon`, `theme`, and shape-specific keys.
+  `description`, `favicon`, `image`, `theme`, and shape-specific keys.
+- [Category fields](/jabol/configuration/category-fields/) — `name`, `icon`,
+  `hidden`, and the per-category `links` array.
 - [Link fields](/jabol/configuration/link-fields/) — what each link object
   accepts.
 

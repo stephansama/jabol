@@ -42,6 +42,7 @@ export default defineConfig({
           items: [
             { label: "links.json", link: "/configuration/links-json/" },
             { label: "Top-level fields", link: "/configuration/top-level-fields/" },
+            { label: "Category fields", link: "/configuration/category-fields/" },
             { label: "Link fields", link: "/configuration/link-fields/" },
             { label: "JSON Schema", link: "/configuration/json-schema/" },
           ],
