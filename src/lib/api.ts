@@ -42,10 +42,14 @@ export const api = {
     );
   },
   async signOut(): Promise<void> {
-    await fetch("/api/auth/sign-out", {
-      method: "POST",
-      credentials: "include",
-    });
+    await json(
+      await fetch("/api/auth/sign-out", {
+        method: "POST",
+        credentials: "include",
+        headers: { "content-type": "application/json" },
+        body: "{}",
+      }),
+    );
   },
   async firstSignup(email: string, password: string): Promise<void> {
     await json(
