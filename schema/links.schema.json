@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://raw.githubusercontent.com/stephansama/jabol/main/schema/links.schema.json",
+  "$id": "https://raw.githubusercontent.com/stephansama/jabol/refs/heads/main/schema/links.schema.json",
   "title": "Jabol links.json",
   "description": "Configuration file consumed by jabol — Just A Bunch Of Links. Accepts either a categorized shape (with categories[]) or a flat shape (with links[]).",
   "anyOf": [

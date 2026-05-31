@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Download } from "lucide-react";
 import { api, type LinksResponse } from "@/lib/api";
 import { useSession } from "@/hooks/useSession";
 import { useDocumentBranding } from "@/hooks/useDocumentBranding";
@@ -115,9 +116,35 @@ function CategoryManager({
     onChange();
   }
 
+  function exportLinks() {
+    if (!data) return;
+    const { readOnly: _ro, ...canonical } = data;
+    const json = JSON.stringify(canonical, null, 2) + "\n";
+    const blob = new Blob([json], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    const stamp = new Date().toISOString().slice(0, 10);
+    a.download = `links-${stamp}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
   return (
     <section className="mb-10">
-      <h2 className="mb-3 text-lg font-semibold text-fg">Links</h2>
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <h2 className="text-lg font-semibold text-fg">Links</h2>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={exportLinks}
+          disabled={!data}
+          title="Download a links.json snapshot of the current configuration"
+        >
+          <Download className="h-3.5 w-3.5" /> Export links.json
+        </Button>
+      </div>
       <DropZone readOnly={readOnly} onReplaced={onChange} />
       {!readOnly ? (
         <form

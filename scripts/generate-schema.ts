@@ -5,7 +5,7 @@ import { z } from "zod";
 import { inputSchema } from "../server/enrich/schema.js";
 
 const SCHEMA_ID =
-  "https://raw.githubusercontent.com/stephansama/jabol/main/schema/links.schema.json";
+  "https://raw.githubusercontent.com/stephansama/jabol/refs/heads/main/schema/links.schema.json";
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const outputPath = resolve(repoRoot, "schema/links.schema.json");

@@ -1,4 +1,4 @@
-import { forwardRef, useState, type CSSProperties } from "react";
+import { forwardRef, useEffect, useState, type CSSProperties } from "react";
 import { Icon } from "./Icon";
 import type { Link } from "@/lib/types";
 import type { Hue } from "@/lib/hue";
@@ -28,8 +28,14 @@ export const LinkCard = forwardRef<HTMLAnchorElement, Props>(function LinkCard(
   ref,
 ) {
   const [hover, setHover] = useState(false);
+  const [imageError, setImageError] = useState(false);
   const compact = density === "compact";
   const iconSize = compact ? 22 : 36;
+  const showHero = !compact && !!link.image && !imageError;
+
+  useEffect(() => {
+    setImageError(false);
+  }, [link.image]);
 
   const borderColor = active
     ? "var(--accent)"
@@ -49,6 +55,7 @@ export const LinkCard = forwardRef<HTMLAnchorElement, Props>(function LinkCard(
 
   const otherTags = (link.tags ?? []).filter((t) => t !== "critical").slice(0, 4);
   const showCritical = !compact && (link.tags ?? []).includes("critical");
+  const initial = link.name.trim().charAt(0).toUpperCase() || "•";
 
   return (
     <a
@@ -62,6 +69,47 @@ export const LinkCard = forwardRef<HTMLAnchorElement, Props>(function LinkCard(
       className="relative flex w-full cursor-pointer overflow-hidden rounded-sm text-left text-inherit outline-none transition-colors"
       style={style}
     >
+      {!compact &&
+        (showHero ? (
+          <div
+            aria-hidden
+            className="-mx-3.5 -mt-3.5 aspect-[16/9] overflow-hidden bg-bg-sunken"
+          >
+            <img
+              src={link.image}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              onError={() => setImageError(true)}
+              className="h-full w-full object-cover"
+            />
+          </div>
+        ) : (
+          <div
+            aria-hidden
+            className="-mx-3.5 -mt-3.5 relative flex aspect-[16/9] items-center justify-center overflow-hidden"
+            style={{
+              backgroundColor: `color-mix(in srgb, var(--cat-${hue}) 14%, var(--surface-raised))`,
+              backgroundImage:
+                `radial-gradient(circle at 22% 28%, color-mix(in srgb, var(--cat-${hue}) 32%, transparent), transparent 55%),` +
+                `radial-gradient(circle at 78% 70%, color-mix(in srgb, var(--cat-${hue}) 22%, transparent), transparent 50%),` +
+                `repeating-linear-gradient(135deg, transparent 0 6px, color-mix(in srgb, var(--cat-${hue}) 9%, transparent) 6px 7px)`,
+            }}
+          >
+            <span
+              className="select-none font-black leading-none tracking-tight"
+              style={{
+                fontSize: "clamp(40px, 22%, 88px)",
+                color: `color-mix(in srgb, var(--cat-${hue}) 75%, var(--fg))`,
+                opacity: 0.65,
+                textShadow:
+                  "0 1px 0 color-mix(in srgb, var(--bg) 30%, transparent)",
+              }}
+            >
+              {initial}
+            </span>
+          </div>
+        ))}
       <div
         className="flex items-center justify-between"
         style={{ width: compact ? "auto" : "100%" }}

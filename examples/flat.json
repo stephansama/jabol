@@ -1,5 +1,5 @@
 {
-  "$schema": "https://raw.githubusercontent.com/stephansama/jabol/main/schema/links.schema.json",
+  "$schema": "https://raw.githubusercontent.com/stephansama/jabol/refs/heads/main/schema/links.schema.json",
   "title": "Bookmarks",
   "theme": "latte",
   "groupByTag": true,

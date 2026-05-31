@@ -123,7 +123,7 @@ Add a `"$schema"` pointer at the top of your file for autocomplete, validation, 
 
 ```json
 {
-  "$schema": "https://raw.githubusercontent.com/stephansama/jabol/main/schema/links.schema.json",
+  "$schema": "https://raw.githubusercontent.com/stephansama/jabol/refs/heads/main/schema/links.schema.json",
   "title": "Homelab",
   "categories": [...]
 }

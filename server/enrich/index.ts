@@ -17,13 +17,28 @@ function isUrl(s: string): boolean {
   }
 }
 
+function isCachedPath(s: string): boolean {
+  return s.startsWith("/api/icons/");
+}
+
+function isResolvedIcon(s: string | undefined): boolean {
+  if (!s) return false;
+  return isIconifyId(s) || isUrl(s) || isCachedPath(s);
+}
+
+function isResolvedImage(s: string | undefined): boolean {
+  if (!s) return false;
+  return isUrl(s) || isCachedPath(s);
+}
+
 async function enrichLink(
   link: CanonicalLink,
   cacheDir: string,
 ): Promise<CanonicalLink> {
-  // If both icon and image already provided as iconify ids or URLs, skip metadata fetch.
-  const iconAlreadyResolved = link.icon && (isIconifyId(link.icon) || isUrl(link.icon));
-  const imageAlreadyResolved = link.image && isUrl(link.image);
+  // Skip metadata fetch when both icon and image are already resolved
+  // (iconify id, absolute URL, or a previously-cached /api/icons/ path).
+  const iconAlreadyResolved = isResolvedIcon(link.icon);
+  const imageAlreadyResolved = isResolvedImage(link.image);
   if (iconAlreadyResolved && imageAlreadyResolved) return link;
 
   let nextIcon = link.icon;
