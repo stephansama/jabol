@@ -1,3 +1,15 @@
+# v0.1.8 (Sun May 31 2026)
+
+#### ⚠️ Pushed to `main`
+
+- chore: updated spa implementation ([@stephansama](https://github.com/stephansama))
+
+#### Authors: 1
+
+- Stephan Randle ([@stephansama](https://github.com/stephansama))
+
+---
+
 # v0.1.7 (Sun May 31 2026)
 
 #### ⚠️ Pushed to `main`
