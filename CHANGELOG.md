@@ -1,3 +1,15 @@
+# v0.1.5 (Sun May 31 2026)
+
+#### ⚠️ Pushed to `main`
+
+- chore: updated docker ([@stephansama](https://github.com/stephansama))
+
+#### Authors: 1
+
+- Stephan Randle ([@stephansama](https://github.com/stephansama))
+
+---
+
 # v0.1.4 (Sun May 31 2026)
 
 #### ⚠️ Pushed to `main`
