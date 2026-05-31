@@ -16,11 +16,8 @@ services:
       # JABOL_ADMIN_PASSWORD: ${JABOL_ADMIN_PASSWORD}
     volumes:
       - jabol_data:/data
-      # /config/links.json is provided via a host-managed file mount.
-      # In Coolify: Storage → New Persistent Storage → File mount, with
-      #   Mount Path: /config/links.json
-      # Upload your links.json (or use examples/categorized.json as a starter).
-      # For local `docker run`, use `-v "$PWD/links.json:/config/links.json"`.
+      - jabol_config:/config
 
 volumes:
   jabol_data:
+  jabol_config:

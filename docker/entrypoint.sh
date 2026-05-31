@@ -12,6 +12,19 @@ for p in /data /config; do
   fi
 done
 
+# Seed a minimal valid links.json on first boot so the app's writability
+# probe (access(path, W_OK)) succeeds. Without this, a freshly created
+# named volume contains no file and the app flips to read-only.
+if [ -d /config ] && [ ! -e /config/links.json ]; then
+  cat > /config/links.json <<'JSON'
+{
+  "categories": [
+    { "name": "Welcome", "links": [] }
+  ]
+}
+JSON
+fi
+
 # Coolify Persistent Storage may bind-mount /config/links.json as a single
 # file; chowning the parent dir doesn't reach it, so handle it explicitly.
 if [ -f /config/links.json ]; then
