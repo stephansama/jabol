@@ -19,12 +19,39 @@ docker run -d \
   -v "$PWD/links.json:/config/links.json" \
   -v "$PWD/data:/data" \
   -e JABOL_AUTH_SECRET="$(openssl rand -hex 32)" \
-  ghcr.io/you/jabol
+  stephanrandle/jabol:latest
 ```
 
 Open <http://localhost:8080>. The first POST to `/api/signup` (or the `/signup` page) creates the admin account; once that's done the signup endpoint disappears.
 
 Prefer env-driven bootstrap? Set `JABOL_ADMIN_EMAIL` and `JABOL_ADMIN_PASSWORD` and the admin is seeded automatically on first boot.
+
+## Deploy with Coolify
+
+[Coolify](https://coolify.io) deploys this from the included Docker Compose file in a couple of clicks.
+
+1. **Coolify → New Resource → Docker Compose** → point it at this repo (or paste the [`docker-compose.yml`](./docker-compose.yml) directly).
+2. In the resource's **Environment Variables** tab, set:
+   - `JABOL_AUTH_SECRET` — required, long random string. Generate with `openssl rand -hex 32`.
+   - `JABOL_BASE_URL` — `https://your-domain.example.com` (the public URL Coolify will route through its proxy).
+   - _(optional)_ `JABOL_ADMIN_EMAIL` + `JABOL_ADMIN_PASSWORD` — seed the first admin so you can skip the `/signup` page.
+3. **Assign a domain** under **Domains**. Coolify provisions an HTTPS cert via Let's Encrypt and routes traffic through its built-in proxy to the container's port 8080.
+4. **Deploy**. Coolify pulls `stephanrandle/jabol:latest` and starts the container. The two named volumes (`jabol_data`, `jabol_config`) are created automatically and persist across redeploys.
+5. **First visit** — an empty page. Either:
+   - Go to `/signup` and create the first admin (if `JABOL_ADMIN_EMAIL` wasn't set), or
+   - Sign in with the seeded admin.
+6. From `/admin`, drag-drop a `links.json` to populate the directory in one shot, or add categories + links via the form.
+
+### Updating
+
+When a new version is published to `stephanrandle/jabol:latest`, click **Redeploy** in Coolify (or wire a Docker Hub webhook to Coolify's deploy webhook for auto-redeploy). The named volumes survive — your admin accounts and links stay put.
+
+### What lives where
+
+| Volume         | Contents                                   | Lose it and…                                              |
+| -------------- | ------------------------------------------ | --------------------------------------------------------- |
+| `jabol_data`   | `auth.db` (admins, sessions), cached icons | admin accounts vanish; icons re-fetch on next visit       |
+| `jabol_config` | `links.json`                               | the link list is empty; re-import via the admin drag-drop |
 
 ## links.json — two shapes
 
