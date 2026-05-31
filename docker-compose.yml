@@ -3,8 +3,11 @@ services:
     image: stephanrandle/jabol:latest
     container_name: jabol
     restart: unless-stopped
-    ports:
-      - "8080:8080"
+    # Container port is exposed internally; reverse proxies (Coolify Traefik,
+    # nginx, etc.) route to it via the Docker network. For a quick local run,
+    # use a docker-compose.override.yml or `docker run -p 8080:8080 …`.
+    expose:
+      - "8080"
     environment:
       JABOL_BASE_URL: ${JABOL_BASE_URL:-http://localhost:8080}
       JABOL_AUTH_SECRET: "${JABOL_AUTH_SECRET:?set JABOL_AUTH_SECRET to a long random string, generate with openssl rand -hex 32}"
@@ -13,8 +16,11 @@ services:
       # JABOL_ADMIN_PASSWORD: ${JABOL_ADMIN_PASSWORD}
     volumes:
       - jabol_data:/data
-      - jabol_config:/config
+      # /config/links.json is provided via a host-managed file mount.
+      # In Coolify: Storage → New Persistent Storage → File mount, with
+      #   Mount Path: /config/links.json
+      # Upload your links.json (or use examples/categorized.json as a starter).
+      # For local `docker run`, use `-v "$PWD/links.json:/config/links.json"`.
 
 volumes:
   jabol_data:
-  jabol_config:

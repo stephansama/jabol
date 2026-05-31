@@ -35,23 +35,25 @@ Prefer env-driven bootstrap? Set `JABOL_ADMIN_EMAIL` and `JABOL_ADMIN_PASSWORD` 
    - `JABOL_AUTH_SECRET` — required, long random string. Generate with `openssl rand -hex 32`.
    - `JABOL_BASE_URL` — `https://your-domain.example.com` (the public URL Coolify will route through its proxy).
    - _(optional)_ `JABOL_ADMIN_EMAIL` + `JABOL_ADMIN_PASSWORD` — seed the first admin so you can skip the `/signup` page.
-3. **Assign a domain** under **Domains**. Coolify provisions an HTTPS cert via Let's Encrypt and routes traffic through its built-in proxy to the container's port 8080.
-4. **Deploy**. Coolify pulls `stephanrandle/jabol:latest` and starts the container. The two named volumes (`jabol_data`, `jabol_config`) are created automatically and persist across redeploys.
-5. **First visit** — an empty page. Either:
-   - Go to `/signup` and create the first admin (if `JABOL_ADMIN_EMAIL` wasn't set), or
-   - Sign in with the seeded admin.
-6. From `/admin`, drag-drop a `links.json` to populate the directory in one shot, or add categories + links via the form.
+3. **Add a Persistent Storage entry** under **Storage** → **New Persistent Storage**:
+   - **Type:** File mount
+   - **Mount Path:** `/config/links.json`
+   - **File content:** paste your starter `links.json` (or copy [`examples/categorized.json`](./examples/categorized.json)).
+   You can edit the file from this tab later, and admin UI mutations write back through this mount.
+4. **Assign a domain** under **Domains**. Coolify provisions an HTTPS cert via Let's Encrypt and routes traffic through its built-in proxy to the container's port 8080.
+5. **Deploy**. Coolify pulls `stephanrandle/jabol:latest` and starts the container. The image's entrypoint chowns the mounts to the non-root `jabol` user at startup, so no UID juggling is needed on your end. The `jabol_data` named volume is created automatically (and persists across redeploys); the `links.json` file mount from step 3 persists too.
+6. **First visit** — go to `/signup` and create the first admin (or sign in with the seeded admin if you set the env vars). Then `/admin` lets you edit links, which write to the mounted `links.json`.
 
 ### Updating
 
-When a new version is published to `stephanrandle/jabol:latest`, click **Redeploy** in Coolify (or wire a Docker Hub webhook to Coolify's deploy webhook for auto-redeploy). The named volumes survive — your admin accounts and links stay put.
+When a new version is published to `stephanrandle/jabol:latest`, click **Redeploy** in Coolify (or wire a Docker Hub webhook to Coolify's deploy webhook for auto-redeploy). The `jabol_data` volume and the `/config/links.json` file mount both survive — your admin accounts and links stay put.
 
 ### What lives where
 
-| Volume         | Contents                                   | Lose it and…                                              |
-| -------------- | ------------------------------------------ | --------------------------------------------------------- |
-| `jabol_data`   | `auth.db` (admins, sessions), cached icons | admin accounts vanish; icons re-fetch on next visit       |
-| `jabol_config` | `links.json`                               | the link list is empty; re-import via the admin drag-drop |
+| Path                          | Contents                                   | Lose it and…                                              |
+| ----------------------------- | ------------------------------------------ | --------------------------------------------------------- |
+| `jabol_data` (volume → `/data`) | `auth.db` (admins, sessions), cached icons | admin accounts vanish; icons re-fetch on next visit       |
+| `/config/links.json` (file mount) | the link list                              | the link list is empty; re-paste via Coolify Storage tab  |
 
 ## links.json — two shapes
 

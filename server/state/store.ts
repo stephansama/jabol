@@ -353,7 +353,11 @@ async function detectReadOnly(path: string): Promise<boolean> {
   try {
     await access(path, constants.W_OK);
     return false;
-  } catch {
+  } catch (err: any) {
+    console.warn(
+      `[store] read-only detection: cannot write ${path}` +
+        ` (errno=${err?.code ?? "?"}, process uid=${process.getuid?.() ?? "?"}).`,
+    );
     return true;
   }
 }
