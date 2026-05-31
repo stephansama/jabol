@@ -22,9 +22,10 @@ Docker is multi-stage (`node:20-alpine`); GitHub Actions in `.github/workflows/r
 
 ## Architecture
 
-**One process, two halves:**
+**One process, two halves + shared assets:**
 - `server/` — Hono HTTP server (`@hono/node-server`) that serves the JSON API at `/api/*` and, in production, also serves the built SPA from `JABOL_SPA_DIST` (defaults to `/app/dist`). Compiles to `server-dist/` via `tsconfig.server.json`.
-- `src/` — React 18 + React Router 6 SPA built with Vite. In dev, vite serves on `:5173` and proxies `/api/*` to the server.
+- `client/` — React 18 + React Router 6 SPA built with Vite. In dev, vite serves on `:5173` and proxies `/api/*` to the server. The `@` import alias resolves to `client/`.
+- `assets/` — single canonical home for the favicon, screenshot, and any other shared image asset. Vite serves it as `publicDir`; the Starlight docs site (`docs/`) reads it via `publicDir: "../assets"` + `vite.server.fs.allow: [".."]`. Reference these files from one place; don't introduce copies.
 
 **Canonical state lives in one place** — `server/state/store.ts`. The `Store` singleton holds the in-memory `Canonical` shape, persists atomically to `links.json` (temp file + rename), and emits change events. SSE (`server/state/sse.ts`) and the file watcher (`server/state/watcher.ts`) hang off the store's listener set. Anything that mutates links must go through the store so the watcher-suppression window (`suppressWatchUntil`) prevents echo events from the store's own writes.
 
@@ -38,10 +39,10 @@ Docker is multi-stage (`node:20-alpine`); GitHub Actions in `.github/workflows/r
 
 **Auth = better-auth + better-sqlite3.** `server/auth.ts` opens `auth.db` in `JABOL_DATA_DIR` with WAL mode. All routes under `/api/auth/*` are delegated to `auth.handler`. Admin-gated routes use `server/middleware/requireAdmin.ts`. "Admin" is currently synonymous with "any signed-in user" — there is no role column; `listAdminUsers` reads the entire `user` table.
 
-**SPA structure** — `src/routes/` has the four pages (Home, Login, Signup, Admin). Data hooks in `src/hooks/` wrap the API: `useLinks` fetches, `useLinksSSE` subscribes to `/api/events` for live reloads, `useFuzzySearch` runs Fuse.js client-side, `useKeyboardNav` powers `/` `↑/↓` `Enter` `Esc`. Theme is `light` / `dark` / `mocha` / `latte` (Catppuccin); persisted in `localStorage`; the `theme` field in `links.json` only seeds first-time visitors.
+**SPA structure** — `client/routes/` has the four pages (Home, Login, Signup, Admin). Data hooks in `client/hooks/` wrap the API: `useLinks` fetches, `useLinksSSE` subscribes to `/api/events` for live reloads, `useFuzzySearch` runs Fuse.js client-side, `useKeyboardNav` powers `/` `↑/↓` `Enter` `Esc`. Theme is `light` / `dark` / `mocha` / `latte` (Catppuccin); persisted in `localStorage`; the `theme` field in `links.json` only seeds first-time visitors.
 
 ## Conventions worth knowing
 
 - Server uses ESM with `.js` import extensions (TypeScript NodeNext-style) — when adding files under `server/`, import siblings as `./foo.js` even though the source is `./foo.ts`.
-- The `Canonical` types in `server/enrich/normalize.ts` are the single source of truth for link shape; mirror changes into `src/lib/types.ts` for the SPA.
+- The `Canonical` types in `server/enrich/normalize.ts` are the single source of truth for link shape; mirror changes into `client/lib/types.ts` for the SPA.
 - Versioning is handled by Intuit Auto (`.autorc.json`); do not hand-edit `package.json` `version`. Auto reads PR labels (`major` / `minor` / `patch` / `skip-release`).

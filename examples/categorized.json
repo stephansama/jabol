@@ -6,11 +6,11 @@
   "theme": "system-catppuccin",
   "categories": [
     {
-      "id": "996ece89-df9d-4e27-8cea-57c0d3521b81",
+      "id": "3b2ceeb1-3161-4b51-8f18-28ead7e1076e",
       "name": "project",
       "links": [
         {
-          "id": "f2893273-9042-42e8-b9f6-892a1f7ef713",
+          "id": "b78654c4-b34b-4569-9e19-6f421df5bb3b",
           "name": "actions",
           "url": "https://actions.stephansama.info/",
           "description": "@stephansama GitHub Actions",
@@ -19,11 +19,10 @@
           "tags": [
             "project"
           ],
-          "hidden": false,
           "openInSameTab": true
         },
         {
-          "id": "c85f75b5-0be9-4618-ac1d-b02ed9469972",
+          "id": "fbdcc2c3-b016-4612-a967-6ca28f343dfb",
           "name": "dotfiles",
           "url": "https://files.stephansama.info/",
           "description": "@stephansama dotfiles",
@@ -32,11 +31,10 @@
           "tags": [
             "project"
           ],
-          "hidden": false,
           "openInSameTab": true
         },
         {
-          "id": "a168199c-3ffa-4503-b391-f39ae0823add",
+          "id": "c9d2c1c3-6d04-4748-83f0-55ce8c467501",
           "name": "packages",
           "url": "https://packages.stephansama.info/",
           "description": "@stephansama packages",
@@ -44,10 +42,11 @@
           "image": "https://og.stephansama.info/api/packages/og.png",
           "tags": [
             "project"
-          ]
+          ],
+          "openInSameTab": true
         },
         {
-          "id": "6283835c-9785-4e78-a9b2-4602a6c21bef",
+          "id": "f374984a-7e63-4946-9b6e-900d2bd89d8b",
           "name": "blog",
           "url": "https://blog.stephansama.info/",
           "description": "stephansama blog",
@@ -56,11 +55,10 @@
           "tags": [
             "project"
           ],
-          "hidden": false,
           "openInSameTab": true
         },
         {
-          "id": "3a7cfdd9-6dbe-4297-a9ac-823c50b66215",
+          "id": "820d4033-ca94-46a3-84b0-851ee6650b1b",
           "name": "cv",
           "url": "https://cv.stephansama.info/",
           "description": "Stephan Randle — Full-Stack Engineer CV",
@@ -68,10 +66,11 @@
           "image": "https://og.stephansama.info/api/cv/og.png",
           "tags": [
             "project"
-          ]
+          ],
+          "openInSameTab": true
         },
         {
-          "id": "eb0d6f78-78eb-4efd-9b66-f2e952e59df7",
+          "id": "0e255790-6966-4bdc-bfbc-ae03505afe69",
           "name": "portfolio",
           "url": "https://stephansama.info/",
           "description": "SR Portfolio",
@@ -79,10 +78,11 @@
           "image": "https://og.stephansama.info/api/portfolio/page/home-portfolio.png",
           "tags": [
             "project"
-          ]
+          ],
+          "openInSameTab": true
         },
         {
-          "id": "850ba67a-390e-4258-ad93-6c31e8cccbdb",
+          "id": "20ffa325-bdc3-4898-ab0d-b3cff1edbde5",
           "name": "memes",
           "url": "https://memes.stephansama.info/",
           "description": "@stephansama memes",
@@ -90,10 +90,11 @@
           "image": "https://og.stephansama.info/api/memes/og.png",
           "tags": [
             "project"
-          ]
+          ],
+          "openInSameTab": true
         },
         {
-          "id": "889775e4-8b2d-40c2-b47a-afe96ee1c041",
+          "id": "184ae5f9-5307-4d3f-bcc3-a79f6ccc3902",
           "name": "snippets",
           "url": "https://snippets.stephansama.info/",
           "description": "VSC Snippets Generator",
@@ -101,10 +102,11 @@
           "image": "https://og.stephansama.info/api/snippets/og.png",
           "tags": [
             "project"
-          ]
+          ],
+          "openInSameTab": true
         },
         {
-          "id": "8304a340-71e1-4caa-9297-157375defe6f",
+          "id": "4f3ee3ac-c586-42e3-aa97-3f9b3f917332",
           "name": "og",
           "url": "https://og.stephansama.info/",
           "description": "OpenGraph image generator",
@@ -112,16 +114,17 @@
           "image": "https://og.stephansama.info/api/image/og.png",
           "tags": [
             "project"
-          ]
+          ],
+          "openInSameTab": true
         }
       ]
     },
     {
-      "id": "45b94e7a-272a-413f-aee6-df495a596edb",
+      "id": "b8e262cb-a4c6-43ff-8677-f3885abe6ad7",
       "name": "social",
       "links": [
         {
-          "id": "0475d2fa-dc44-48e3-9df6-ebbea3153f7e",
+          "id": "87859506-79f1-41df-8efe-52680f989dd7",
           "name": "buymeacoffee",
           "url": "https://www.buymeacoffee.com/stephanrandle",
           "description": "Buy Me a Coffee",
@@ -132,7 +135,7 @@
           ]
         },
         {
-          "id": "0c8e5cca-d052-4f1d-b9d8-031e52d968ea",
+          "id": "987cb0da-42ed-4b6a-84e7-0f3d68dfb4ea",
           "name": "bluesky",
           "url": "https://bsky.app/profile/stephansama.info",
           "description": "Bluesky profile",
@@ -143,7 +146,7 @@
           ]
         },
         {
-          "id": "0e52c617-25e8-415a-a1d2-ee0ff3379643",
+          "id": "3d45a4f4-f6d4-42d1-922b-5c96ed0b9126",
           "name": "discord",
           "url": "https://discordapp.com/users/454746209391738880",
           "description": "Discord profile",
@@ -154,7 +157,7 @@
           ]
         },
         {
-          "id": "f37e0f7b-9695-4bfd-b4ab-9390e92b85c4",
+          "id": "84102729-a897-4ec3-94ff-7f75f0dcffcd",
           "name": "github",
           "url": "https://github.com/stephansama",
           "description": "GitHub profile",
@@ -165,7 +168,7 @@
           ]
         },
         {
-          "id": "b009ac37-b3d7-4f63-9436-31b22466474b",
+          "id": "610c5010-a0af-4206-9b9a-a18f4afcb056",
           "name": "linkedin",
           "url": "https://www.linkedin.com/in/stephan-randle-38a30319a/",
           "description": "LinkedIn profile",
@@ -175,7 +178,7 @@
           ]
         },
         {
-          "id": "ee10785a-9234-4a99-80b0-c1b7d60d173c",
+          "id": "f9b41506-531e-47be-a78f-7957b7600248",
           "name": "npm",
           "url": "https://npmx.dev/~stephansama",
           "description": "npm profile",
@@ -186,7 +189,7 @@
           ]
         },
         {
-          "id": "07b71a4e-6327-43b4-8d76-01403f985b40",
+          "id": "4a9470a9-506e-4a26-b436-691eacf06fc0",
           "name": "youtube",
           "url": "https://www.youtube.com/@stephansama",
           "description": "YouTube channel",

@@ -6,6 +6,10 @@ dist
 server-dist
 *.tsbuildinfo
 
+# Docs site (Astro / Starlight)
+docs/dist
+docs/.astro
+
 # Runtime data
 data
 .data

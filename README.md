@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./public/favicon.svg" width="120" alt="jabol logo — a capybara wearing a flat cap and round glasses">
+  <img src="./assets/favicon.svg" width="120" alt="jabol logo — a capybara wearing a flat cap and round glasses">
 
 # jabol
 
@@ -7,7 +7,9 @@
 
 Drop a JSON file, run a container, get a fast and searchable link directory. Optional admin auth lets you edit links from a web UI and hide private links behind a sign-in.
 
-![](./screenshot.png)
+**📖 Docs: <https://stephansama.github.io/jabol>**
+
+![](./assets/screenshot.png)
 
 </div>
 

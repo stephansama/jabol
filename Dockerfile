@@ -18,9 +18,9 @@ COPY package.json pnpm-lock.yaml ./
 RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
     pnpm install --frozen-lockfile
 COPY tsconfig.json tsconfig.server.json vite.config.ts index.html ./
-COPY src ./src
+COPY client ./client
 COPY server ./server
-COPY public ./public
+COPY assets ./assets
 RUN pnpm build
 
 # 3. Slim runtime — no compiler, no pnpm install

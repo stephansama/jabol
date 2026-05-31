@@ -1,0 +1,70 @@
+---
+title: jabol
+description: Just A Bunch Of Links — self-hostable JSON-driven link directory.
+template: splash
+hero:
+  tagline: Drop a JSON file, run a container, get a fast and searchable link directory.
+  image:
+    alt: jabol logo — a capybara wearing a flat cap and round glasses
+    file: ../../../../assets/favicon.svg
+  actions:
+    - text: Get started
+      link: /jabol/getting-started/install/
+      icon: right-arrow
+      variant: primary
+    - text: View on GitHub
+      link: https://github.com/stephansama/jabol
+      icon: external
+      variant: minimal
+---
+
+import { Image } from "astro:assets";
+import { Card, CardGrid } from "@astrojs/starlight/components";
+import screenshot from "../../../../assets/screenshot.png";
+
+## What it is
+
+jabol is a self-hostable link directory. You feed it a `links.json`, run a container,
+and get a fast page with categorized + searchable bookmarks. An optional admin UI
+lets you edit links from the browser and hide private links behind a sign-in.
+
+<CardGrid>
+  <Card title="Configure with JSON" icon="document">
+    Two equivalent shapes — categorized or flat. JSON Schema autocomplete in
+    your editor via `$schema`. [→ links.json](/jabol/configuration/links-json/)
+  </Card>
+  <Card title="Edit from the browser" icon="pencil">
+    Sign in to `/admin` to add links, manage tags, upload favicons, switch
+    themes, and import/export `links.json`. [→ Admin
+    overview](/jabol/admin/overview/)
+  </Card>
+  <Card title="Deploy anywhere" icon="rocket">
+    `docker run`, Docker Compose, or Coolify. Everything persists in two named
+    volumes. [→ Deploy](/jabol/deploy/docker/)
+  </Card>
+  <Card title="Built for LLMs" icon="open-book">
+    Docs are also published as [`/llms.txt`](/jabol/llms.txt) and
+    [`/llms-full.txt`](/jabol/llms-full.txt) so AI tooling can ingest them in
+    one shot.
+  </Card>
+</CardGrid>
+
+<Image
+  src={screenshot}
+  alt="jabol home page — categorized link cards with favicons and OG image heroes"
+  class="mt-8 rounded-xl border border-[var(--sl-color-gray-5)] shadow-lg"
+/>
+
+## A 30-second example
+
+```sh
+docker run -d \
+  -p 8080:8080 \
+  -v "$PWD/links.json:/config/links.json" \
+  -v "$PWD/data:/data" \
+  -e JABOL_AUTH_SECRET="$(openssl rand -hex 32)" \
+  stephanrandle/jabol:latest
+```
+
+Open [http://localhost:8080](http://localhost:8080), hit `/signup` to create the
+first admin, then edit your links from `/admin`.

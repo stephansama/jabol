@@ -15,7 +15,9 @@
     "start": "node server-dist/index.js",
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.server.json --noEmit",
     "schema:generate": "tsx scripts/generate-schema.ts",
-    "schema:check": "tsx scripts/generate-schema.ts --check"
+    "schema:check": "tsx scripts/generate-schema.ts --check",
+    "docs:dev": "pnpm --dir docs dev",
+    "docs:build": "pnpm --dir docs build"
   },
   "dependencies": {
     "@fontsource/fira-code": "^5.1.0",

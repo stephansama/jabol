@@ -1,0 +1,23 @@
+---
+import type { Props } from "@astrojs/starlight/props";
+import Default from "@astrojs/starlight/components/Head.astro";
+
+// Derive the slug from the actual page URL — always correct regardless of
+// what Starlight passes in props for this version. e.g.
+//   /jabol/             -> "index"
+//   /jabol/admin/links/ -> "admin/links"
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const path = Astro.url.pathname
+  .replace(new RegExp(`^${base}/?`), "")
+  .replace(/\/$/, "");
+const slug = path || "index";
+
+const ogUrl = new URL(`${base}/open-graph/${slug}.png`, Astro.site);
+---
+
+<Default {...Astro.props}><slot /></Default>
+<meta property="og:image" content={ogUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content={ogUrl} />
