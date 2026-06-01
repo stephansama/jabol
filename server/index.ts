@@ -65,19 +65,29 @@ if (existsSync(env.spaDist)) {
     indexTemplate = null;
   }
 
+  const MAX_CACHE = 100;
+  const cachedHtml = new Map<string, string>();
+  store.subscribe(() => cachedHtml.clear());
+
   const spaHandler = (c: import("hono").Context) => {
     if (!indexTemplate) return c.text("SPA dist missing", 500);
-    const canonical = store.getPublicCanonical();
     const reqUrl = new URL(c.req.url);
+    const siteUrl = `${reqUrl.origin}${reqUrl.pathname}`;
+    const cached = cachedHtml.get(siteUrl);
+    if (cached) return c.html(cached);
+
+    const canonical = store.getPublicCanonical();
     const html = renderIndexHtml(indexTemplate, {
       brand: canonical.brand,
       title: canonical.title,
       description: canonical.description,
       favicon: canonical.favicon,
       image: canonical.image,
-      siteUrl: `${reqUrl.origin}${reqUrl.pathname}`,
+      siteUrl,
       bootstrap: { ...canonical, readOnly: store.isReadOnly() },
     });
+    if (cachedHtml.size >= MAX_CACHE) cachedHtml.clear();
+    cachedHtml.set(siteUrl, html);
     return c.html(html);
   };
 
