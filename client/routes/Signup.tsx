@@ -5,7 +5,7 @@ import { useSession } from "@/hooks/useSession";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-export function Signup() {
+export default function Signup() {
   const navigate = useNavigate();
   const { signIn } = useSession();
   const [email, setEmail] = useState("");
