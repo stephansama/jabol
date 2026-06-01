@@ -18,7 +18,7 @@ pnpm start                      # node server-dist/index.js (production)
 
 Running locally needs `JABOL_CONFIG_PATH`, `JABOL_DATA_DIR`, `JABOL_AUTH_SECRET` (the README has the canonical incantation pointing at `examples/categorized.json`). There is no test suite.
 
-Docker is multi-stage (`node:20-alpine`); GitHub Actions in `.github/workflows/release.yml` runs `auto shipit` on push to `main`, then builds + pushes multi-arch (`linux/amd64`, `linux/arm64`) to `stephanrandle/jabol` on Docker Hub.
+Docker is multi-stage (`node:20-alpine`); GitHub Actions in `.github/workflows/release.yml` runs `auto shipit` on push to `main`, then builds + pushes `linux/amd64` to `stephanrandle/jabol` on Docker Hub. Multi-arch (`linux/amd64,linux/arm64`) is opt-in — change `platforms:` in the workflow to enable it.
 
 ## Architecture
 
