@@ -27,15 +27,7 @@ class Store {
   }
 
   getPublicCanonical(): Canonical {
-    return {
-      ...this.canonical,
-      categories: this.canonical.categories
-        .filter((c) => !c.hidden)
-        .map((c) => ({
-          ...c,
-          links: c.links.filter((l) => !l.hidden),
-        })),
-    };
+    return filterPublicCanonical(this.canonical);
   }
 
   subscribe(listener: Listener): () => void {
@@ -358,6 +350,18 @@ class Store {
     await writeFile(tmp, serialized, "utf8");
     await rename(tmp, env.configPath);
   }
+}
+
+export function filterPublicCanonical(canonical: Canonical): Canonical {
+  return {
+    ...canonical,
+    categories: canonical.categories
+      .filter((c) => !c.hidden)
+      .map((c) => ({
+        ...c,
+        links: c.links.filter((l) => !l.hidden),
+      })),
+  };
 }
 
 export class HttpError extends Error {

@@ -15,6 +15,7 @@
     "build:server": "tsc -p tsconfig.server.json",
     "start": "node server-dist/index.js",
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.server.json --noEmit",
+    "test": "vitest run",
     "schema:generate": "tsx scripts/generate-schema.ts",
     "schema:check": "tsx scripts/generate-schema.ts --check",
     "docs:dev": "pnpm --dir docs dev",
@@ -55,6 +56,7 @@
     "tailwindcss": "^4.0.0",
     "tsx": "^4.19.1",
     "typescript": "^5.6.2",
-    "vite": "^5.4.8"
+    "vite": "^5.4.8",
+    "vitest": "^1.6.0"
   }
 }
