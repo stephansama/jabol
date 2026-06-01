@@ -138,6 +138,17 @@ The schema is generated from the same Zod definitions the server uses and commit
 
 Four themes shipped: `light`, `dark`, `mocha` (Catppuccin Mocha), `latte` (Catppuccin Latte). Choice persists per browser via `localStorage`. The optional top-level `"theme"` field sets the initial theme for first-time visitors only.
 
+## PWA / install
+
+jabol is an installable Progressive Web App. Browsers expose an "Install" / "Add to Home Screen" action that launches it as a standalone app, and a service worker (built with [`vite-plugin-pwa`](https://vite-pwa-org.netlify.app/)) keeps it usable offline:
+
+- **App shell** (JS/CSS/fonts) is precached so the UI loads instantly and offline.
+- **Navigations** use a network-first strategy, so the server's per-request `<head>` (title, description, social/OG tags) stays current when online and falls back to the last-seen page when offline.
+- **Link data** (`/api/*`) is cached network-first and **cached favicons/OG images** (`/api/icons`) cache-first, so the directory still renders from the last response while offline. SSE (`/api/events`) and auth (`/api/auth`) are never cached.
+- When a new version is deployed, a small toast offers to reload into it. The browser/OS chrome color tracks the active theme.
+
+Icons are generated from `assets/favicon.svg` by [`@vite-pwa/assets-generator`](https://vite-pwa-org.netlify.app/assets-generator/); regenerate them with `pnpm assets:generate` (config in `pwa-assets.config.ts`). The service worker is only active in production builds (`pnpm build` / `pnpm start`), not under `pnpm dev`.
+
 ## Search & keyboard
 
 | Key       | Action                    |

@@ -4,7 +4,7 @@ export const SENTINEL_END = "<!--jabol:head:end-->";
 export const DEFAULT_TITLE = "jabol";
 export const DEFAULT_DESCRIPTION = "A self-hosted link directory.";
 export const DEFAULT_FAVICON = "/favicon.svg";
-export const DEFAULT_APPLE_TOUCH_ICON = "/favicon.png";
+export const DEFAULT_APPLE_TOUCH_ICON = "/apple-touch-icon-180x180.png";
 
 export type HeadInput = {
   brand?: string;
@@ -43,7 +43,12 @@ export function renderHeadBlock(input: HeadInput): string {
   const title = computeDocumentTitle(input);
   const description = input.description ?? DEFAULT_DESCRIPTION;
   const favicon = input.favicon ?? DEFAULT_FAVICON;
-  const appleTouchIcon = input.favicon ?? DEFAULT_APPLE_TOUCH_ICON;
+  // apple-touch-icon must be a raster image (iOS ignores SVG for home-screen
+  // icons), so fall back to the generated PNG when the favicon is an SVG.
+  const appleTouchIcon =
+    input.favicon && !isSvg(input.favicon)
+      ? input.favicon
+      : DEFAULT_APPLE_TOUCH_ICON;
   const image = input.image;
   const siteUrl = input.siteUrl;
 

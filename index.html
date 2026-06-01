@@ -4,11 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="light dark" />
+    <!-- PWA: kept outside the jabol:head sentinels so the server's per-request
+         head re-render (OG/meta injection) never strips them. theme-color is
+         updated at runtime to match the active theme; see hooks/useTheme.ts. -->
+    <meta name="theme-color" content="#1e1e2e" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="jabol" />
     <!--jabol:head:start-->
     <title>jabol</title>
     <meta name="description" content="A self-hosted link directory." />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon-180x180.png" />
     <meta property="og:title" content="jabol" />
     <meta property="og:description" content="A self-hosted link directory." />
     <meta property="og:type" content="website" />

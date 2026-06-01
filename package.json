@@ -14,6 +14,7 @@
     "build:spa": "vite build",
     "build:server": "tsc -p tsconfig.server.json",
     "start": "node server-dist/index.js",
+    "assets:generate": "pwa-assets-generator",
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.server.json --noEmit",
     "test": "vitest run",
     "schema:generate": "tsx scripts/generate-schema.ts",
@@ -51,12 +52,15 @@
     "@types/node": "^22.7.4",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.0",
+    "@vite-pwa/assets-generator": "^1.0.2",
     "@vitejs/plugin-react": "^4.3.2",
     "concurrently": "^9.0.1",
     "tailwindcss": "^4.0.0",
     "tsx": "^4.19.1",
     "typescript": "^5.6.2",
     "vite": "^5.4.8",
-    "vitest": "^1.6.0"
+    "vite-plugin-pwa": "^1.3.0",
+    "vitest": "^1.6.0",
+    "workbox-window": "^7.4.1"
   }
 }
