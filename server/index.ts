@@ -17,6 +17,7 @@ import { signupRoutes } from "./routes/signup.js";
 import { iconRoutes } from "./routes/icons.js";
 import { settingsRoutes } from "./routes/settings.js";
 import { getSession } from "./middleware/requireAdmin.js";
+import { authRateLimit } from "./middleware/rateLimit.js";
 import { renderIndexHtml } from "./spa/renderHead.js";
 
 mkdirSync(env.iconsDir, { recursive: true });
@@ -29,6 +30,15 @@ startWatcher();
 
 const app = new Hono();
 
+app.use("*", async (c, next) => {
+  await next();
+  c.header("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+  c.header("X-Frame-Options", "DENY");
+  c.header("Referrer-Policy", "strict-origin-when-cross-origin");
+  c.header("X-Content-Type-Options", "nosniff");
+});
+
+app.use("/api/auth/*", authRateLimit);
 app.all("/api/auth/*", (c) => auth.handler(c.req.raw));
 
 app.get("/api/session", async (c) => {

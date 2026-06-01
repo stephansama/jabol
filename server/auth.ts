@@ -30,7 +30,13 @@ export const authOptions: BetterAuthOptions = {
   },
   advanced: {
     cookies: {
-      sessionToken: { attributes: { sameSite: "lax" } },
+      sessionToken: {
+        attributes: {
+          httpOnly: true,
+          secure: !env.isDev,
+          sameSite: "lax",
+        },
+      },
     },
   },
 };
