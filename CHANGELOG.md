@@ -1,3 +1,15 @@
+# v0.1.13 (Mon Jun 01 2026)
+
+#### 🐛 Bug Fix
+
+- Merge pull request #8 from stephansama/claude/pwa-support-upgrade-g0UIQ [#8](https://github.com/stephansama/jabol/pull/8) ([@stephansama](https://github.com/stephansama))
+
+#### Authors: 1
+
+- Stephan Randle ([@stephansama](https://github.com/stephansama))
+
+---
+
 # v0.1.12 (Mon Jun 01 2026)
 
 #### 🐛 Bug Fix
