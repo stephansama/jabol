@@ -5,7 +5,7 @@ import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-export function Login() {
+export default function Login() {
   const navigate = useNavigate();
   const { signIn, user } = useSession();
   const [email, setEmail] = useState("");

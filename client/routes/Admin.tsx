@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { DropZone } from "@/components/admin/DropZone";
 import type { Category, Link as LinkType } from "@/lib/types";
 
-export function Admin() {
+export default function Admin() {
   const navigate = useNavigate();
   const { user, loading: sessionLoading, signOut } = useSession();
   const [data, setData] = useState<LinksResponse | null>(null);
