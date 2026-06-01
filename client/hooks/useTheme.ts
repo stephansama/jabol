@@ -4,6 +4,15 @@ import type { Theme, ThemePreference } from "@/lib/types";
 const STORAGE_KEY = "jabol.theme";
 const DEFAULT_PREFERENCE: ThemePreference = "system-catppuccin";
 
+// Keep these in sync with the `--bg` token per theme in styles/themes.css so the
+// installed PWA / mobile browser chrome matches the active surface color.
+const THEME_BG: Record<Theme, string> = {
+  mocha: "#1e1e2e",
+  latte: "#eff1f5",
+  dark: "#111113",
+  light: "#ffffff",
+};
+
 function resolve(pref: ThemePreference, prefersDark: boolean): Theme {
   switch (pref) {
     case "system":
@@ -13,6 +22,12 @@ function resolve(pref: ThemePreference, prefersDark: boolean): Theme {
     default:
       return pref;
   }
+}
+
+function applyTheme(resolved: Theme): void {
+  document.documentElement.setAttribute("data-theme", resolved);
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute("content", THEME_BG[resolved]);
 }
 
 export function useResolvedTheme(preference: ThemePreference | undefined): Theme {
@@ -33,7 +48,7 @@ export function useResolvedTheme(preference: ThemePreference | undefined): Theme
   const resolved = resolve(pref, prefersDark);
 
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", resolved);
+    applyTheme(resolved);
     try {
       localStorage.setItem(STORAGE_KEY, pref);
     } catch {}
@@ -54,7 +69,7 @@ export function useSystemThemeSync(): void {
         if (stored) pref = stored;
       } catch {}
       const resolved = resolve(pref, mql.matches);
-      document.documentElement.setAttribute("data-theme", resolved);
+      applyTheme(resolved);
     };
 
     apply();
