@@ -1,3 +1,15 @@
+# v0.1.14 (Fri Jun 05 2026)
+
+#### ⚠️ Pushed to `main`
+
+- chore: add editing and custom header ([@stephansama](https://github.com/stephansama))
+
+#### Authors: 1
+
+- Stephan Randle ([@stephansama](https://github.com/stephansama))
+
+---
+
 # v0.1.13 (Mon Jun 01 2026)
 
 #### 🐛 Bug Fix
