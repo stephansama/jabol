@@ -43,7 +43,7 @@
           "maxLength": 4096
         },
         "headHtml": {
-          "description": "Custom HTML injected at the end of the document <head> on every request. Runs scripts and executes meta/link tags verbatim. Intended for analytics snippets, custom meta tags, font preloads, etc. Admin-only — content is trusted.",
+          "description": "Custom HTML injected at the end of the document <head> on every request. Runs scripts and executes meta/link tags verbatim. Intended for analytics, custom meta tags, font preloads. Admin-only — content is trusted.",
           "type": "string",
           "minLength": 1,
           "maxLength": 16384
@@ -193,7 +193,7 @@
           "maxLength": 4096
         },
         "headHtml": {
-          "description": "Custom HTML injected at the end of the document <head> on every request. Runs scripts and executes meta/link tags verbatim. Intended for analytics snippets, custom meta tags, font preloads, etc. Admin-only — content is trusted.",
+          "description": "Custom HTML injected at the end of the document <head> on every request. Runs scripts and executes meta/link tags verbatim. Intended for analytics, custom meta tags, font preloads. Admin-only — content is trusted.",
           "type": "string",
           "minLength": 1,
           "maxLength": 16384
