@@ -36,6 +36,18 @@
           "type": "string",
           "minLength": 1
         },
+        "headerHtml": {
+          "description": "Custom HTML rendered inside the top-bar brand link, replacing the favicon + brand + title block. Inline event handlers run; <script> tags do not. Leave unset to use brand / title / favicon.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "headHtml": {
+          "description": "Custom HTML injected at the end of the document <head> on every request. Runs scripts and executes meta/link tags verbatim. Intended for analytics snippets, custom meta tags, font preloads, etc. Admin-only — content is trusted.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16384
+        },
         "theme": {
           "type": "string",
           "enum": [
@@ -173,6 +185,18 @@
           "description": "Open Graph / Twitter card image used when the site is shared on social platforms. Absolute URL or /api/icons/... path. Recommended size: 1200×630.",
           "type": "string",
           "minLength": 1
+        },
+        "headerHtml": {
+          "description": "Custom HTML rendered inside the top-bar brand link, replacing the favicon + brand + title block. Inline event handlers run; <script> tags do not. Leave unset to use brand / title / favicon.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "headHtml": {
+          "description": "Custom HTML injected at the end of the document <head> on every request. Runs scripts and executes meta/link tags verbatim. Intended for analytics snippets, custom meta tags, font preloads, etc. Admin-only — content is trusted.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16384
         },
         "theme": {
           "type": "string",

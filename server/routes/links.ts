@@ -83,6 +83,33 @@ const adminLinks = new Hono()
       return errorResponse(c, err);
     }
   })
+  .put("/order", async (c) => {
+    const body = await c.req.json().catch(() => null);
+    const parsed = z
+      .object({ categoryId: z.string().min(1), linkIds: z.array(z.string().min(1)) })
+      .safeParse(body);
+    if (!parsed.success) return c.json({ error: z.flattenError(parsed.error) }, 400);
+    try {
+      await store.reorderLinksInCategory(parsed.data.categoryId, parsed.data.linkIds);
+      return c.body(null, 204);
+    } catch (err) {
+      return errorResponse(c, err);
+    }
+  })
+  .post("/:id/move", async (c) => {
+    const id = c.req.param("id");
+    const body = await c.req.json().catch(() => null);
+    const parsed = z
+      .object({ categoryId: z.string().min(1), index: z.number().int().min(0) })
+      .safeParse(body);
+    if (!parsed.success) return c.json({ error: z.flattenError(parsed.error) }, 400);
+    try {
+      await store.moveLink(id, parsed.data.categoryId, parsed.data.index);
+      return c.body(null, 204);
+    } catch (err) {
+      return errorResponse(c, err);
+    }
+  })
   .patch("/:id", async (c) => {
     const id = c.req.param("id");
     const body = await c.req.json().catch(() => null);

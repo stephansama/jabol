@@ -11,6 +11,17 @@ const categoryPayloadSchema = z.object({
 
 export const categoryRoutes = new Hono()
   .use("*", requireAdmin)
+  .put("/order", async (c) => {
+    const body = await c.req.json().catch(() => null);
+    const parsed = z.object({ ids: z.array(z.string().min(1)) }).safeParse(body);
+    if (!parsed.success) return c.json({ error: z.flattenError(parsed.error) }, 400);
+    try {
+      await store.reorderCategories(parsed.data.ids);
+      return c.body(null, 204);
+    } catch (err) {
+      return errorResponse(c, err);
+    }
+  })
   .post("/", async (c) => {
     const body = await c.req.json().catch(() => null);
     const parsed = categoryPayloadSchema.safeParse(body);

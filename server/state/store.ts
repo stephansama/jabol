@@ -246,6 +246,93 @@ class Store {
     this.emit();
   }
 
+  async reorderCategories(ids: string[]): Promise<void> {
+    this.assertWritable();
+    const current = this.canonical.categories;
+    if (ids.length !== current.length) {
+      throw new HttpError(400, "ids length does not match category count");
+    }
+    const byId = new Map(current.map((c) => [c.id, c]));
+    const next: CanonicalCategory[] = [];
+    for (const id of ids) {
+      const cat = byId.get(id);
+      if (!cat) throw new HttpError(400, `unknown category id ${id}`);
+      next.push(cat);
+    }
+    if (new Set(ids).size !== ids.length) {
+      throw new HttpError(400, "duplicate category ids");
+    }
+    this.canonical = { ...this.canonical, categories: next };
+    await this.persist();
+    this.emit();
+  }
+
+  async reorderLinksInCategory(categoryId: string, linkIds: string[]): Promise<void> {
+    this.assertWritable();
+    const cat = this.canonical.categories.find((c) => c.id === categoryId);
+    if (!cat) throw new HttpError(404, `category ${categoryId} not found`);
+    if (linkIds.length !== cat.links.length) {
+      throw new HttpError(400, "linkIds length does not match category link count");
+    }
+    const byId = new Map(cat.links.map((l) => [l.id, l]));
+    const nextLinks: CanonicalLink[] = [];
+    for (const id of linkIds) {
+      const link = byId.get(id);
+      if (!link) throw new HttpError(400, `link ${id} not in category ${categoryId}`);
+      nextLinks.push(link);
+    }
+    if (new Set(linkIds).size !== linkIds.length) {
+      throw new HttpError(400, "duplicate link ids");
+    }
+    this.canonical = {
+      ...this.canonical,
+      categories: this.canonical.categories.map((c) =>
+        c.id === categoryId ? { ...c, links: nextLinks } : c,
+      ),
+    };
+    await this.persist();
+    this.emit();
+  }
+
+  async moveLink(linkId: string, targetCategoryId: string, index: number): Promise<void> {
+    this.assertWritable();
+    let sourceCategoryId: string | undefined;
+    let moved: CanonicalLink | undefined;
+    for (const cat of this.canonical.categories) {
+      const found = cat.links.find((l) => l.id === linkId);
+      if (found) {
+        sourceCategoryId = cat.id;
+        moved = found;
+        break;
+      }
+    }
+    if (!moved || !sourceCategoryId) throw new HttpError(404, `link ${linkId} not found`);
+    const target = this.canonical.categories.find((c) => c.id === targetCategoryId);
+    if (!target) throw new HttpError(404, `category ${targetCategoryId} not found`);
+
+    const nextCats: CanonicalCategory[] = this.canonical.categories.map((c) => {
+      if (c.id === sourceCategoryId && c.id !== targetCategoryId) {
+        return { ...c, links: c.links.filter((l) => l.id !== linkId) };
+      }
+      return c;
+    });
+
+    this.canonical = {
+      ...this.canonical,
+      categories: nextCats.map((c) => {
+        if (c.id !== targetCategoryId) return c;
+        const without = sourceCategoryId === targetCategoryId
+          ? c.links.filter((l) => l.id !== linkId)
+          : c.links;
+        const clamped = Math.max(0, Math.min(index, without.length));
+        const inserted = [...without.slice(0, clamped), moved!, ...without.slice(clamped)];
+        return { ...c, links: inserted };
+      }),
+    };
+    await this.persist();
+    this.emit();
+  }
+
   async addCategory(input: { name: string; icon?: string; hidden?: boolean }): Promise<CanonicalCategory> {
     this.assertWritable();
     const cat: CanonicalCategory = {
@@ -295,11 +382,20 @@ class Store {
     brand?: string | null;
     title?: string | null;
     favicon?: string | null;
+    headerHtml?: string | null;
+    headHtml?: string | null;
     theme?: Canonical["theme"] | null;
-  }): Promise<{ brand?: string; title?: string; favicon?: string; theme?: Canonical["theme"] }> {
+  }): Promise<{
+    brand?: string;
+    title?: string;
+    favicon?: string;
+    headerHtml?: string;
+    headHtml?: string;
+    theme?: Canonical["theme"];
+  }> {
     this.assertWritable();
     const next: Canonical = { ...this.canonical };
-    const apply = (key: "brand" | "title" | "favicon" | "theme") => {
+    const apply = (key: "brand" | "title" | "favicon" | "headerHtml" | "headHtml" | "theme") => {
       if (!(key in patch)) return;
       const value = patch[key];
       if (value === null || value === "") {
@@ -311,11 +407,20 @@ class Store {
     apply("brand");
     apply("title");
     apply("favicon");
+    apply("headerHtml");
+    apply("headHtml");
     apply("theme");
     this.canonical = next;
     await this.persist();
     this.emit();
-    return { brand: next.brand, title: next.title, favicon: next.favicon, theme: next.theme };
+    return {
+      brand: next.brand,
+      title: next.title,
+      favicon: next.favicon,
+      headerHtml: next.headerHtml,
+      headHtml: next.headHtml,
+      theme: next.theme,
+    };
   }
 
   async refreshAssets(): Promise<{ count: number }> {

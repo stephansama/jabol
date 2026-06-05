@@ -116,6 +116,33 @@ export const api = {
     });
     if (!res.ok && res.status !== 204) throw new Error(`HTTP ${res.status}`);
   },
+  async reorderCategories(ids: string[]): Promise<void> {
+    const res = await fetch("/api/categories/order", {
+      method: "PUT",
+      credentials: "include",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ ids }),
+    });
+    if (!res.ok && res.status !== 204) throw new Error(`HTTP ${res.status}`);
+  },
+  async reorderLinks(categoryId: string, linkIds: string[]): Promise<void> {
+    const res = await fetch("/api/links/admin/order", {
+      method: "PUT",
+      credentials: "include",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ categoryId, linkIds }),
+    });
+    if (!res.ok && res.status !== 204) throw new Error(`HTTP ${res.status}`);
+  },
+  async moveLink(linkId: string, categoryId: string, index: number): Promise<void> {
+    const res = await fetch(`/api/links/admin/${linkId}/move`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ categoryId, index }),
+    });
+    if (!res.ok && res.status !== 204) throw new Error(`HTTP ${res.status}`);
+  },
   async addCategory(name: string, icon?: string, hidden?: boolean): Promise<void> {
     await json(
       await fetch("/api/categories", {
@@ -171,9 +198,18 @@ export const api = {
       brand?: string | null;
       title?: string | null;
       favicon?: string | null;
+      headerHtml?: string | null;
+      headHtml?: string | null;
       theme?: ThemePreference | null;
     },
-  ): Promise<{ brand?: string; title?: string; favicon?: string; theme?: ThemePreference }> {
+  ): Promise<{
+    brand?: string;
+    title?: string;
+    favicon?: string;
+    headerHtml?: string;
+    headHtml?: string;
+    theme?: ThemePreference;
+  }> {
     return json(
       await fetch("/api/settings", {
         method: "PATCH",

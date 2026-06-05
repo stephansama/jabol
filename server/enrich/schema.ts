@@ -69,6 +69,24 @@ const imageField = z
     "Open Graph / Twitter card image used when the site is shared on social platforms. Absolute URL or /api/icons/... path. Recommended size: 1200×630.",
   );
 
+const headerHtmlField = z
+  .string()
+  .min(1)
+  .max(4096)
+  .optional()
+  .describe(
+    "Custom HTML rendered inside the top-bar brand link, replacing the favicon + brand + title block. Inline event handlers run; <script> tags do not. Leave unset to use brand / title / favicon.",
+  );
+
+const headHtmlField = z
+  .string()
+  .min(1)
+  .max(16384)
+  .optional()
+  .describe(
+    "Custom HTML injected at the end of the document <head> on every request. Runs scripts and executes meta/link tags verbatim. Intended for analytics, custom meta tags, font preloads. Admin-only — content is trusted.",
+  );
+
 export const categorizedInputSchema = z.object({
   $schema: schemaRefField,
   brand: brandField,
@@ -76,6 +94,8 @@ export const categorizedInputSchema = z.object({
   description: z.string().optional().describe("Page description / meta."),
   favicon: faviconField,
   image: imageField,
+  headerHtml: headerHtmlField,
+  headHtml: headHtmlField,
   theme: themeSchema.optional(),
   categories: z.array(categorySchema).min(1).describe("Ordered list of categories."),
 });
@@ -87,6 +107,8 @@ export const flatInputSchema = z.object({
   description: z.string().optional().describe("Page description / meta."),
   favicon: faviconField,
   image: imageField,
+  headerHtml: headerHtmlField,
+  headHtml: headHtmlField,
   theme: themeSchema.optional(),
   groupByTag: z
     .boolean()

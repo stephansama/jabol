@@ -13,6 +13,7 @@ export type HeadInput = {
   favicon?: string;
   image?: string;
   siteUrl?: string;
+  headHtml?: string;
   bootstrap?: unknown;
 };
 
@@ -74,6 +75,12 @@ export function renderHeadBlock(input: HeadInput): string {
   );
 
   if (image) lines.push(`<meta name="twitter:image" content="${esc(image)}" />`);
+
+  // Admin-supplied custom head HTML — injected verbatim. Only admins can set this
+  // (PATCH /api/settings requires auth), and the explicit use case is letting the
+  // operator drop in <script> / <meta> / <link> tags (analytics, font preloads,
+  // CSP meta, etc.). Escaping would defeat the purpose.
+  if (input.headHtml) lines.push(input.headHtml);
 
   if (input.bootstrap !== undefined) {
     lines.push(renderBootstrapScript(input.bootstrap));

@@ -27,6 +27,8 @@ export type Canonical = {
   description?: string;
   favicon?: string;
   image?: string;
+  headerHtml?: string;
+  headHtml?: string;
   theme?: ThemePreference;
   categories: Category[];
 };

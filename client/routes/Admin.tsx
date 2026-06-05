@@ -10,6 +10,7 @@ import { ThemeSettings } from "@/components/ThemeSettings";
 import { ReadOnlyBanner } from "@/components/ReadOnlyBanner";
 import { Button } from "@/components/ui/button";
 import { DropZone } from "@/components/admin/DropZone";
+import { LinkEditor, NewLinkForm } from "@/components/admin/LinkForm";
 import type { Category, Link as LinkType } from "@/lib/types";
 
 export default function Admin() {
@@ -81,6 +82,8 @@ export default function Admin() {
       {error ? <p className="mb-4 text-danger">{error}</p> : null}
 
       <BrandingManager data={data} readOnly={readOnly} onChange={refresh} />
+
+      <CustomHtmlManager data={data} readOnly={readOnly} onChange={refresh} />
 
       <ThemeSettings
         preference={data?.theme}
@@ -293,15 +296,16 @@ function CategoryBlock({
       <ul className="divide-y divide-border">
         {category.links.map((link) =>
           editingId === link.id ? (
-            <LinkEditor
-              key={link.id}
-              link={link}
-              onCancel={() => setEditingId(null)}
-              onSaved={() => {
-                setEditingId(null);
-                onChange();
-              }}
-            />
+            <li key={link.id} className="px-4 py-3">
+              <LinkEditor
+                link={link}
+                onCancel={() => setEditingId(null)}
+                onSaved={() => {
+                  setEditingId(null);
+                  onChange();
+                }}
+              />
+            </li>
           ) : (
             <LinkRow
               key={link.id}
@@ -322,7 +326,7 @@ function CategoryBlock({
         )}
       </ul>
 
-      {!readOnly ? <NewLinkRow categoryId={category.id} onAdded={onChange} /> : null}
+      {!readOnly ? <NewLinkRowToggle categoryId={category.id} onAdded={onChange} /> : null}
     </div>
   );
 }
@@ -378,45 +382,8 @@ function LinkRow({
   );
 }
 
-function NewLinkRow({ categoryId, onAdded }: { categoryId: string; onAdded: () => void }) {
+function NewLinkRowToggle({ categoryId, onAdded }: { categoryId: string; onAdded: () => void }) {
   const [open, setOpen] = useState(false);
-  const [name, setName] = useState("");
-  const [url, setUrl] = useState("");
-  const [icon, setIcon] = useState("");
-  const [description, setDescription] = useState("");
-  const [tags, setTags] = useState("");
-  const [hidden, setHidden] = useState(false);
-  const [openInSameTab, setOpenInSameTab] = useState(false);
-  const [busy, setBusy] = useState(false);
-
-  async function submit(e: React.FormEvent) {
-    e.preventDefault();
-    setBusy(true);
-    try {
-      await api.addLink(categoryId, {
-        name,
-        url,
-        icon: icon || undefined,
-        description: description || undefined,
-        tags: tags ? tags.split(",").map((t) => t.trim()).filter(Boolean) : undefined,
-        hidden: hidden || undefined,
-        openInSameTab: openInSameTab || undefined,
-      });
-      setName("");
-      setUrl("");
-      setIcon("");
-      setDescription("");
-      setTags("");
-      setHidden(false);
-      setOpenInSameTab(false);
-      setOpen(false);
-      onAdded();
-    } catch (err: any) {
-      alert(err?.message ?? "add failed");
-    } finally {
-      setBusy(false);
-    }
-  }
 
   if (!open) {
     return (
@@ -432,105 +399,17 @@ function NewLinkRow({ categoryId, onAdded }: { categoryId: string; onAdded: () =
   }
 
   return (
-    <form onSubmit={submit} className="grid grid-cols-1 gap-2 px-4 py-3 md:grid-cols-2">
-      <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" required className="rounded-md border border-border bg-bg px-3 py-2 text-fg" />
-      <input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://…" required type="url" className="rounded-md border border-border bg-bg px-3 py-2 text-fg" />
-      <input value={icon} onChange={(e) => setIcon(e.target.value)} placeholder="Iconify id (optional)" className="rounded-md border border-border bg-bg px-3 py-2 text-fg" />
-      <input value={tags} onChange={(e) => setTags(e.target.value)} placeholder="tag1, tag2" className="rounded-md border border-border bg-bg px-3 py-2 text-fg" />
-      <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description (optional)" className="md:col-span-2 rounded-md border border-border bg-bg px-3 py-2 text-fg" />
-      <label className="flex items-center gap-2 text-sm text-fg-subtle">
-        <input type="checkbox" checked={hidden} onChange={(e) => setHidden(e.target.checked)} />
-        Hidden (admin-only)
-      </label>
-      <label className="flex items-center gap-2 text-sm text-fg-subtle">
-        <input
-          type="checkbox"
-          checked={openInSameTab}
-          onChange={(e) => setOpenInSameTab(e.target.checked)}
-        />
-        Open in same tab
-      </label>
-      <div className="flex justify-end gap-2 md:col-span-2">
-        <button type="button" onClick={() => setOpen(false)} className="rounded-md border border-border px-3 py-1.5 text-sm text-fg-subtle hover:text-fg">
-          Cancel
-        </button>
-        <button type="submit" disabled={busy} className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-sm bg-accent px-3 py-1.5 text-sm font-medium text-accent-fg transition-colors hover:bg-accent/85 disabled:opacity-50">
-          {busy ? "Adding…" : "Add link"}
-        </button>
-      </div>
-    </form>
-  );
-}
-
-function LinkEditor({
-  link,
-  onCancel,
-  onSaved,
-}: {
-  link: LinkType;
-  onCancel: () => void;
-  onSaved: () => void;
-}) {
-  const [name, setName] = useState(link.name);
-  const [url, setUrl] = useState(link.url);
-  const [icon, setIcon] = useState(link.icon ?? "");
-  const [description, setDescription] = useState(link.description ?? "");
-  const [tags, setTags] = useState((link.tags ?? []).join(", "));
-  const [hidden, setHidden] = useState(!!link.hidden);
-  const [openInSameTab, setOpenInSameTab] = useState(!!link.openInSameTab);
-  const [busy, setBusy] = useState(false);
-
-  async function submit(e: React.FormEvent) {
-    e.preventDefault();
-    setBusy(true);
-    try {
-      await api.updateLink(link.id, {
-        name,
-        url,
-        icon: icon || undefined,
-        description: description || undefined,
-        tags: tags ? tags.split(",").map((t) => t.trim()).filter(Boolean) : undefined,
-        hidden,
-        openInSameTab,
-      });
-      onSaved();
-    } catch (err: any) {
-      alert(err?.message ?? "save failed");
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  return (
-    <li className="px-4 py-3">
-      <form onSubmit={submit} className="grid grid-cols-1 gap-2 md:grid-cols-2">
-        <input value={name} onChange={(e) => setName(e.target.value)} required className="rounded-md border border-border bg-bg px-3 py-2 text-fg" />
-        <input value={url} onChange={(e) => setUrl(e.target.value)} required type="url" className="rounded-md border border-border bg-bg px-3 py-2 text-fg" />
-        <input value={icon} onChange={(e) => setIcon(e.target.value)} placeholder="Iconify id (optional, clear to re-fetch favicon)" className="rounded-md border border-border bg-bg px-3 py-2 text-fg" />
-        <input value={tags} onChange={(e) => setTags(e.target.value)} placeholder="tag1, tag2" className="rounded-md border border-border bg-bg px-3 py-2 text-fg" />
-        <textarea value={description} onChange={(e) => setDescription(e.target.value)} className="md:col-span-2 rounded-md border border-border bg-bg px-3 py-2 text-fg" />
-        <label className="flex items-center gap-2 text-sm text-fg-subtle">
-          <input type="checkbox" checked={hidden} onChange={(e) => setHidden(e.target.checked)} />
-          Hidden (admin-only)
-        </label>
-        <label className="flex items-center gap-2 text-sm text-fg-subtle">
-          <input
-            type="checkbox"
-            checked={openInSameTab}
-            onChange={(e) => setOpenInSameTab(e.target.checked)}
-          />
-          Open in same tab
-        </label>
-        <div className="flex justify-end gap-2 md:col-span-2">
-          <button type="button" onClick={onCancel} className="rounded-md border border-border px-3 py-1.5 text-sm text-fg-subtle hover:text-fg">
-            Cancel
-          </button>
-          <button type="submit" disabled={busy} className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-sm bg-accent px-3 py-1.5 text-sm font-medium text-accent-fg transition-colors hover:bg-accent/85 disabled:opacity-50">
-            {busy ? "Saving…" : "Save"}
-          </button>
-        </div>
-      </form>
-    </li>
+    <div className="px-4 py-3">
+      <NewLinkForm
+        categoryId={categoryId}
+        onAdded={() => {
+          setOpen(false);
+          onAdded();
+        }}
+        onCancel={() => setOpen(false)}
+        autoFocus
+      />
+    </div>
   );
 }
 
@@ -545,6 +424,8 @@ function BrandingManager({
 }) {
   const [brand, setBrand] = useState(data?.brand ?? "");
   const [title, setTitle] = useState(data?.title ?? "");
+  const [headerHtml, setHeaderHtml] = useState(data?.headerHtml ?? "");
+  const [useCustom, setUseCustom] = useState(!!data?.headerHtml);
   const [faviconUrl, setFaviconUrl] = useState("");
   const fileInput = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
@@ -555,7 +436,9 @@ function BrandingManager({
   useEffect(() => {
     setBrand(data?.brand ?? "");
     setTitle(data?.title ?? "");
-  }, [data?.brand, data?.title]);
+    setHeaderHtml(data?.headerHtml ?? "");
+    setUseCustom(!!data?.headerHtml);
+  }, [data?.brand, data?.title, data?.headerHtml]);
 
   const currentFavicon = data?.favicon;
 
@@ -565,12 +448,22 @@ function BrandingManager({
     setError(null);
     setNotice(null);
     try {
-      const trimmedBrand = brand.trim();
-      const trimmedTitle = title.trim();
-      await api.updateSettings({
-        brand: trimmedBrand ? trimmedBrand : null,
-        title: trimmedTitle ? trimmedTitle : null,
-      });
+      const trimmedHeader = headerHtml.trim();
+      if (useCustom && trimmedHeader) {
+        await api.updateSettings({
+          headerHtml: trimmedHeader,
+          brand: null,
+          title: null,
+        });
+      } else {
+        const trimmedBrand = brand.trim();
+        const trimmedTitle = title.trim();
+        await api.updateSettings({
+          headerHtml: null,
+          brand: trimmedBrand ? trimmedBrand : null,
+          title: trimmedTitle ? trimmedTitle : null,
+        });
+      }
       setNotice("Saved.");
       onChange();
     } catch (err: any) {
@@ -639,37 +532,72 @@ function BrandingManager({
 
       <form
         onSubmit={saveText}
-        className="mb-4 flex flex-wrap items-end gap-2 rounded-lg border border-border bg-surface p-3"
+        className="mb-4 flex flex-col gap-3 rounded-lg border border-border bg-surface p-3"
       >
-        <label className="flex-1 min-w-[200px]">
-          <span className="text-xs text-fg-subtle">Organization name</span>
+        <label className="flex items-center gap-2 text-sm text-fg">
           <input
-            value={brand}
-            onChange={(e) => setBrand(e.target.value)}
+            type="checkbox"
+            checked={useCustom}
+            onChange={(e) => setUseCustom(e.target.checked)}
             disabled={readOnly || busy}
-            maxLength={80}
-            className="mt-1 w-full rounded-md border border-border bg-bg px-3 py-2 text-fg disabled:opacity-60"
-            placeholder="e.g. Acme Co"
+            className="h-4 w-4"
           />
+          Use custom HTML for the page header
         </label>
-        <label className="flex-1 min-w-[200px]">
-          <span className="text-xs text-fg-subtle">Collection title</span>
-          <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+
+        {useCustom ? (
+          <label className="block">
+            <span className="text-xs text-fg-subtle">
+              Custom header HTML (replaces favicon + brand + title in the top bar). Inline event
+              handlers run; <code>&lt;script&gt;</code> tags do not. The browser tab title still
+              comes from the organization name.
+            </span>
+            <textarea
+              value={headerHtml}
+              onChange={(e) => setHeaderHtml(e.target.value)}
+              disabled={readOnly || busy}
+              maxLength={4096}
+              rows={6}
+              className="mt-1 w-full rounded-md border border-border bg-bg px-3 py-2 font-mono text-sm text-fg disabled:opacity-60"
+              placeholder='<img src="/api/icons/logo.svg" class="h-7 w-7" /><span class="text-base font-semibold">My Site</span>'
+            />
+          </label>
+        ) : (
+          <div className="flex flex-wrap items-end gap-2">
+            <label className="flex-1 min-w-[200px]">
+              <span className="text-xs text-fg-subtle">Organization name</span>
+              <input
+                value={brand}
+                onChange={(e) => setBrand(e.target.value)}
+                disabled={readOnly || busy}
+                maxLength={80}
+                className="mt-1 w-full rounded-md border border-border bg-bg px-3 py-2 text-fg disabled:opacity-60"
+                placeholder="e.g. Acme Co"
+              />
+            </label>
+            <label className="flex-1 min-w-[200px]">
+              <span className="text-xs text-fg-subtle">Collection title</span>
+              <input
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                disabled={readOnly || busy}
+                maxLength={200}
+                className="mt-1 w-full rounded-md border border-border bg-bg px-3 py-2 text-fg disabled:opacity-60"
+                placeholder="e.g. Internal links"
+              />
+            </label>
+          </div>
+        )}
+
+        <div className="flex justify-end">
+          <button
+            type="submit"
             disabled={readOnly || busy}
-            maxLength={200}
-            className="mt-1 w-full rounded-md border border-border bg-bg px-3 py-2 text-fg disabled:opacity-60"
-            placeholder="e.g. Internal links"
-          />
-        </label>
-        <button
-          type="submit"
-          disabled={readOnly || busy}
-          className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-sm bg-accent px-4 py-2 text-sm font-medium text-accent-fg transition-colors hover:bg-accent/85 disabled:opacity-50"
-        >
-          {busy ? "Saving…" : "Save"}
-        </button>
+            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-sm bg-accent px-4 py-2 text-sm font-medium text-accent-fg transition-colors hover:bg-accent/85 disabled:opacity-50"
+          >
+            {busy ? "Saving…" : "Save"}
+          </button>
+        </div>
       </form>
 
       <div className="rounded-lg border border-border bg-surface p-3">
@@ -740,6 +668,85 @@ function BrandingManager({
 
       {error ? <p className="mt-2 text-sm text-danger">{error}</p> : null}
       {notice ? <p className="mt-2 text-sm text-fg-subtle">{notice}</p> : null}
+    </section>
+  );
+}
+
+function CustomHtmlManager({
+  data,
+  readOnly,
+  onChange,
+}: {
+  data: LinksResponse | null;
+  readOnly: boolean;
+  onChange: () => void;
+}) {
+  const [headHtml, setHeadHtml] = useState(data?.headHtml ?? "");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
+
+  useEffect(() => {
+    setHeadHtml(data?.headHtml ?? "");
+  }, [data?.headHtml]);
+
+  async function save(e: React.FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+    setError(null);
+    setNotice(null);
+    try {
+      const trimmed = headHtml.trim();
+      await api.updateSettings({ headHtml: trimmed ? trimmed : null });
+      setNotice("Saved.");
+      onChange();
+    } catch (err: any) {
+      setError(err?.message ?? "save failed");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <section className="mb-10">
+      <h2 className="mb-3 text-lg font-semibold text-fg">Custom HTML</h2>
+      <form
+        onSubmit={save}
+        className="flex flex-col gap-3 rounded-lg border border-border bg-surface p-3"
+      >
+        <p className="rounded-md border border-warning/40 bg-warning/10 px-3 py-2 text-xs text-fg">
+          <strong>Warning:</strong> this HTML is injected verbatim into the document{" "}
+          <code>&lt;head&gt;</code> on every request. <code>&lt;script&gt;</code> tags run.
+          Only paste code you trust — admins, third-party analytics, etc.
+        </p>
+        <label className="block">
+          <span className="text-xs text-fg-subtle">
+            Extra HTML for the <code>&lt;head&gt;</code> — analytics snippets, custom meta
+            tags, font preloads, etc. Up to 16 KB.
+          </span>
+          <textarea
+            value={headHtml}
+            onChange={(e) => setHeadHtml(e.target.value)}
+            disabled={readOnly || busy}
+            maxLength={16384}
+            rows={8}
+            spellCheck={false}
+            className="mt-1 w-full rounded-md border border-border bg-bg px-3 py-2 font-mono text-sm text-fg disabled:opacity-60"
+            placeholder={'<script defer src="https://plausible.io/js/script.js" data-domain="example.com"></script>'}
+          />
+        </label>
+        <div className="flex justify-end">
+          <button
+            type="submit"
+            disabled={readOnly || busy}
+            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-sm bg-accent px-4 py-2 text-sm font-medium text-accent-fg transition-colors hover:bg-accent/85 disabled:opacity-50"
+          >
+            {busy ? "Saving…" : "Save"}
+          </button>
+        </div>
+        {error ? <p className="text-sm text-danger">{error}</p> : null}
+        {notice ? <p className="text-sm text-fg-subtle">{notice}</p> : null}
+      </form>
     </section>
   );
 }
