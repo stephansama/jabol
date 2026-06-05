@@ -1,3 +1,15 @@
+# v0.1.16 (Fri Jun 05 2026)
+
+#### ⚠️ Pushed to `main`
+
+- chore: add the body html prop to the site and update documentation site ([@stephansama](https://github.com/stephansama))
+
+#### Authors: 1
+
+- Stephan Randle ([@stephansama](https://github.com/stephansama))
+
+---
+
 # v0.1.15 (Fri Jun 05 2026)
 
 #### ⚠️ Pushed to `main`
