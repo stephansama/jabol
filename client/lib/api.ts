@@ -200,6 +200,7 @@ export const api = {
       favicon?: string | null;
       headerHtml?: string | null;
       headHtml?: string | null;
+      bodyHtml?: string | null;
       theme?: ThemePreference | null;
     },
   ): Promise<{
@@ -208,6 +209,7 @@ export const api = {
     favicon?: string;
     headerHtml?: string;
     headHtml?: string;
+    bodyHtml?: string;
     theme?: ThemePreference;
   }> {
     return json(

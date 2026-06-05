@@ -87,6 +87,15 @@ const headHtmlField = z
     "Custom HTML injected at the end of the document <head> on every request. Runs scripts and executes meta/link tags verbatim. Intended for analytics, custom meta tags, font preloads. Admin-only — content is trusted.",
   );
 
+const bodyHtmlField = z
+  .string()
+  .min(1)
+  .max(16384)
+  .optional()
+  .describe(
+    "Custom HTML injected at the top of <body> on every request, before the React mount point. Runs scripts verbatim. Intended for noscript banners, GTM <noscript> iframes, marketing pixels, announcement bars. Admin-only — content is trusted.",
+  );
+
 export const categorizedInputSchema = z.object({
   $schema: schemaRefField,
   brand: brandField,
@@ -96,6 +105,7 @@ export const categorizedInputSchema = z.object({
   image: imageField,
   headerHtml: headerHtmlField,
   headHtml: headHtmlField,
+  bodyHtml: bodyHtmlField,
   theme: themeSchema.optional(),
   categories: z.array(categorySchema).min(1).describe("Ordered list of categories."),
 });
@@ -109,6 +119,7 @@ export const flatInputSchema = z.object({
   image: imageField,
   headerHtml: headerHtmlField,
   headHtml: headHtmlField,
+  bodyHtml: bodyHtmlField,
   theme: themeSchema.optional(),
   groupByTag: z
     .boolean()

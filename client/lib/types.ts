@@ -29,6 +29,7 @@ export type Canonical = {
   image?: string;
   headerHtml?: string;
   headHtml?: string;
+  bodyHtml?: string;
   theme?: ThemePreference;
   categories: Category[];
 };

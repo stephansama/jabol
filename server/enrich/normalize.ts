@@ -29,6 +29,7 @@ export type Canonical = {
   image?: string;
   headerHtml?: string;
   headHtml?: string;
+  bodyHtml?: string;
   theme?: "light" | "dark" | "mocha" | "latte" | "system" | "system-catppuccin";
   categories: CanonicalCategory[];
 };
@@ -56,6 +57,7 @@ function fromCategorized(input: CategorizedInput): Canonical {
     image: input.image,
     headerHtml: input.headerHtml,
     headHtml: input.headHtml,
+    bodyHtml: input.bodyHtml,
     theme: input.theme,
     categories: input.categories.map((c) => ({
       id: c.id ?? randomUUID(),
@@ -113,6 +115,7 @@ function fromFlat(input: FlatInput): Canonical {
     image: input.image,
     headerHtml: input.headerHtml,
     headHtml: input.headHtml,
+    bodyHtml: input.bodyHtml,
     theme: input.theme,
     categories: [
       {

@@ -27,6 +27,7 @@ const patchBodySchema = z.object({
   favicon: z.string().min(1).nullable().optional(),
   headerHtml: z.string().min(1).max(4096).nullable().optional(),
   headHtml: z.string().min(1).max(16384).nullable().optional(),
+  bodyHtml: z.string().min(1).max(16384).nullable().optional(),
   theme: themeSchema.nullable().optional(),
 });
 

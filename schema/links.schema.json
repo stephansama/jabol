@@ -48,6 +48,12 @@
           "minLength": 1,
           "maxLength": 16384
         },
+        "bodyHtml": {
+          "description": "Custom HTML injected at the top of <body> on every request, before the React mount point. Runs scripts verbatim. Intended for noscript banners, GTM <noscript> iframes, marketing pixels, announcement bars. Admin-only — content is trusted.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16384
+        },
         "theme": {
           "type": "string",
           "enum": [
@@ -194,6 +200,12 @@
         },
         "headHtml": {
           "description": "Custom HTML injected at the end of the document <head> on every request. Runs scripts and executes meta/link tags verbatim. Intended for analytics, custom meta tags, font preloads. Admin-only — content is trusted.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16384
+        },
+        "bodyHtml": {
+          "description": "Custom HTML injected at the top of <body> on every request, before the React mount point. Runs scripts verbatim. Intended for noscript banners, GTM <noscript> iframes, marketing pixels, announcement bars. Admin-only — content is trusted.",
           "type": "string",
           "minLength": 1,
           "maxLength": 16384

@@ -95,6 +95,7 @@ if (existsSync(env.spaDist)) {
       image: canonical.image,
       siteUrl,
       headHtml: canonical.headHtml,
+      bodyHtml: canonical.bodyHtml,
       bootstrap: { ...canonical, readOnly: store.isReadOnly() },
     });
     if (cachedHtml.size >= MAX_CACHE) cachedHtml.clear();

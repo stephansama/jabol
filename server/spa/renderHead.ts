@@ -1,5 +1,7 @@
 export const SENTINEL_START = "<!--jabol:head:start-->";
 export const SENTINEL_END = "<!--jabol:head:end-->";
+export const BODY_SENTINEL_START = "<!--jabol:body:start-->";
+export const BODY_SENTINEL_END = "<!--jabol:body:end-->";
 
 export const DEFAULT_TITLE = "jabol";
 export const DEFAULT_DESCRIPTION = "A self-hosted link directory.";
@@ -14,6 +16,7 @@ export type HeadInput = {
   image?: string;
   siteUrl?: string;
   headHtml?: string;
+  bodyHtml?: string;
   bootstrap?: unknown;
 };
 
@@ -89,10 +92,25 @@ export function renderHeadBlock(input: HeadInput): string {
   return `${SENTINEL_START}\n    ${lines.join("\n    ")}\n    ${SENTINEL_END}`;
 }
 
+export function renderBodyBlock(input: HeadInput): string {
+  // Admin-supplied custom body HTML — injected verbatim at the top of <body>.
+  // Same trust model as headHtml: only admins can set it.
+  return `${BODY_SENTINEL_START}${input.bodyHtml ?? ""}${BODY_SENTINEL_END}`;
+}
+
 export function renderIndexHtml(template: string, input: HeadInput): string {
-  const startIdx = template.indexOf(SENTINEL_START);
-  const endIdx = template.indexOf(SENTINEL_END);
-  if (startIdx === -1 || endIdx === -1 || endIdx < startIdx) return template;
-  const block = renderHeadBlock(input);
-  return template.slice(0, startIdx) + block + template.slice(endIdx + SENTINEL_END.length);
+  let out = template;
+  const headStart = out.indexOf(SENTINEL_START);
+  const headEnd = out.indexOf(SENTINEL_END);
+  if (headStart !== -1 && headEnd !== -1 && headEnd >= headStart) {
+    const block = renderHeadBlock(input);
+    out = out.slice(0, headStart) + block + out.slice(headEnd + SENTINEL_END.length);
+  }
+  const bodyStart = out.indexOf(BODY_SENTINEL_START);
+  const bodyEnd = out.indexOf(BODY_SENTINEL_END);
+  if (bodyStart !== -1 && bodyEnd !== -1 && bodyEnd >= bodyStart) {
+    const block = renderBodyBlock(input);
+    out = out.slice(0, bodyStart) + block + out.slice(bodyEnd + BODY_SENTINEL_END.length);
+  }
+  return out;
 }

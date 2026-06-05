@@ -682,6 +682,7 @@ function CustomHtmlManager({
   onChange: () => void;
 }) {
   const [headHtml, setHeadHtml] = useState(data?.headHtml ?? "");
+  const [bodyHtml, setBodyHtml] = useState(data?.bodyHtml ?? "");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -690,14 +691,22 @@ function CustomHtmlManager({
     setHeadHtml(data?.headHtml ?? "");
   }, [data?.headHtml]);
 
+  useEffect(() => {
+    setBodyHtml(data?.bodyHtml ?? "");
+  }, [data?.bodyHtml]);
+
   async function save(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
     setError(null);
     setNotice(null);
     try {
-      const trimmed = headHtml.trim();
-      await api.updateSettings({ headHtml: trimmed ? trimmed : null });
+      const trimmedHead = headHtml.trim();
+      const trimmedBody = bodyHtml.trim();
+      await api.updateSettings({
+        headHtml: trimmedHead ? trimmedHead : null,
+        bodyHtml: trimmedBody ? trimmedBody : null,
+      });
       setNotice("Saved.");
       onChange();
     } catch (err: any) {
@@ -715,9 +724,9 @@ function CustomHtmlManager({
         className="flex flex-col gap-3 rounded-lg border border-border bg-surface p-3"
       >
         <p className="rounded-md border border-warning/40 bg-warning/10 px-3 py-2 text-xs text-fg">
-          <strong>Warning:</strong> this HTML is injected verbatim into the document{" "}
-          <code>&lt;head&gt;</code> on every request. <code>&lt;script&gt;</code> tags run.
-          Only paste code you trust — admins, third-party analytics, etc.
+          <strong>Warning:</strong> the HTML below is injected verbatim into the page on every
+          request. <code>&lt;script&gt;</code> tags run. Only paste code you trust — admins,
+          third-party analytics, etc.
         </p>
         <label className="block">
           <span className="text-xs text-fg-subtle">
@@ -733,6 +742,23 @@ function CustomHtmlManager({
             spellCheck={false}
             className="mt-1 w-full rounded-md border border-border bg-bg px-3 py-2 font-mono text-sm text-fg disabled:opacity-60"
             placeholder={'<script defer src="https://plausible.io/js/script.js" data-domain="example.com"></script>'}
+          />
+        </label>
+        <label className="block">
+          <span className="text-xs text-fg-subtle">
+            Extra HTML for the top of <code>&lt;body&gt;</code> — noscript banners, GTM{" "}
+            <code>&lt;noscript&gt;</code> iframes, marketing pixels, announcement bars.
+            Inserted before the React mount point. Up to 16 KB.
+          </span>
+          <textarea
+            value={bodyHtml}
+            onChange={(e) => setBodyHtml(e.target.value)}
+            disabled={readOnly || busy}
+            maxLength={16384}
+            rows={6}
+            spellCheck={false}
+            className="mt-1 w-full rounded-md border border-border bg-bg px-3 py-2 font-mono text-sm text-fg disabled:opacity-60"
+            placeholder={'<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>'}
           />
         </label>
         <div className="flex justify-end">

@@ -384,6 +384,7 @@ class Store {
     favicon?: string | null;
     headerHtml?: string | null;
     headHtml?: string | null;
+    bodyHtml?: string | null;
     theme?: Canonical["theme"] | null;
   }): Promise<{
     brand?: string;
@@ -391,11 +392,14 @@ class Store {
     favicon?: string;
     headerHtml?: string;
     headHtml?: string;
+    bodyHtml?: string;
     theme?: Canonical["theme"];
   }> {
     this.assertWritable();
     const next: Canonical = { ...this.canonical };
-    const apply = (key: "brand" | "title" | "favicon" | "headerHtml" | "headHtml" | "theme") => {
+    const apply = (
+      key: "brand" | "title" | "favicon" | "headerHtml" | "headHtml" | "bodyHtml" | "theme",
+    ) => {
       if (!(key in patch)) return;
       const value = patch[key];
       if (value === null || value === "") {
@@ -409,6 +413,7 @@ class Store {
     apply("favicon");
     apply("headerHtml");
     apply("headHtml");
+    apply("bodyHtml");
     apply("theme");
     this.canonical = next;
     await this.persist();
@@ -419,6 +424,7 @@ class Store {
       favicon: next.favicon,
       headerHtml: next.headerHtml,
       headHtml: next.headHtml,
+      bodyHtml: next.bodyHtml,
       theme: next.theme,
     };
   }
