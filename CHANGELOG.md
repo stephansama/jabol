@@ -1,3 +1,15 @@
+# v0.1.17 (Wed Jun 24 2026)
+
+#### ⚠️ Pushed to `main`
+
+- chore: updated theming and custom header html ([@stephansama](https://github.com/stephansama))
+
+#### Authors: 1
+
+- Stephan Randle ([@stephansama](https://github.com/stephansama))
+
+---
+
 # v0.1.16 (Fri Jun 05 2026)
 
 #### ⚠️ Pushed to `main`
