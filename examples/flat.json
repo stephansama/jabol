@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/stephansama/jabol/refs/heads/main/schema/links.schema.json",
   "title": "Bookmarks",
-  "theme": "latte",
+  "theme": "light",
   "groupByTag": true,
   "links": [
     {

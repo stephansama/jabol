@@ -1,5 +1,5 @@
-export type Theme = "light" | "dark" | "mocha" | "latte";
-export type ThemePreference = Theme | "system" | "system-catppuccin";
+export type Theme = "light" | "dark";
+export type ThemePreference = Theme | "system";
 
 export type Link = {
   id: string;
@@ -31,6 +31,7 @@ export type Canonical = {
   headHtml?: string;
   bodyHtml?: string;
   theme?: ThemePreference;
+  accent?: string;
   categories: Category[];
 };
 

@@ -202,6 +202,7 @@ export const api = {
       headHtml?: string | null;
       bodyHtml?: string | null;
       theme?: ThemePreference | null;
+      accent?: string | null;
     },
   ): Promise<{
     brand?: string;
@@ -211,6 +212,7 @@ export const api = {
     headHtml?: string;
     bodyHtml?: string;
     theme?: ThemePreference;
+    accent?: string;
   }> {
     return json(
       await fetch("/api/settings", {

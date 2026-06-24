@@ -3,7 +3,7 @@
   "title": "directory",
   "description": "collection of @stephansama products",
   "favicon": "https://stephansama.info/favicon.svg",
-  "theme": "system-catppuccin",
+  "theme": "system",
   "categories": [
     {
       "id": "10ac1b6d-1064-4d9d-97ad-d6bba6e08e2b",

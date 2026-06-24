@@ -23,6 +23,7 @@ import { useSession } from "@/hooks/useSession";
 import { useDensity } from "@/hooks/useDensity";
 import { useCollapsedCategories } from "@/hooks/useCollapsedCategories";
 import { useDocumentBranding } from "@/hooks/useDocumentBranding";
+import { useAccentOverride } from "@/hooks/useTheme";
 import { hueForIndex } from "@/lib/hue";
 import { api } from "@/lib/api";
 import { TopBar } from "@/components/TopBar";
@@ -155,6 +156,7 @@ export function Home() {
   const minCol = density === "compact" ? 216 : 260;
 
   useDocumentBranding({ brand, title, description, favicon, image, loaded: !!data });
+  useAccentOverride(data?.accent);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),

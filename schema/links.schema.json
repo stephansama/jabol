@@ -37,7 +37,7 @@
           "minLength": 1
         },
         "headerHtml": {
-          "description": "Custom HTML rendered inside the top-bar brand link, replacing the favicon + brand + title block. Inline event handlers run; <script> tags do not. Leave unset to use brand / title / favicon.",
+          "description": "Custom HTML rendered in the top-bar brand slot, replacing the favicon + brand + title block. Include your own <a> if you want the header (or parts of it) to be a link. Inline event handlers run; <script> tags do not. Leave unset to use brand / title / favicon.",
           "type": "string",
           "minLength": 1,
           "maxLength": 4096
@@ -59,12 +59,14 @@
           "enum": [
             "light",
             "dark",
-            "mocha",
-            "latte",
-            "system",
-            "system-catppuccin"
+            "system"
           ],
-          "description": "Theme preference applied to every visitor. 'system' follows prefers-color-scheme as light/dark; 'system-catppuccin' follows it as latte/mocha."
+          "description": "Theme preference applied to every visitor. Both themes use the Catppuccin palette (Mocha for dark, Latte for light); 'system' follows prefers-color-scheme."
+        },
+        "accent": {
+          "description": "Override the accent color (--accent) across both themes. Six-digit hex like '#f38ba8'. Leave unset to use the Catppuccin red default.",
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
         },
         "categories": {
           "minItems": 1,
@@ -193,7 +195,7 @@
           "minLength": 1
         },
         "headerHtml": {
-          "description": "Custom HTML rendered inside the top-bar brand link, replacing the favicon + brand + title block. Inline event handlers run; <script> tags do not. Leave unset to use brand / title / favicon.",
+          "description": "Custom HTML rendered in the top-bar brand slot, replacing the favicon + brand + title block. Include your own <a> if you want the header (or parts of it) to be a link. Inline event handlers run; <script> tags do not. Leave unset to use brand / title / favicon.",
           "type": "string",
           "minLength": 1,
           "maxLength": 4096
@@ -215,12 +217,14 @@
           "enum": [
             "light",
             "dark",
-            "mocha",
-            "latte",
-            "system",
-            "system-catppuccin"
+            "system"
           ],
-          "description": "Theme preference applied to every visitor. 'system' follows prefers-color-scheme as light/dark; 'system-catppuccin' follows it as latte/mocha."
+          "description": "Theme preference applied to every visitor. Both themes use the Catppuccin palette (Mocha for dark, Latte for light); 'system' follows prefers-color-scheme."
+        },
+        "accent": {
+          "description": "Override the accent color (--accent) across both themes. Six-digit hex like '#f38ba8'. Leave unset to use the Catppuccin red default.",
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
         },
         "groupByTag": {
           "description": "If true, links are bucketed into synthetic categories by their first tag.",

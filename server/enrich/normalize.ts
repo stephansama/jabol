@@ -30,9 +30,26 @@ export type Canonical = {
   headerHtml?: string;
   headHtml?: string;
   bodyHtml?: string;
-  theme?: "light" | "dark" | "mocha" | "latte" | "system" | "system-catppuccin";
+  theme?: "light" | "dark" | "system";
+  accent?: string;
   categories: CanonicalCategory[];
 };
+
+const LEGACY_THEME_MAP: Record<string, "light" | "dark" | "system"> = {
+  mocha: "dark",
+  latte: "light",
+  "system-catppuccin": "system",
+};
+
+function migrateLegacyTheme(raw: unknown): unknown {
+  if (!raw || typeof raw !== "object") return raw;
+  const obj = raw as Record<string, unknown>;
+  const theme = obj.theme;
+  if (typeof theme !== "string") return raw;
+  const mapped = LEGACY_THEME_MAP[theme];
+  if (!mapped) return raw;
+  return { ...obj, theme: mapped };
+}
 
 function ensureLinkId(link: LinkInput): CanonicalLink {
   return {
@@ -59,6 +76,7 @@ function fromCategorized(input: CategorizedInput): Canonical {
     headHtml: input.headHtml,
     bodyHtml: input.bodyHtml,
     theme: input.theme,
+    accent: input.accent,
     categories: input.categories.map((c) => ({
       id: c.id ?? randomUUID(),
       name: c.name,
@@ -102,7 +120,9 @@ function fromFlat(input: FlatInput): Canonical {
       image: input.image,
       headerHtml: input.headerHtml,
       headHtml: input.headHtml,
+      bodyHtml: input.bodyHtml,
       theme: input.theme,
+      accent: input.accent,
       categories,
     };
   }
@@ -117,6 +137,7 @@ function fromFlat(input: FlatInput): Canonical {
     headHtml: input.headHtml,
     bodyHtml: input.bodyHtml,
     theme: input.theme,
+    accent: input.accent,
     categories: [
       {
         id: randomUUID(),
@@ -128,7 +149,7 @@ function fromFlat(input: FlatInput): Canonical {
 }
 
 export function parseAndNormalize(raw: unknown): Canonical {
-  const parsed = inputSchema.parse(raw);
+  const parsed = inputSchema.parse(migrateLegacyTheme(raw));
   if ("categories" in parsed) {
     return fromCategorized(parsed);
   }

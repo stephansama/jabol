@@ -1,11 +1,12 @@
 /* ============================================================
    jabol — semantic tokens per theme.
-   Accent stays red across all four themes.
-   Catppuccin hue ramp (cat-*) drives color-coded categories.
+   Both themes use the Catppuccin palette (Mocha for dark,
+   Latte for light). Accent stays red across both.
+   The cat-* hue ramp drives color-coded categories.
    ============================================================ */
 
-/* ---- MOCHA (Catppuccin dark, design-system default) ---- */
-[data-theme="mocha"] {
+/* ---- DARK (Catppuccin Mocha) ---- */
+[data-theme="dark"] {
   color-scheme: dark;
   --bg: #1e1e2e;
   --bg-sunken: #181825;
@@ -40,8 +41,8 @@
   --cat-lavender: #b4befe;
 }
 
-/* ---- LATTE (Catppuccin light) ---- */
-[data-theme="latte"] {
+/* ---- LIGHT (Catppuccin Latte) ---- */
+[data-theme="light"] {
   color-scheme: light;
   --bg: #eff1f5;
   --bg-sunken: #e6e9ef;
@@ -76,74 +77,3 @@
   --cat-lavender: #7287fd;
 }
 
-/* ---- DARK (neutral slate, red accent) ---- */
-[data-theme="dark"] {
-  color-scheme: dark;
-  --bg: #111113;
-  --bg-sunken: #0c0c0e;
-  --bg-code: #09090b;
-  --surface: #1d1d20;
-  --surface-raised: #2a2a2e;
-  --surface-hover: #26262a;
-  --border: #2a2a2e;
-  --border-strong: #3a3a40;
-  --fg: #ebebf0;
-  --fg-muted: #b6b6c0;
-  --fg-subtle: #8c8c96;
-  --fg-disabled: #56565e;
-  --accent: #f0617a;
-  --accent-fg: #111113;
-  --accent-2: #7aa2f7;
-  --success: #7bd88f;
-  --warning: #e6c068;
-  --danger: #f0a868;
-  --info: #6cc5e0;
-  --focus-ring: color-mix(in srgb, var(--accent) 32%, transparent);
-
-  --cat-mauve: #c4a0f0;
-  --cat-blue: #7aa2f7;
-  --cat-green: #7bd88f;
-  --cat-peach: #f0a868;
-  --cat-teal: #79d0c0;
-  --cat-yellow: #e6c068;
-  --cat-pink: #f0a8d8;
-  --cat-sapphire: #6cb8e0;
-  --cat-red: #f0617a;
-  --cat-lavender: #a8b0f0;
-}
-
-/* ---- LIGHT (neutral, red accent) ---- */
-[data-theme="light"] {
-  color-scheme: light;
-  --bg: #ffffff;
-  --bg-sunken: #f5f5f8;
-  --bg-code: #f0f0f4;
-  --surface: #ffffff;
-  --surface-raised: #f5f5f8;
-  --surface-hover: #f5f5f8;
-  --border: #e4e4e9;
-  --border-strong: #d4d4dc;
-  --fg: #18181b;
-  --fg-muted: #46464e;
-  --fg-subtle: #71717a;
-  --fg-disabled: #a1a1aa;
-  --accent: #d92b45;
-  --accent-fg: #ffffff;
-  --accent-2: #2563eb;
-  --success: #16a34a;
-  --warning: #ca8a04;
-  --danger: #ea580c;
-  --info: #0891b2;
-  --focus-ring: color-mix(in srgb, var(--accent) 26%, transparent);
-
-  --cat-mauve: #8839ef;
-  --cat-blue: #2563eb;
-  --cat-green: #16a34a;
-  --cat-peach: #ea580c;
-  --cat-teal: #0d9488;
-  --cat-yellow: #ca8a04;
-  --cat-pink: #db2777;
-  --cat-sapphire: #0891b2;
-  --cat-red: #d92b45;
-  --cat-lavender: #6366f1;
-}

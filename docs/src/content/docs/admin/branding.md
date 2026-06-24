@@ -36,5 +36,13 @@ site, their personal preference is stored in `localStorage` and overrides
 the file-level setting — they can switch themes from the top bar without
 affecting anyone else.
 
-Four themes ship: `light`, `dark`, `mocha` (Catppuccin Mocha), `latte`
-(Catppuccin Latte).
+Two themes ship — both Catppuccin: `light` (Latte) and `dark` (Mocha). A
+`system` option follows the visitor's `prefers-color-scheme`.
+
+## Accent color
+
+A color picker below the theme section overrides `--accent` — the color used
+for buttons, focus rings, and link hovers — across both themes. The override
+is written to `links.json` as a six-digit hex (e.g. `"accent": "#f38ba8"`) and
+applied at runtime to every connected browser. Click **Reset to default** to
+remove the override and fall back to Catppuccin red.

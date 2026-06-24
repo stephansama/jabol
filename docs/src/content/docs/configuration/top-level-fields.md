@@ -13,7 +13,8 @@ These keys live at the root of `links.json`, alongside `categories` or `links`.
 | `description` | `string` | Page description / meta.                                                                          |
 | `favicon`     | `string` | URL or `/api/icons/...` path for the favicon. Set via the Branding panel in `/admin`.             |
 | `image`       | `string` | OG image used when the page is shared on social platforms. Absolute URL or `/api/icons/...` path; recommended 1200×630. |
-| `theme`       | `string` | First-time-visitor theme: `light` / `dark` / `mocha` / `latte` (Catppuccin variants).             |
+| `theme`       | `string` | First-time-visitor theme: `light`, `dark`, or `system`. Both palettes are Catppuccin (Latte / Mocha). |
+| `accent`      | `string` | Optional six-digit hex (e.g. `#f38ba8`) that overrides the accent color in both themes. Editable from `/admin`. |
 | `groupByTag`  | `boolean` | Flat shape only. If `true`, links bucket into synthetic categories by their first tag.           |
 
 ## `brand` vs `title`
@@ -46,5 +47,5 @@ plain text card instead of a broken icon-as-banner.
 
 Picks the default colour scheme for new visitors. Once a visitor has loaded
 the site once, their preference is stored in `localStorage` and overrides the
-file-level setting. The four themes are `light`, `dark`, `mocha` (Catppuccin
-Mocha), and `latte` (Catppuccin Latte).
+file-level setting. Three values: `light` (Catppuccin Latte), `dark` (Catppuccin
+Mocha), or `system` (follows the visitor's `prefers-color-scheme`).

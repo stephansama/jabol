@@ -2,26 +2,17 @@ import { useEffect, useState } from "react";
 import type { Theme, ThemePreference } from "@/lib/types";
 
 const STORAGE_KEY = "jabol.theme";
-const DEFAULT_PREFERENCE: ThemePreference = "system-catppuccin";
+const DEFAULT_PREFERENCE: ThemePreference = "system";
 
 // Keep these in sync with the `--bg` token per theme in styles/themes.css so the
 // installed PWA / mobile browser chrome matches the active surface color.
 const THEME_BG: Record<Theme, string> = {
-  mocha: "#1e1e2e",
-  latte: "#eff1f5",
-  dark: "#111113",
-  light: "#ffffff",
+  dark: "#1e1e2e",
+  light: "#eff1f5",
 };
 
 function resolve(pref: ThemePreference, prefersDark: boolean): Theme {
-  switch (pref) {
-    case "system":
-      return prefersDark ? "dark" : "light";
-    case "system-catppuccin":
-      return prefersDark ? "mocha" : "latte";
-    default:
-      return pref;
-  }
+  return pref === "system" ? (prefersDark ? "dark" : "light") : pref;
 }
 
 function applyTheme(resolved: Theme): void {
@@ -55,6 +46,17 @@ export function useResolvedTheme(preference: ThemePreference | undefined): Theme
   }, [resolved, pref]);
 
   return resolved;
+}
+
+export function useAccentOverride(accent: string | undefined): void {
+  useEffect(() => {
+    const root = document.documentElement;
+    if (accent) {
+      root.style.setProperty("--accent", accent);
+    } else {
+      root.style.removeProperty("--accent");
+    }
+  }, [accent]);
 }
 
 export function useSystemThemeSync(): void {

@@ -23,9 +23,8 @@ export function TopBar({ brand, title, favicon, headerHtml, center, right }: Pro
     >
       <div className="mx-auto grid min-h-[68px] max-w-[1280px] grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 py-3">
         {customHtml ? (
-          <Link
-            to="/"
-            className={linkClass}
+          <div
+            className="flex min-w-0 items-center gap-2.5 justify-self-start"
             dangerouslySetInnerHTML={{ __html: customHtml }}
           />
         ) : (

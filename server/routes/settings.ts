@@ -29,6 +29,7 @@ const patchBodySchema = z.object({
   headHtml: z.string().min(1).max(16384).nullable().optional(),
   bodyHtml: z.string().min(1).max(16384).nullable().optional(),
   theme: themeSchema.nullable().optional(),
+  accent: z.string().regex(/^#[0-9a-fA-F]{6}$/).nullable().optional(),
 });
 
 const urlBodySchema = z.object({

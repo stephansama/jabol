@@ -4,7 +4,7 @@ import { Download, RefreshCw } from "lucide-react";
 import { api, type LinksResponse } from "@/lib/api";
 import { useSession } from "@/hooks/useSession";
 import { useDocumentBranding } from "@/hooks/useDocumentBranding";
-import { useResolvedTheme } from "@/hooks/useTheme";
+import { useResolvedTheme, useAccentOverride } from "@/hooks/useTheme";
 import { Icon } from "@/components/Icon";
 import { ThemeSettings } from "@/components/ThemeSettings";
 import { ReadOnlyBanner } from "@/components/ReadOnlyBanner";
@@ -48,6 +48,7 @@ export default function Admin() {
     loaded: !!data,
   });
   useResolvedTheme(data?.theme);
+  useAccentOverride(data?.accent);
 
   if (sessionLoading || !user) return <p className="mt-20 text-center text-fg-subtle">…</p>;
 
@@ -90,6 +91,15 @@ export default function Admin() {
         disabled={readOnly}
         onChange={async (next) => {
           await api.updateSettings({ theme: next });
+          refresh();
+        }}
+      />
+
+      <AccentSettings
+        accent={data?.accent}
+        disabled={readOnly}
+        onChange={async (next) => {
+          await api.updateSettings({ accent: next });
           refresh();
         }}
       />
@@ -548,9 +558,10 @@ function BrandingManager({
         {useCustom ? (
           <label className="block">
             <span className="text-xs text-fg-subtle">
-              Custom header HTML (replaces favicon + brand + title in the top bar). Inline event
-              handlers run; <code>&lt;script&gt;</code> tags do not. The browser tab title still
-              comes from the organization name.
+              Custom header HTML (replaces favicon + brand + title in the top bar). Include your
+              own <code>&lt;a&gt;</code> if you want the header to be a link. Inline event handlers
+              run; <code>&lt;script&gt;</code> tags do not. The browser tab title still comes from
+              the organization name.
             </span>
             <textarea
               value={headerHtml}
@@ -559,7 +570,7 @@ function BrandingManager({
               maxLength={4096}
               rows={6}
               className="mt-1 w-full rounded-md border border-border bg-bg px-3 py-2 font-mono text-sm text-fg disabled:opacity-60"
-              placeholder='<img src="/api/icons/logo.svg" class="h-7 w-7" /><span class="text-base font-semibold">My Site</span>'
+              placeholder='<a href="/"><img src="/api/icons/logo.svg" class="h-7 w-7" /><span class="text-base font-semibold">My Site</span></a>'
             />
           </label>
         ) : (
@@ -773,6 +784,65 @@ function CustomHtmlManager({
         {error ? <p className="text-sm text-danger">{error}</p> : null}
         {notice ? <p className="text-sm text-fg-subtle">{notice}</p> : null}
       </form>
+    </section>
+  );
+}
+
+function AccentSettings({
+  accent,
+  disabled,
+  onChange,
+}: {
+  accent: string | undefined;
+  disabled?: boolean;
+  onChange: (next: string | null) => Promise<void> | void;
+}) {
+  const DEFAULT_DARK_ACCENT = "#f38ba8";
+  const [value, setValue] = useState(accent ?? DEFAULT_DARK_ACCENT);
+  const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    setValue(accent ?? DEFAULT_DARK_ACCENT);
+  }, [accent]);
+
+  async function save(next: string | null) {
+    if (disabled || busy) return;
+    setBusy(true);
+    try {
+      await onChange(next);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <section className="mb-10">
+      <h2 className="mb-3 text-lg font-semibold text-fg">Accent color</h2>
+      <div className="rounded-md border border-border bg-surface p-4">
+        <p className="mb-3 text-xs text-fg-subtle">
+          Overrides the accent color (buttons, focus rings, link hovers) for every visitor. Applies
+          to both themes. Leave at the default for Catppuccin red.
+        </p>
+        <fieldset disabled={disabled || busy} className="flex flex-wrap items-center gap-3">
+          <input
+            type="color"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            onBlur={() => {
+              if (value.toLowerCase() !== (accent ?? "").toLowerCase()) save(value);
+            }}
+            className="h-9 w-12 cursor-pointer rounded border border-border bg-bg p-0.5"
+          />
+          <code className="rounded bg-bg-code px-2 py-1 text-xs text-fg">{value}</code>
+          {accent ? (
+            <Button type="button" variant="ghost" size="sm" onClick={() => save(null)}>
+              Reset to default
+            </Button>
+          ) : (
+            <span className="text-xs text-fg-subtle">using default</span>
+          )}
+        </fieldset>
+      </div>
     </section>
   );
 }

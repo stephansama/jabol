@@ -1,9 +1,9 @@
 import { z } from "zod";
 
 export const themeSchema = z
-  .enum(["light", "dark", "mocha", "latte", "system", "system-catppuccin"])
+  .enum(["light", "dark", "system"])
   .describe(
-    "Theme preference applied to every visitor. 'system' follows prefers-color-scheme as light/dark; 'system-catppuccin' follows it as latte/mocha.",
+    "Theme preference applied to every visitor. Both themes use the Catppuccin palette (Mocha for dark, Latte for light); 'system' follows prefers-color-scheme.",
   );
 
 const linkBaseSchema = z.object({
@@ -75,7 +75,7 @@ const headerHtmlField = z
   .max(4096)
   .optional()
   .describe(
-    "Custom HTML rendered inside the top-bar brand link, replacing the favicon + brand + title block. Inline event handlers run; <script> tags do not. Leave unset to use brand / title / favicon.",
+    "Custom HTML rendered in the top-bar brand slot, replacing the favicon + brand + title block. Include your own <a> if you want the header (or parts of it) to be a link. Inline event handlers run; <script> tags do not. Leave unset to use brand / title / favicon.",
   );
 
 const headHtmlField = z
@@ -96,6 +96,14 @@ const bodyHtmlField = z
     "Custom HTML injected at the top of <body> on every request, before the React mount point. Runs scripts verbatim. Intended for noscript banners, GTM <noscript> iframes, marketing pixels, announcement bars. Admin-only — content is trusted.",
   );
 
+const accentField = z
+  .string()
+  .regex(/^#[0-9a-fA-F]{6}$/)
+  .optional()
+  .describe(
+    "Override the accent color (--accent) across both themes. Six-digit hex like '#f38ba8'. Leave unset to use the Catppuccin red default.",
+  );
+
 export const categorizedInputSchema = z.object({
   $schema: schemaRefField,
   brand: brandField,
@@ -107,6 +115,7 @@ export const categorizedInputSchema = z.object({
   headHtml: headHtmlField,
   bodyHtml: bodyHtmlField,
   theme: themeSchema.optional(),
+  accent: accentField,
   categories: z.array(categorySchema).min(1).describe("Ordered list of categories."),
 });
 
@@ -121,6 +130,7 @@ export const flatInputSchema = z.object({
   headHtml: headHtmlField,
   bodyHtml: bodyHtmlField,
   theme: themeSchema.optional(),
+  accent: accentField,
   groupByTag: z
     .boolean()
     .optional()

@@ -15,7 +15,7 @@ order on the page.
 ```json
 {
   "title": "Homelab",
-  "theme": "mocha",
+  "theme": "dark",
   "categories": [
     {
       "name": "Dev",
@@ -44,7 +44,7 @@ jabol bucket links into synthetic categories using each link's first tag.
 ```json
 {
   "title": "Bookmarks",
-  "theme": "latte",
+  "theme": "light",
   "groupByTag": true,
   "links": [
     { "name": "GitHub", "url": "https://github.com", "tags": ["dev"] },

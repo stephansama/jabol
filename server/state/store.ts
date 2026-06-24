@@ -386,6 +386,7 @@ class Store {
     headHtml?: string | null;
     bodyHtml?: string | null;
     theme?: Canonical["theme"] | null;
+    accent?: string | null;
   }): Promise<{
     brand?: string;
     title?: string;
@@ -394,11 +395,12 @@ class Store {
     headHtml?: string;
     bodyHtml?: string;
     theme?: Canonical["theme"];
+    accent?: string;
   }> {
     this.assertWritable();
     const next: Canonical = { ...this.canonical };
     const apply = (
-      key: "brand" | "title" | "favicon" | "headerHtml" | "headHtml" | "bodyHtml" | "theme",
+      key: "brand" | "title" | "favicon" | "headerHtml" | "headHtml" | "bodyHtml" | "theme" | "accent",
     ) => {
       if (!(key in patch)) return;
       const value = patch[key];
@@ -415,6 +417,7 @@ class Store {
     apply("headHtml");
     apply("bodyHtml");
     apply("theme");
+    apply("accent");
     this.canonical = next;
     await this.persist();
     this.emit();
@@ -426,6 +429,7 @@ class Store {
       headHtml: next.headHtml,
       bodyHtml: next.bodyHtml,
       theme: next.theme,
+      accent: next.accent,
     };
   }
 

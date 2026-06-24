@@ -2,15 +2,12 @@ import { useState } from "react";
 import type { Theme, ThemePreference } from "@/lib/types";
 
 const EXPLICIT: Array<{ value: Theme; label: string; dot: string }> = [
-  { value: "light", label: "light", dot: "#d92b45" },
-  { value: "dark", label: "dark", dot: "#f0617a" },
-  { value: "mocha", label: "catppuccin mocha", dot: "#f38ba8" },
-  { value: "latte", label: "catppuccin latte", dot: "#d20f39" },
+  { value: "light", label: "light", dot: "#d20f39" },
+  { value: "dark", label: "dark", dot: "#f38ba8" },
 ];
 
 const SYSTEM: Array<{ value: Exclude<ThemePreference, Theme>; label: string }> = [
-  { value: "system-catppuccin", label: "system (catppuccin)" },
-  { value: "system", label: "system (light / dark)" },
+  { value: "system", label: "system (follows prefers-color-scheme)" },
 ];
 
 type Props = {
@@ -20,7 +17,7 @@ type Props = {
 };
 
 export function ThemeSettings({ preference, disabled, onChange }: Props) {
-  const current: ThemePreference = preference ?? "system-catppuccin";
+  const current: ThemePreference = preference ?? "system";
   const [busy, setBusy] = useState(false);
 
   async function pick(value: ThemePreference) {
