@@ -23,7 +23,8 @@ export type HeadInput = {
 export const BOOTSTRAP_SCRIPT_ID = "jabol-initial";
 
 export function computeDocumentTitle(input: Pick<HeadInput, "brand" | "title">): string {
-  return input.brand ?? input.title ?? DEFAULT_TITLE;
+  // Treat empty strings as unset so a blank brand/title falls through to the default.
+  return input.brand || input.title || DEFAULT_TITLE;
 }
 
 function esc(s: string): string {
@@ -46,7 +47,7 @@ export function renderBootstrapScript(bootstrap: unknown): string {
 export function renderHeadBlock(input: HeadInput): string {
   const title = computeDocumentTitle(input);
   const description = input.description ?? DEFAULT_DESCRIPTION;
-  const favicon = input.favicon ?? DEFAULT_FAVICON;
+  const favicon = input.favicon || DEFAULT_FAVICON;
   // apple-touch-icon must be a raster image (iOS ignores SVG for home-screen
   // icons), so fall back to the generated PNG when the favicon is an SVG.
   const appleTouchIcon =

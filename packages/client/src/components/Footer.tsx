@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useSession } from "@/hooks/useSession";
+import { IS_STATIC } from "@/lib/static";
 import { SignInPanel } from "./AdminMenu";
 
 const KEYS: Array<[string, string]> = [
@@ -22,7 +23,7 @@ export function Footer() {
         ))}
       </div>
       <div className="flex flex-wrap items-center gap-3">
-        <SignInPanel />
+        {IS_STATIC ? null : <SignInPanel />}
         {user ? (
           <Link to="/admin" className="mono-dim text-xs hover:text-fg">
             admin

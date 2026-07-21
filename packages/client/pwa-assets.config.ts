@@ -8,5 +8,5 @@ import {
 // Regenerate with: `pnpm assets:generate`.
 export default defineConfig({
   preset,
-  images: ["assets/favicon.svg"],
+  images: ["../../assets/favicon.svg"],
 });

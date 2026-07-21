@@ -63,6 +63,9 @@ function jabolHeadInject(): Plugin {
 // the SSG CLI (`--base`) via JABOL_SSG_BASE for subpath hosting like
 // user.github.io/repo/. Must start and end with "/".
 const base = process.env.JABOL_SSG_BASE ?? "/";
+if (!base.startsWith("/") || !base.endsWith("/")) {
+  throw new Error(`JABOL_SSG_BASE must start and end with "/", got: "${base}"`);
+}
 
 export default defineConfig({
   base,

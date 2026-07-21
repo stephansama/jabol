@@ -177,9 +177,10 @@ anywhere (Netlify, GitHub Pages, S3, a plain CDN):
 npx jabol build --config links.json --out ./site
 ```
 
-This builds the SPA, embeds your (public) links as the initial payload, fetches favicons/OG
-images, and writes `./site` ready to deploy. The output is **presentational only** — no admin,
-login, or live updates; it renders entirely from the embedded data and makes zero API calls.
+This builds the SPA, embeds your (public) links as the initial payload, by default fetches
+favicons/OG images (disable with `--no-enrich`), and writes `./site` ready to deploy. The output
+is **presentational only** — no admin, login, or live updates; it renders entirely from the
+embedded data and makes zero API calls.
 
 | Flag              | Default          | Purpose                                                            |
 | ----------------- | ---------------- | ------------------------------------------------------------------ |

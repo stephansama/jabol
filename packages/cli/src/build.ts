@@ -1,7 +1,7 @@
 import { createRequire } from "node:module";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
-import { dirname, isAbsolute, join, resolve } from "node:path";
+import { dirname, isAbsolute, join, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   enrichCanonical,
@@ -62,7 +62,9 @@ function resolveClientRoot(): string {
 /** Prefix a root-relative ("/x") app path with the base; leave URLs & Iconify ids alone. */
 function withBase(path: string | undefined, base: string): string | undefined {
   if (!path || base === "/") return path;
-  if (!path.startsWith("/")) return path; // absolute URL or Iconify id (foo:bar)
+  // Leave absolute URLs (foo:bar Iconify ids, http(s)://…) and protocol-relative
+  // ("//host/…") URLs untouched; only rewrite site-root-relative paths.
+  if (!path.startsWith("/") || path.startsWith("//")) return path;
   return base + path.slice(1);
 }
 
@@ -88,6 +90,13 @@ export async function buildStatic(opts: BuildOptions): Promise<BuildResult> {
   const base = normalizeBase(opts.base);
   const outDir = resolve(opts.outDir);
   const configPath = isAbsolute(opts.configPath) ? opts.configPath : resolve(opts.configPath);
+  // The Vite build empties outDir before we read the config, so a config living
+  // inside the output dir would be deleted mid-build — reject it up front.
+  if (configPath === outDir || configPath.startsWith(`${outDir}${sep}`)) {
+    throw new Error(
+      `--config (${configPath}) must be outside --out (${outDir}); the output directory is emptied during the build.`,
+    );
+  }
   const enrich = opts.enrich !== false;
 
   const clientRoot = resolveClientRoot();

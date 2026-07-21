@@ -80,6 +80,11 @@ async function main() {
     process.exit(1);
   }
 
+  if (rest.includes("-h") || rest.includes("--help")) {
+    console.log(HELP);
+    return;
+  }
+
   const args = parse(rest);
   const start = Date.now();
   const result = await buildStatic({
