@@ -1,0 +1,146 @@
+import { randomUUID } from "node:crypto";
+import { inputSchema, type CategorizedInput, type FlatInput, type LinkInput } from "./schema.js";
+import type { Canonical, CanonicalCategory, CanonicalLink } from "./types.js";
+
+const LEGACY_THEME_MAP: Record<string, "light" | "dark" | "system"> = {
+  mocha: "dark",
+  latte: "light",
+  "system-catppuccin": "system",
+};
+
+function migrateLegacyTheme(raw: unknown): unknown {
+  if (!raw || typeof raw !== "object") return raw;
+  const obj = raw as Record<string, unknown>;
+  const theme = obj.theme;
+  if (typeof theme !== "string") return raw;
+  const mapped = LEGACY_THEME_MAP[theme];
+  if (!mapped) return raw;
+  return { ...obj, theme: mapped };
+}
+
+function ensureLinkId(link: LinkInput): CanonicalLink {
+  return {
+    id: link.id ?? randomUUID(),
+    name: link.name,
+    url: link.url,
+    description: link.description,
+    icon: link.icon,
+    image: link.image,
+    tags: link.tags,
+    hidden: link.hidden,
+    openInSameTab: link.openInSameTab,
+  };
+}
+
+function fromCategorized(input: CategorizedInput): Canonical {
+  return {
+    brand: input.brand,
+    title: input.title,
+    description: input.description,
+    favicon: input.favicon,
+    image: input.image,
+    headerHtml: input.headerHtml,
+    headHtml: input.headHtml,
+    bodyHtml: input.bodyHtml,
+    theme: input.theme,
+    accent: input.accent,
+    categories: input.categories.map((c) => ({
+      id: c.id ?? randomUUID(),
+      name: c.name,
+      icon: c.icon,
+      hidden: c.hidden,
+      links: c.links.map(ensureLinkId),
+    })),
+  };
+}
+
+function fromFlat(input: FlatInput): Canonical {
+  if (input.groupByTag) {
+    const buckets = new Map<string, CanonicalLink[]>();
+    const untagged: CanonicalLink[] = [];
+
+    for (const raw of input.links) {
+      const link = ensureLinkId(raw);
+      const tag = link.tags?.[0];
+      if (!tag) {
+        untagged.push(link);
+        continue;
+      }
+      const arr = buckets.get(tag) ?? [];
+      arr.push(link);
+      buckets.set(tag, arr);
+    }
+
+    const categories: CanonicalCategory[] = [];
+    for (const [name, links] of buckets) {
+      categories.push({ id: randomUUID(), name, links });
+    }
+    if (untagged.length > 0) {
+      categories.push({ id: randomUUID(), name: "Other", links: untagged });
+    }
+
+    return {
+      brand: input.brand,
+      title: input.title,
+      description: input.description,
+      favicon: input.favicon,
+      image: input.image,
+      headerHtml: input.headerHtml,
+      headHtml: input.headHtml,
+      bodyHtml: input.bodyHtml,
+      theme: input.theme,
+      accent: input.accent,
+      categories,
+    };
+  }
+
+  return {
+    brand: input.brand,
+    title: input.title,
+    description: input.description,
+    favicon: input.favicon,
+    image: input.image,
+    headerHtml: input.headerHtml,
+    headHtml: input.headHtml,
+    bodyHtml: input.bodyHtml,
+    theme: input.theme,
+    accent: input.accent,
+    categories: [
+      {
+        id: randomUUID(),
+        name: input.title ?? "Links",
+        links: input.links.map(ensureLinkId),
+      },
+    ],
+  };
+}
+
+export function parseAndNormalize(raw: unknown): Canonical {
+  const parsed = inputSchema.parse(migrateLegacyTheme(raw));
+  if ("categories" in parsed) {
+    return fromCategorized(parsed);
+  }
+  return fromFlat(parsed);
+}
+
+export function ensureIds(canonical: Canonical): { canonical: Canonical; mutated: boolean } {
+  let mutated = false;
+  const categories = canonical.categories.map((cat) => {
+    let catChanged = false;
+    let id = cat.id;
+    if (!id) {
+      id = randomUUID();
+      catChanged = true;
+    }
+    const links = cat.links.map((link) => {
+      if (!link.id) {
+        mutated = true;
+        return { ...link, id: randomUUID() };
+      }
+      return link;
+    });
+    if (catChanged) mutated = true;
+    return { ...cat, id, links };
+  });
+  return { canonical: { ...canonical, categories }, mutated };
+}

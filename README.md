@@ -168,6 +168,36 @@ Mutations write back to the mounted `links.json` atomically (temp file + rename)
 
 External edits to `links.json` (e.g. you edit the file by hand) are picked up by a file watcher and pushed to connected clients over SSE.
 
+## Static site generation (SSG)
+
+Don't want to run a server? Generate a fully static site from your `links.json` and host it
+anywhere (Netlify, GitHub Pages, S3, a plain CDN):
+
+```sh
+npx jabol build --config links.json --out ./site
+```
+
+This builds the SPA, embeds your (public) links as the initial payload, fetches favicons/OG
+images, and writes `./site` ready to deploy. The output is **presentational only** — no admin,
+login, or live updates; it renders entirely from the embedded data and makes zero API calls.
+
+| Flag              | Default          | Purpose                                                            |
+| ----------------- | ---------------- | ------------------------------------------------------------------ |
+| `-c, --config`    | `./links.json`   | Path to your links JSON (categorized or flat).                     |
+| `-o, --out`       | `./site`         | Output directory.                                                  |
+| `-b, --base`      | `/`              | Public base path — use e.g. `/repo/` for `user.github.io/repo/`.   |
+| `--site-url`      | —                | Absolute URL, written to `og:url`.                                 |
+| `--no-enrich`     | (enrich on)      | Skip fetching favicons/OG images (offline, deterministic).         |
+
+Subpath example (GitHub Pages project site):
+
+```sh
+npx jabol build --config links.json --out ./site --base /my-links/
+```
+
+Hidden links/categories are dropped from static output. Cached icons are written under
+`<out>/api/icons/` and referenced with the chosen base.
+
 ## Environment
 
 | Var                    | Default                 | Purpose                                             |
@@ -182,15 +212,23 @@ External edits to `links.json` (e.g. you edit the file by hand) are picked up by
 
 ## Development
 
+This is a pnpm workspace:
+
+| Package          | What it is                                                              |
+| ---------------- | ---------------------------------------------------------------------- |
+| `@jabol/core`    | Shared pipeline — normalize, enrich, head-render, canonical types (published). |
+| `@jabol/client`  | React SPA (private).                                                    |
+| `@jabol/server`  | Hono API + head-injected SPA shell (private).                          |
+| `jabol`          | The SSG CLI (published to npm, `bin: jabol`).                          |
+
 ```sh
 pnpm install
-JABOL_CONFIG_PATH=./examples/categorized.json \
-  JABOL_DATA_DIR=./.data \
-  JABOL_AUTH_SECRET=dev \
-  pnpm dev
+pnpm dev        # builds core, then runs server (:8080) + Vite SPA (:5173, /api proxied)
 ```
 
-Server listens on `:8080`, Vite SPA on `:5173` with `/api/*` proxied. Edit `examples/*.json` while the server is running to see live updates.
+Defaults point at `examples/categorized.json` and `.data/` in the repo root, so no env vars are
+needed for a dev run. Override with `JABOL_CONFIG_PATH`, `JABOL_DATA_DIR`, `JABOL_AUTH_SECRET`.
+`pnpm build` builds all packages; `pnpm typecheck` / `pnpm test` fan out across the workspace.
 
 ## API
 

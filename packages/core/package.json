@@ -1,0 +1,34 @@
+{
+  "name": "@jabol/core",
+  "version": "0.1.16",
+  "description": "Shared jabol pipeline: normalize, enrich, head-render, and canonical types.",
+  "type": "module",
+  "license": "MIT",
+  "exports": {
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.js"
+    },
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepack": "tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json --watch --preserveWatchOutput",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "schema:generate": "tsx scripts/generate-schema.ts",
+    "schema:check": "tsx scripts/generate-schema.ts --check"
+  },
+  "dependencies": {
+    "p-limit": "^6.1.0",
+    "zod": "^4.4.3"
+  }
+}
