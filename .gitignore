@@ -6,6 +6,9 @@ dist
 server-dist
 *.tsbuildinfo
 
+# Generated at prepack: the CLI bundles the client source for self-contained publish
+packages/cli/client
+
 # Docs site (Astro / Starlight)
 docs/dist
 docs/.astro

@@ -36,6 +36,45 @@ jobs:
             echo "released=false" >> "$GITHUB_OUTPUT"
           fi
 
+  # Publish the public workspace packages (@jabol/core and the `jabol` CLI) to
+  # npm at the just-released version. Requires the NPM_TOKEN repo secret.
+  # NOTE: versions are synchronized to the release tag across the workspace;
+  # private packages (client/server/docs) are version-bumped but never published.
+  publish-npm:
+    needs: release
+    if: needs.release.outputs.released == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.release.outputs.tag }}
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+
+      - run: pnpm install --frozen-lockfile
+
+      # Version sync runs lifecycle scripts, so keep the npm token out of its env.
+      - name: Sync workspace versions to the release tag
+        run: |
+          VERSION="${{ needs.release.outputs.tag }}"
+          VERSION="${VERSION#v}"
+          pnpm -r exec npm version "$VERSION" --no-git-tag-version --allow-same-version
+
+      - name: Publish public packages
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          # core first (the CLI depends on it); prepack scripts build dist + bundle the client.
+          pnpm --filter @jabol/core publish --no-git-checks --access public
+          pnpm --filter jabol publish --no-git-checks --access public
+
   docker:
     needs: release
     if: needs.release.outputs.released == 'true'

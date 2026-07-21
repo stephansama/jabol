@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <!-- PWA: kept outside the jabol:head sentinels so the server's per-request
+         head re-render (OG/meta injection) never strips them. theme-color is
+         updated at runtime to match the active theme; see hooks/useTheme.ts. -->
+    <meta name="theme-color" content="#1e1e2e" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="jabol" />
+    <!--jabol:head:start-->
+    <title>jabol</title>
+    <meta name="description" content="A self-hosted link directory." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon-180x180.png" />
+    <meta property="og:title" content="jabol" />
+    <meta property="og:description" content="A self-hosted link directory." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="jabol" />
+    <meta name="twitter:description" content="A self-hosted link directory." />
+    <!--jabol:head:end-->
+    <script>
+      // No-flash theme boot: runs before first paint.
+      // Storage holds a *preference* (light|dark|mocha|latte|system|system-catppuccin);
+      // we resolve system modes against prefers-color-scheme so first paint is correct.
+      (function () {
+        try {
+          var pref = localStorage.getItem("jabol.theme") || "system-catppuccin";
+          var dark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+          var resolved =
+            pref === "system" ? (dark ? "dark" : "light") :
+            pref === "system-catppuccin" ? (dark ? "mocha" : "latte") :
+            pref;
+          document.documentElement.setAttribute("data-theme", resolved);
+        } catch (e) {
+          document.documentElement.setAttribute("data-theme", "mocha");
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <!--jabol:body:start--><!--jabol:body:end-->
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
